@@ -75,6 +75,8 @@ DTF - Down to Friend aims to take the inherently insular idea of modern social n
 |:-:|:-:|
 |FK: messages(id)|FK: users(id)|
 
+![](https://raw.githubusercontent.com/JType33/down-to-friend/master/dtf-schema.png?token=AQWMWRT6MYQ3ORAAOUYZVD3ADGHT6)
+
 ## Planned Routes
 ***
 ### Frontend
@@ -147,5 +149,3 @@ DTF - Down to Friend aims to take the inherently insular idea of modern social n
 - Socket.IO
 #### STRETCH
 - React Native mobile OR electron desktop app connected to the same backend
-
-![](https://raw.githubusercontent.com/JType33/down-to-friend/master/dtf-schema.png)
