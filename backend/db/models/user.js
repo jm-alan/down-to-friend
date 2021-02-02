@@ -63,10 +63,10 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'messageId'
     };
     User.hasMany(models.Event, { as: 'CreatedEvents', foreignKey: 'ownerId' });
-    User.belongsToMany(models.Event, attendeeMap);
-    User.hasMany(models.EventPost, { foreignKey: 'ownerId' });
+    User.hasMany(models.EventPost, { as: 'PostComments', foreignKey: 'ownerId' });
     User.hasMany(models.Message, { as: 'SentMessages', foreignKey: 'senderId' });
     User.hasMany(models.Message, { as: 'ReceivedMessages', foreignKey: 'recipientId' });
+    User.belongsToMany(models.Event, attendeeMap);
     User.belongsToMany(models.Message, unreadMap);
   };
   User.prototype.toSafeObject = function () {
