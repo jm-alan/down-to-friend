@@ -3,6 +3,10 @@ DTF - Down to Friend aims to take the inherently insular idea of modern social n
 
 ## MVP
 ***
+- User authentication
+  - Any user can see event listings
+  - Only logged in users can join events
+
 - Event listings, whose priority relative to the logged in user is grouped based on geographic location, by default specified by the logged in user's preferences
   - This implicitly includes the ability to generate new listings, where a user creates an event or gathering that they want to attend (a movie they want to see, a concert they want to go to, new club they want to visit, etc) and can specify a number of group-specific parameters that the event must meet before it can be closed
     - Minimum and maximum group size (site-wide minimum of 3; this is NOT a dating app)
