@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER
   }, {});
   Notification.associate = function(models) {
-    // associations can be defined here
+    
   };
   return Notification;
 };
