@@ -4,8 +4,9 @@ module.exports = (sequelize, DataTypes) => {
     imageId: DataTypes.INTEGER,
     evenId: DataTypes.INTEGER
   }, {});
-  EventDetailImage.associate = function(models) {
-    // associations can be defined here
+  EventDetailImage.associate = function (models) {
+    EventDetailImage.belongsTo(models.Event, { foreignKey: 'eventId' });
+    EventDetailImage.belongsTo(models.Image, { foreignKey: 'imageId' });
   };
   return EventDetailImage;
 };
