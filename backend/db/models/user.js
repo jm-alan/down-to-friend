@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           len: [3, 30],
-          isNotEmail(value) {
+          isNotEmail (value) {
             if (Validator.isEmail(value)) {
               throw new Error('Cannot be an email.');
             }
@@ -50,11 +50,27 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   User.associate = function (models) {
-    // associations can be defined here
+    const attendeeMap = {
+      as: 'AttendingEvents',
+      through: models.Attendee,
+      foreignKey: 'userId',
+      otherKey: 'eventId'
+    };
+    const unreadMap = {
+      as: 'UnreadMessages',
+      through: models.Notification,
+      foreignKey: 'userId',
+      otherKey: 'messageId'
+    };
+    User.hasMany(models.Event, { as: 'CreatedEvents', foreignKey: 'ownerId' });
+    User.belongsToMany(models.Event, attendeeMap);
+    User.hasMany(models.EventPost, { foreignKey: 'ownerId' });
+    User.hasMany(models.Message, { as: 'SentMessages', foreignKey: 'senderId' });
+    User.hasMany(models.Message, { as: 'ReceivedMessages', foreignKey: 'recipientId' });
+    User.belongsToMany(models.Message, unreadMap);
   };
   User.prototype.toSafeObject = function () {
-    // remember, this cannot be an arrow function
-    const { id, username, email } = this; // context will be the User instance
+    const { id, username, email } = this;
     return { id, username, email };
   };
 
