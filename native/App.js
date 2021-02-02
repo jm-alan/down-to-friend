@@ -1,21 +1,56 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, Button, TouchableOpacity } from 'react-native';
 
-export default function App() {
+export default function App () {
+  const [popped, setPopped] = useState(false);
+  const togglePopped = () => setPopped(previousPopped => !previousPopped);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      {popped
+        ? (
+          <Text
+            style={styles.displayText}
+          >
+            This text is now displayed!
+          </Text>
+          )
+        : null}
+      <TouchableOpacity
+        onPress={togglePopped}
+        style={styles.button}
+      >
+        <Text
+          style={styles.buttonText}
+        >
+          This is a fake button!
+        </Text>
+      </TouchableOpacity>
+      <StatusBar style='auto' />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'darkgrey',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
+  button: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 10
+  },
+  buttonText: {
+    fontSize: 50,
+    color: 'orange'
+  },
+  displayText: {
+    color: 'green',
+    fontSize: 50,
+    textAlign: 'center'
+  }
 });
