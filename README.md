@@ -147,3 +147,5 @@ DTF - Down to Friend aims to take the inherently insular idea of modern social n
 - Socket.IO
 #### STRETCH
 - React Native mobile OR electron desktop app connected to the same backend
+
+![](https://raw.githubusercontent.com/JType33/down-to-friend/master/dtf-schema.png)
