@@ -66,6 +66,8 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.EventPost, { as: 'PostComments', foreignKey: 'ownerId' });
     User.hasMany(models.Message, { as: 'SentMessages', foreignKey: 'senderId' });
     User.hasMany(models.Message, { as: 'ReceivedMessages', foreignKey: 'recipientId' });
+    User.hasMany(models.Notification, { foreignKey: 'userId' });
+    User.hasMany(models.Attendee, { foreignKey: 'userId' });
     User.belongsToMany(models.Event, attendeeMap);
     User.belongsToMany(models.Message, unreadMap);
   };

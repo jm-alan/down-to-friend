@@ -6,9 +6,16 @@ module.exports = (sequelize, DataTypes) => {
     content: DataTypes.TEXT
   }, {});
   Message.associate = function (models) {
+    const unreadMap = {
+      as: 'NotifiedUsers',
+      through: models.Notification,
+      foreignKey: 'messageId',
+      otherKey: 'userId'
+    };
     Message.belongsTo(models.User, { as: 'Sender', foreignKey: 'senderId' });
     Message.belongsTo(models.User, { as: 'Recipient', foreignKey: 'recipientId' });
-    Message.hasOne(models.Notification, { foreignKey: 'messageId' });
+    Message.hasMany(models.Notification, { foreignKey: 'messageId' });
+    Message.belongsToMany(models.User, unreadMap);
   };
   return Message;
 };

@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'imageId',
       otherKey: 'eventId'
     };
-    Image.belongsToMany(models.Event, detailImageMap);
+    // Image.belongsToMany(models.Event, detailImageMap);
   };
   return Image;
 };

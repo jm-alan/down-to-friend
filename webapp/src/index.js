@@ -1,40 +1,30 @@
 import React from 'react';
 
-import './index.css';
-
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+
 import { ModalProvider } from './context/Modal';
 import App from './App';
-
 import configureStore from './store';
-import { restoreCSRF, fetch } from './store/csrf';
-import * as sessionActions from './store/session';
+import csrfetch, { restoreCSRF } from './store/csrf';
+
+import './index.css';
 
 const store = configureStore();
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   restoreCSRF();
-
-  window.csrfFetch = fetch;
+  window.csrfFetch = csrfetch;
   window.store = store;
-  window.sessionActions = sessionActions;
 }
 
-// const Carrot = () => (
-//   <div style={{ color: "orange", fontSize: "100px" }}>
-//     <i className="fas fa-carrot"></i>
-//   </div>
-// );
-
-function Root() {
+function Root () {
   return (
     <ModalProvider>
       <Provider store={store}>
         <BrowserRouter>
           <App />
-          {/* <Carrot /> */}
         </BrowserRouter>
       </Provider>
     </ModalProvider>

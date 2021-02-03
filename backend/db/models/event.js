@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Event.associate = function (models) {
     const attendeeMap = {
-      as: 'Attendees',
+      as: 'EventAttendees',
       through: models.Attendee,
       foreignKey: 'eventId',
       otherKey: 'userId'
@@ -23,12 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'eventId',
       otherKey: 'imageId'
     };
-    Event.hasMany(models.Attendee, { foreignKey: 'eventId' });
     Event.belongsTo(models.User, { foreignKey: 'ownerId' });
-    Event.belongsToMany(models.User, attendeeMap);
+    Event.hasMany(models.Attendee, { foreignKey: 'eventId' });
     Event.hasMany(models.EventDetailImage, { foreignKey: 'eventId' });
-    Event.belongsToMany(models.EventDetailImage, detailImageMap);
     Event.hasMany(models.EventPost, { foreignKey: 'eventId' });
+    Event.hasMany(models.Attendee, { foreignKey: 'eventId' });
+    // Event.belongsToMany(models.User, attendeeMap);
+    // Event.belongsToMany(models.EventDetailImage, detailImageMap);
   };
   return Event;
 };
