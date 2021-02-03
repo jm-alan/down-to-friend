@@ -9,7 +9,7 @@ const { User } = require('../../db/models');
 const router = express.Router();
 
 const validateLogin = [
-  check('credential')
+  check('identification')
     .exists({ checkFalsy: true })
     .notEmpty()
     .withMessage('Please provide a valid email or username.'),
@@ -19,13 +19,10 @@ const validateLogin = [
   handleValidationErrors
 ];
 
-// Log in
 router.post('/', validateLogin, asyncHandler(async (req, res, next) => {
   const {
-    body: {
-      identification,
-      password
-    }
+    body:
+    { identification, password }
   } = req;
 
   const user = await User.login({ identification, password });
@@ -43,21 +40,16 @@ router.post('/', validateLogin, asyncHandler(async (req, res, next) => {
   return res.json({ user });
 }));
 
-// Log out
 router.delete('/', (_req, res) => {
   res.clearCookie('token');
   return res.json({ message: 'success' });
 });
 
-// Restore session user
-router.get( '/', restoreUser, (req, res) => {
+router.get('/', restoreUser, (req, res) => {
   const { user } = req;
-  if (user) {
-    return res.json({
-      user: user.toSafeObject()
-    });
-  } else return res.json({});
-}
-);
+  return user
+    ? res.json({ user: user.toSafeObject() })
+    : res.json({});
+});
 
 module.exports = router;

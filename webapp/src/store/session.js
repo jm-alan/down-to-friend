@@ -2,7 +2,7 @@ import csrfetch from './csrf.js';
 
 const setSession = (user = null) => ({ type: 'session/USER', user });
 
-export const login = ({ identification, password }) => async dispatch => {
+export const login = (identification, password) => async dispatch => {
   const res = await csrfetch('/api/session', {
     method: 'POST',
     body: JSON.stringify({ identification, password })
