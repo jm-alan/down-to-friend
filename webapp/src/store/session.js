@@ -32,11 +32,10 @@ export const signup = (user) => async dispatch => {
 };
 
 export const logout = () => async dispatch => {
-  const response = await csrfetch('/api/session', {
+  await csrfetch('/api/session', {
     method: 'DELETE'
   });
   dispatch(setSession());
-  return response;
 };
 
 const reducer = (_state, { user }) => ({ user });
