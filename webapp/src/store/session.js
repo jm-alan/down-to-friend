@@ -1,11 +1,11 @@
 import csrfetch from './csrf.js';
 
-const setSession = (user = null) => ({ user });
+const setSession = (user = null) => ({ type: 'session/USER', user });
 
-export const login = ({ credential, password }) => async dispatch => {
+export const login = ({ identification, password }) => async dispatch => {
   const res = await csrfetch('/api/session', {
     method: 'POST',
-    body: JSON.stringify({ credential, password })
+    body: JSON.stringify({ identification, password })
   });
   dispatch(setSession(res.data.user));
   return res;
@@ -27,7 +27,6 @@ export const signup = (user) => async dispatch => {
       password
     })
   });
-
   dispatch(setSession(response.data.user));
   return response;
 };
@@ -40,5 +39,5 @@ export const logout = () => async dispatch => {
   return response;
 };
 
-const reducer = (state, { user }) => ({ ...state, user });
+const reducer = (_state, { user }) => ({ user });
 export default reducer;
