@@ -27,12 +27,16 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      location: {
-        type: Sequelize.INTEGER,
+      latitude: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+      },
+      longitude: {
+        type: Sequelize.FLOAT,
         allowNull: false
       },
       description: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.TEXT,
         allowNull: false
       },
       closes: {
@@ -45,11 +49,13 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('now')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('now')
       }
     });
   },

@@ -5,8 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     dateTime: DataTypes.DATE,
     minGroup: DataTypes.INTEGER,
     maxGroup: DataTypes.INTEGER,
-    location: DataTypes.INTEGER,
-    description: DataTypes.INTEGER,
+    latitude: DataTypes.FLOAT,
+    longitude: DataTypes.FLOAT,
+    description: DataTypes.TEXT,
     closes: DataTypes.DATE,
     tags: DataTypes.STRING
   }, {});
@@ -28,8 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     Event.hasMany(models.EventDetailImage, { foreignKey: 'eventId' });
     Event.hasMany(models.EventPost, { foreignKey: 'eventId' });
     Event.hasMany(models.Attendee, { foreignKey: 'eventId' });
-    // Event.belongsToMany(models.User, attendeeMap);
-    // Event.belongsToMany(models.EventDetailImage, detailImageMap);
+    Event.belongsToMany(models.User, attendeeMap);
+    Event.belongsToMany(models.Image, detailImageMap);
   };
   return Event;
 };

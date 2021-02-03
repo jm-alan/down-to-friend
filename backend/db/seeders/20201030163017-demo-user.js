@@ -8,7 +8,7 @@ module.exports = {
       {
         email: 'admin@dtf.io',
         username: 'Admin',
-        password: '$2a$10$u7QLeGRHwQjjoQyLEyO3rO4tMZj5R2./S8/4tK76ef1jJ8Pb5K3um'
+        hashedPassword: '$2a$10$u7QLeGRHwQjjoQyLEyO3rO4tMZj5R2./S8/4tK76ef1jJ8Pb5K3um'
       },
       {
         email: 'demo@user.io',
