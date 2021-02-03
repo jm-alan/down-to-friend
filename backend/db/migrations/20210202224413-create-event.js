@@ -27,6 +27,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      title: {
+        type: Sequelize.STRING(100),
+        allowNull: false
+      },
       latitude: {
         type: Sequelize.FLOAT,
         allowNull: false

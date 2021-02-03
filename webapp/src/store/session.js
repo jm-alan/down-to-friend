@@ -1,6 +1,8 @@
 import csrfetch from './csrf.js';
 
-const setSession = (user = null) => ({ type: 'session/USER', user });
+const USER = 'session/USER';
+
+const setSession = (user = null) => ({ type: USER, user });
 
 export const login = (identification, password) => async dispatch => {
   const res = await csrfetch('/api/session', {
@@ -38,5 +40,5 @@ export const logout = () => async dispatch => {
   dispatch(setSession());
 };
 
-const reducer = (_state, { user }) => ({ user });
+const reducer = (state = { user: null }, { type, user }) => type === USER ? ({ user }) : state;
 export default reducer;

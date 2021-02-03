@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: [60, 60]
         }
+      },
+      avatarId: {
+        type: DataTypes.INTEGER,
+        allowNull: true
       }
     },
     {
@@ -68,6 +72,7 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Message, { as: 'ReceivedMessages', foreignKey: 'recipientId' });
     User.hasMany(models.Notification, { foreignKey: 'userId' });
     User.hasMany(models.Attendee, { foreignKey: 'userId' });
+    User.belongsTo(models.Image, { as: 'Avatar', foreignKey: 'avatarId' });
     User.belongsToMany(models.Event, attendeeMap);
     User.belongsToMany(models.Message, unreadMap);
   };

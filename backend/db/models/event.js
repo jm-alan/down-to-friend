@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     maxGroup: DataTypes.INTEGER,
     latitude: DataTypes.FLOAT,
     longitude: DataTypes.FLOAT,
+    title: DataTypes.STRING,
     description: DataTypes.TEXT,
     closes: DataTypes.DATE,
     tags: DataTypes.STRING

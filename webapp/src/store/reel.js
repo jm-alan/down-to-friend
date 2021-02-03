@@ -1,12 +1,14 @@
 import csrfetch from './csrf';
 
-const enumerate = (list = null) => ({ type: 'list/ENUMERATE', list });
+const ENUMERATE = 'list/ENUMERATE';
+
+const enumerate = (list = null) => ({ type: ENUMERATE, list });
 
 export const Enumerate = (longitude, latitude) => async dispatch => {
   const { data } = await csrfetch(`/api/events?longitude=${longitude}&latitude=${latitude}`);
   dispatch(enumerate(data.list));
 };
 
-const reducer = (_state, { list }) => ({ list });
+const reducer = (state = { list: null }, { type, list }) => type === ENUMERATE ? ({ ...state, list }) : state;
 
 export default reducer;

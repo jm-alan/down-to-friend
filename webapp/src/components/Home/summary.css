@@ -1,0 +1,103 @@
+.event-summary-container {
+  width: 60vw;
+  min-width: 600px;
+  max-width: 800px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px darkgrey;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.event-summary-user-container {
+  margin-right: 20px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  box-sizing: border-box;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px darkgrey;
+  height: min-content;
+}
+
+.event-summary-container h1,
+.event-summary-container h2,
+.event-summary-container h3,
+.event-summary-container h4,
+.event-summary-container h5,
+.event-summary-container h6 {
+  margin: 0px;
+}
+
+.event-summary-header-container {
+  min-height: 200px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: bolder;
+  border-radius: 5px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 5px darkgrey;
+}
+
+.event-summary-title-container {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.event-summary-presentation-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 400px;
+  max-width: 667px;
+}
+
+.event-summary-footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.event-summary-tags-outer-container, .event-summary-timestamp-container {
+  display: flex;
+  padding: 5px;
+  border: 1px solid grey;
+  align-items: center;
+  height: min-content;
+  border-radius: 5px;
+}
+
+.event-summary-tags-outer-container {
+  max-width: 420px;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.event-summary-tags-inner-container {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.event-summary-attending-container {
+  text-align: right;
+}
+
+
+.tag-wrapper {
+  background-color: steelblue;
+  color: white;
+  font-weight: bolder;
+  margin: 5px 0;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  border-radius: 5px;
+}

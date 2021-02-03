@@ -1,5 +1,9 @@
+import EventReel from './EventReel';
+
 export default function Home () {
   return (
-    <h1>This is your home now.</h1>
+    <div className='home-container'>
+      <EventReel />
+    </div>
   );
 }

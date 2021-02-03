@@ -4,7 +4,7 @@ const faker = require('faker');
 
 const events = [];
 
-for (let i = 0; i < 1000; i++) {
+for (let i = 0; i < 5000; i++) {
   const dateTime = faker.date.future();
   events.push({
     ownerId: 1,
@@ -13,9 +13,10 @@ for (let i = 0; i < 1000; i++) {
     maxGroup: i % 6 + 4,
     latitude: faker.address.latitude(48.5, 30),
     longitude: faker.address.longitude(-82, -122),
+    title: faker.lorem.words(10),
     description: faker.lorem.words(200),
     closes: new Date(Date.parse(dateTime) - 1000 * 60 * 60 * 24 * 7),
-    tags: ''
+    tags: `${faker.lorem.words(15)}`
   });
 }
 
