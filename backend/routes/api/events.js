@@ -6,7 +6,7 @@ const { User, Event, Image } = require('../../db/models');
 const { restoreUser } = require('../../utils/auth');
 
 router.get('/', restoreUser, asyncHandler(async (req, res) => {
-  const { user, query: { longitude, latitude, lngDiff, latDiff } } = req;
+  const { query: { longitude, latitude, lngDiff, latDiff } } = req;
   if (!longitude || !latitude) return res.json({ success: false });
   const lngSpread = +lngDiff / 2;
   const latSpread = +latDiff / 2;

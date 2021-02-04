@@ -7,8 +7,8 @@ import { Enumerate, UnloadReel, SetEnumerable } from '../../store/reel';
 export default function Map ({ list }) {
   const dispatch = useDispatch();
 
-  const { lat, lng, zoom } = useSelector(state => state.map);
-  const { searchCenter, enumerable } = useSelector(state => state.reel);
+  const { lat, lng } = useSelector(state => state.map);
+  const { enumerable } = useSelector(state => state.reel);
 
   const focalCenter = { lat, lng };
 
