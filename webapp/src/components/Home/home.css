@@ -11,6 +11,7 @@
 }
 
 div.map-pin {
+  z-index: 500;
   font: 14px Roboto, Arial, sans-serif;
   font-weight: 700;
   text-decoration: none;
@@ -24,6 +25,12 @@ div.map-pin {
   padding: 10px;
   white-space: nowrap;
   width: min-content;
+}
+
+div.map-pin.focus {
+  background-color: steelblue;
+  color: white;
+  z-index: 999;
 }
 
 .event-reel-container {

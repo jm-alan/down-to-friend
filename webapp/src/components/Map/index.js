@@ -29,7 +29,7 @@ export default function Map ({ list }) {
     <div className='map-container'>
       <GoogleMap
         bootstrapURLKeys={{
-          key: 'AIzaSyAwCMaS-cSseVOXMJKq8lGyTnLqOqS-IUk'
+          key: process.env.REACT_APP_API_KEY
         }}
         center={focalCenter}
         zoom={10}
