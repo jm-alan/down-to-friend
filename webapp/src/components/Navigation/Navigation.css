@@ -1,3 +1,14 @@
 .profile-dropdown {
   position: absolute;
 }
+
+nav ul {
+  margin: 0px;
+}
+
+nav {
+  background-color: steelblue;
+  height: 60px;
+  width: 100%;
+  z-index: 999;
+}

@@ -2,10 +2,12 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import session from './session';
 import reel from './reel';
+import map from './map';
 
 const rootReducer = combineReducers({
   session,
-  reel
+  reel,
+  map
 });
 
 let enhancer;

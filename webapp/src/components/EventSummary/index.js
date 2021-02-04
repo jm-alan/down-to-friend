@@ -1,13 +1,27 @@
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { Focus } from '../../store/map';
+import { SetEnumerable } from '../../store/reel';
 
 import './summary.css';
 
 export default function EventSummary ({ event }) {
+  const dispatch = useDispatch();
   const totalAttending = event.EventAttendees.length;
   const totalSlots = event.maxGroup;
   const slotsRemaining = totalSlots - totalAttending;
+
+  const clickHandle = () => {
+    dispatch(SetEnumerable(false));
+    dispatch(Focus(event.longitude, event.latitude));
+  };
+
   return (
-    <div className='event-summary-container'>
+    <div
+      className='event-summary-container'
+      onClick={clickHandle}
+    >
       <div className='event-summary-header-container'>
         <div className='event-summary-user-container'>
           <div className='event-summary-username'>

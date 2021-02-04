@@ -1,0 +1,32 @@
+.home-container {
+  position: relative;
+  display: flex;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+}
+
+.map-container {
+  width: 60%;
+  right: 0;
+}
+
+div.map-pin {
+  font: 14px Roboto, Arial, sans-serif;
+  font-weight: 700;
+  text-decoration: none;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  box-shadow: rgb(0 0 0 / 8%) 0px 0px 0px 1px, rgb(0 0 0 / 18%) 0px 1px 2px;
+  color: rgb(53, 53, 53);
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  white-space: nowrap;
+  width: min-content;
+}
+
+.event-reel-container {
+  width: 40%;
+  overflow: auto;
+}

@@ -6,3 +6,7 @@ a:link {
 a:visited {
   color: unset;
 }
+
+body {
+  margin: 0px;
+}
