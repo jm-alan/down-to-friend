@@ -17,7 +17,7 @@ function Navigation ({ isLoaded }) {
           {user
             ? (
               <li>
-                <ProfileButton user={user} />
+                <ProfileButton />
               </li>
               )
             : (
