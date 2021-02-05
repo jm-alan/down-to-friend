@@ -1,0 +1,26 @@
+.searchbar-container {
+  width: 500px;
+  margin-right: 30px;
+}
+
+.searchbar-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.search-prediction-container {
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 999;
+  width: 500px;
+}
+
+.search-prediction {
+  background-color: white;
+  width: 100%;
+}
+
+.search-prediction:hover {
+  background-color: lightblue;
+  color: white;
+}

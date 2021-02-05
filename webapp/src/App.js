@@ -7,7 +7,7 @@ import SignupFormPage from './components/SignupFormPage';
 import { restoreUser } from './store/session';
 import Navigation from './components/Navigation';
 
-function App () {
+export default function App () {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
@@ -31,5 +31,3 @@ function App () {
     </>
   );
 }
-
-export default App;

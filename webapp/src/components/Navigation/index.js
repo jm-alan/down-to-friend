@@ -1,7 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
+import SearchBar from '../SearchBar';
 
 import './Navigation.css';
 
@@ -35,6 +37,7 @@ function Navigation ({ isLoaded }) {
               </>
               )}
         </ul>
+        <SearchBar />
       </nav>
       )
     : null;

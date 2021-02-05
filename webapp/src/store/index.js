@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import session from './session';
 import reel from './reel';
 import map from './map';
+import search from './search';
 
 const rootReducer = combineReducers({
   session,
   reel,
-  map
+  map,
+  search
 });
 
 let enhancer;
@@ -21,8 +23,6 @@ if (process.env.NODE_ENV === 'production') {
   enhancer = composeEnhancers(applyMiddleware(thunk, logger));
 }
 
-const configureStore = (preloadedState) => {
+export default function configureStore (preloadedState) {
   return createStore(rootReducer, preloadedState, enhancer);
-};
-
-export default configureStore;
+}
