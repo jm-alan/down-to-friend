@@ -12,7 +12,11 @@ function Navigation ({ isLoaded }) {
       <nav className='navbar'>
         <ul>
           <li>
-            <NavLink exact to='/'>Home</NavLink>
+            <NavLink exact to='/'>
+              <button className='nav-button home'>
+                Home
+              </button>
+            </NavLink>
           </li>
           {user
             ? (

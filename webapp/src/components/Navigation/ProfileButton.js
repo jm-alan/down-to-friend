@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { LogOut } from '../../store/session';
 
+import './ProfileButton.css';
+
 function ProfileButton () {
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.session);
