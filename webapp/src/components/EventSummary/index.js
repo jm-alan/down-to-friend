@@ -13,8 +13,12 @@ export default function EventSummary ({ event }) {
   const slotsRemaining = totalSlots - totalAttending;
 
   const clickHandle = () => {
+    document.querySelectorAll('.map-pin')
+      .forEach(pin => pin.classList.remove('focus'));
+    document.getElementById(`map-pin-event-${event.id}`)
+      .classList.add('focus');
     dispatch(SetEnumerable(false));
-    dispatch(Focus(event.longitude, event.latitude));
+    dispatch(Focus(event.longitude, event.latitude, 12));
   };
 
   return (
@@ -31,7 +35,10 @@ export default function EventSummary ({ event }) {
           </div>
           <div className='user-profile-image-container'>
             <Link to={`/users/${event.User.id}`}>
-              <img src={event.User.Avatar.url} alt='profile thumbnail' />
+              <img
+                src={event.User.Avatar.url}
+                alt='profile thumbnail'
+              />
             </Link>
           </div>
         </div>
@@ -48,7 +55,8 @@ export default function EventSummary ({ event }) {
           </div>
           <div className='event-summary-attending-container'>
             <span>
-              {totalAttending} joined, {slotsRemaining} of {totalSlots} spots still open
+              {totalAttending} joined,{' '}
+              {slotsRemaining} of {totalSlots} spots still open
             </span>
           </div>
         </div>

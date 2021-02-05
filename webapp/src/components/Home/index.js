@@ -15,7 +15,7 @@ export default function Home () {
   const [loaded, load] = useState(false);
 
   useEffect(() => {
-    dispatch(Focus(-86.272832, 39.7797003));
+    dispatch(Focus(-86.272832, 39.7797003, 10));
     dispatch(Enumerate(-86.272832, 39.7797003))
       .then(load(true));
   }, [dispatch]);

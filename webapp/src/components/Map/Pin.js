@@ -9,7 +9,7 @@ export default function Pin ({ event }) {
     document.querySelectorAll('.map-pin')
       .forEach(pin => pin.classList.remove('focus'));
     document.getElementById(`map-pin-event-${id}`).classList.add('focus');
-    dispatch(Focus(event.longitude, event.latitude));
+    dispatch(Focus(event.longitude, event.latitude, 12));
   };
 
   return (

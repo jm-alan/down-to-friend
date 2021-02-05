@@ -11,7 +11,7 @@
 }
 
 div.map-pin {
-  z-index: 500;
+  z-index: -1;
   font: 14px Roboto, Arial, sans-serif;
   font-weight: 700;
   text-decoration: none;

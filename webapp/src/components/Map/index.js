@@ -3,16 +3,17 @@ import GoogleMap from 'google-map-react';
 
 import Pin from './Pin';
 import { Enumerate, UnloadReel, SetEnumerable } from '../../store/reel';
+import { UpdateZoom } from '../../store/map';
 
 export default function Map ({ list }) {
   const dispatch = useDispatch();
 
-  const { lat, lng } = useSelector(state => state.map);
+  const { lat, lng, zoom } = useSelector(state => state.map);
   const { enumerable } = useSelector(state => state.reel);
 
   const focalCenter = { lat, lng };
 
-  const handleMapChange = ({ center, bounds }) => {
+  const handleMapChange = ({ center, bounds, zoom: changeZoom }) => {
     if (enumerable) {
       dispatch(UnloadReel());
       dispatch(Enumerate(
@@ -22,6 +23,7 @@ export default function Map ({ list }) {
         Math.abs(bounds.ne.lat - bounds.sw.lat)
       ));
     }
+    if (zoom !== changeZoom) dispatch(UpdateZoom(changeZoom));
     dispatch(SetEnumerable(true));
   };
 
@@ -32,7 +34,7 @@ export default function Map ({ list }) {
           key: process.env.REACT_APP_API_KEY
         }}
         center={focalCenter}
-        zoom={10}
+        zoom={zoom}
         onChange={handleMapChange}
       >{list && list.map(event => (
         <Pin
