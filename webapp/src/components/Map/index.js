@@ -3,7 +3,7 @@ import GoogleMap from 'google-map-react';
 
 import Pin from './Pin';
 import { Enumerate, UnloadReel, SetEnumerable } from '../../store/reel';
-import { UpdateZoom } from '../../store/map';
+import { Focus } from '../../store/map';
 
 export default function Map ({ list }) {
   const dispatch = useDispatch();
@@ -15,6 +15,8 @@ export default function Map ({ list }) {
 
   const handleMapChange = ({ center, bounds, zoom: changeZoom }) => {
     if (enumerable) {
+      document.querySelectorAll('.map-pin')
+        .forEach(pin => pin.classList.remove('focus'));
       dispatch(UnloadReel());
       dispatch(Enumerate(
         center.lng,
@@ -23,7 +25,7 @@ export default function Map ({ list }) {
         Math.abs(bounds.ne.lat - bounds.sw.lat)
       ));
     }
-    if (zoom !== changeZoom) dispatch(UpdateZoom(changeZoom));
+    if (center.lat !== lat || center.lng !== lng || zoom !== changeZoom) dispatch(Focus(center.lng, center.lat, changeZoom));
     dispatch(SetEnumerable(true));
   };
 

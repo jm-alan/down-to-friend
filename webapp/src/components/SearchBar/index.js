@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Predictions from './Predictions';
 import Debouncer from '../../utils/Debouncer';
 import { PlaceSearch, PlaceDetails } from '../../utils/Places';
 import { AutoComplete } from '../../store/search';
+import { UnloadReel } from '../../store/reel';
 
 import './Search.css';
 
 const debouncedPlaceSearch = Debouncer(PlaceSearch, 500);
+const debouncedPlaceDetails = Debouncer(PlaceDetails, 750);
 
 export default function SearchBar () {
   const dispatch = useDispatch();
@@ -15,8 +18,16 @@ export default function SearchBar () {
 
   const [search, updateSearch] = useState('');
 
-  const submit = (submit) => {
-    submit.preventDefault();
+  const handleSearch = ({ target: { value } }) => {
+    updateSearch(value);
+    if (value.length) debouncedPlaceSearch(value, dispatch);
+    else (dispatch(AutoComplete([])));
+  };
+
+  const submit = submitEvent => {
+    submitEvent.preventDefault();
+    dispatch(UnloadReel());
+    debouncedPlaceDetails(search, dispatch);
   };
 
   return (
@@ -30,28 +41,9 @@ export default function SearchBar () {
           type='text'
           maxLength={50}
           value={search}
-          onChange={({ target: { value } }) => {
-            updateSearch(value);
-            if (value.length) debouncedPlaceSearch(value, dispatch);
-            else (dispatch(AutoComplete([])));
-          }}
+          onChange={handleSearch}
         />
-        {predictions.length
-          ? (
-            <ul className='search-prediction-container'>
-              {predictions.map((prediction, idx) => (
-                <li
-                  key={idx}
-                  className='search-prediction'
-                >
-                  <div>
-                    {prediction.description}
-                  </div>
-                </li>
-              ))}
-            </ul>
-            )
-          : null}
+        <Predictions predictions={predictions} />
       </form>
     </div>
   );

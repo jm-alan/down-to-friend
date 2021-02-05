@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { NavHashLink } from 'react-router-hash-link';
 
 import DeepEqual from '../../utils/DeepEqual';
 import { Focus } from '../../store/map';
@@ -10,6 +11,7 @@ export default function Pin ({ event }) {
   const [mouseXY, setMouseXY] = useState({ x: 0, y: 0 });
 
   const pinClick = () => {
+    dispatch(SetEnumerable(false));
     document.querySelectorAll('.map-pin')
       .forEach(pin => pin.classList.remove('focus'));
     document.getElementById(`map-pin-event-${event.id}`).classList.add('focus');
@@ -17,19 +19,24 @@ export default function Pin ({ event }) {
   };
 
   return (
-    <div
-      className='map-pin'
-      id={`map-pin-event-${event.id}`}
-      onMouseDown={e => {
-        setMouseXY({ x: e.clientX, y: e.clientY });
-      }}
-      onMouseUp={e => {
-        if (DeepEqual({ x: e.clientX, y: e.clientY }, mouseXY)) pinClick();
-      }}
+    <NavHashLink
+      to={`#event-summary-${event.id}`}
+      smooth
     >
-      <div>
-        {event.title} with {event.User.username}
+      <div
+        className='map-pin'
+        id={`map-pin-event-${event.id}`}
+        onMouseDown={e => {
+          setMouseXY({ x: e.clientX, y: e.clientY });
+        }}
+        onMouseUp={e => {
+          if (DeepEqual({ x: e.clientX, y: e.clientY }, mouseXY)) pinClick();
+        }}
+      >
+        <div>
+          {event.title} with {event.User.username}
+        </div>
       </div>
-    </div>
+    </NavHashLink>
   );
 }

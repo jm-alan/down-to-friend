@@ -23,6 +23,7 @@ export default function EventSummary ({ event }) {
 
   return (
     <div
+      id={`event-summary-${event.id}`}
       className='event-summary-container'
       onClick={clickHandle}
     >

@@ -38,10 +38,19 @@ router.get('/details', asyncHandler(async (req, res) => {
   const { geometry: { location } } = resp.ok
     ? await resp.json()
     : failedGeometry;
+  return res.json({ location });
 }));
 
 router.get('/raw', asyncHandler(async (req, res) => {
   const { query: { query } } = req;
+  if (!query.length) return res.json({ location: { lat: 0, lng: 0 } });
+  const resp = await fetch(
+    `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&key=${process.env.API_KEY}`
+  );
+  const { geometry: { location } } = resp.ok
+    ? (await resp.json()).results[0]
+    : { geometry: { location: { lat: 0, lng: 0 } } };
+  res.json({ location });
 }));
 
 module.exports = router;
