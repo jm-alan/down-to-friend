@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Debouncer from '../../utils/Debouncer';
-import Places from '../../utils/Places';
+import { PlaceSearch, PlaceDetails } from '../../utils/Places';
 import { AutoComplete } from '../../store/search';
 
 import './Search.css';
 
-const debouncedPlaceSearch = Debouncer(Places, 500);
+const debouncedPlaceSearch = Debouncer(PlaceSearch, 500);
 
 export default function SearchBar () {
   const dispatch = useDispatch();

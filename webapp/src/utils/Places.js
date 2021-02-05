@@ -1,7 +1,7 @@
 import { AutoComplete } from '../store/search';
 
-export default async function Places (query, dispatch) {
-  const resp = await window.fetch(`/api/search?query=${query}`);
+export async function PlaceSearch (query, dispatch) {
+  const resp = await window.fetch(`/api/search/autocomplete?query=${query}`);
   const { predictions } = resp.ok
     ? await resp.json()
     : {
@@ -12,4 +12,11 @@ export default async function Places (query, dispatch) {
       };
 
   dispatch(AutoComplete(predictions));
+}
+
+export async function PlaceDetails (query, dispatch, isPlace = false) {
+  const resp = isPlace
+    ? await window.fetch(`/api/search/details?placeId=${query}`)
+    : await window.fetch(`/api/search/raw?query=${query}`);
+    
 }

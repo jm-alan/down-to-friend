@@ -1,14 +1,18 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+import DeepEqual from '../../utils/DeepEqual';
 import { Focus } from '../../store/map';
+import { SetEnumerable } from '../../store/reel';
 
 export default function Pin ({ event }) {
   const dispatch = useDispatch();
+  const [mouseXY, setMouseXY] = useState({ x: 0, y: 0 });
 
-  const pinClick = id => {
+  const pinClick = () => {
     document.querySelectorAll('.map-pin')
       .forEach(pin => pin.classList.remove('focus'));
-    document.getElementById(`map-pin-event-${id}`).classList.add('focus');
+    document.getElementById(`map-pin-event-${event.id}`).classList.add('focus');
     dispatch(Focus(event.longitude, event.latitude, 12));
   };
 
@@ -16,7 +20,12 @@ export default function Pin ({ event }) {
     <div
       className='map-pin'
       id={`map-pin-event-${event.id}`}
-      onClick={() => pinClick(event.id)}
+      onMouseDown={e => {
+        setMouseXY({ x: e.clientX, y: e.clientY });
+      }}
+      onMouseUp={e => {
+        if (DeepEqual({ x: e.clientX, y: e.clientY }, mouseXY)) pinClick();
+      }}
     >
       <div>
         {event.title} with {event.User.username}

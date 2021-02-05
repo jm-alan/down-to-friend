@@ -2,7 +2,7 @@ const router = require('express').Router();
 const asyncHandler = require('express-async-handler');
 const fetch = require('node-fetch');
 
-router.get('/', asyncHandler(async (req, res) => {
+router.get('/autocomplete', asyncHandler(async (req, res) => {
   const { query: { query } } = req;
   if (!query) return res.json({ predictions: [] });
   const resp = await fetch(
@@ -18,6 +18,30 @@ router.get('/', asyncHandler(async (req, res) => {
     ? await resp.json()
     : failedPredictions;
   res.json({ predictions });
+}));
+
+router.get('/details', asyncHandler(async (req, res) => {
+  const { query: { placeId } } = req;
+  if (!placeId) return res.json({ lng: 0, lat: 0 });
+  const resp = await fetch(
+    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=geometry&key=${process.env.API_KEY}`
+  );
+  const failedGeometry = {
+    geometry: {
+      location: {
+        lat: 0,
+        lng: 0
+      }
+    },
+    message: `Detail request failed. ${resp.status} ${resp.statusText}`
+  };
+  const { geometry: { location } } = resp.ok
+    ? await resp.json()
+    : failedGeometry;
+}));
+
+router.get('/raw', asyncHandler(async (req, res) => {
+  const { query: { query } } = req;
 }));
 
 module.exports = router;
