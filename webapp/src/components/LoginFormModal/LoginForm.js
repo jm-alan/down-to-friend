@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { login } from '../../store/session';
+import { LogIn } from '../../store/session';
 import { useDispatch } from 'react-redux';
 import './LoginForm.css';
 
@@ -12,13 +12,13 @@ function LoginForm () {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    dispatch(login(identification, password))
+    dispatch(LogIn(identification, password))
       .catch(res => setErrors(res.data?.errors || []));
   };
 
   const demoLogin = (e) => {
     e.preventDefault();
-    dispatch(login('demo@user.io', 'password'));
+    dispatch(LogIn('demo@user.io', 'password'));
   };
 
   return (

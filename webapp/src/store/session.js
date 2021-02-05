@@ -4,7 +4,7 @@ const USER = 'session/USER';
 
 const setSession = (user = null) => ({ type: USER, user });
 
-export const login = (identification, password) => async dispatch => {
+export const LogIn = (identification, password) => async dispatch => {
   const res = await csrfetch('/api/session', {
     method: 'POST',
     body: JSON.stringify({ identification, password })
@@ -19,7 +19,7 @@ export const restoreUser = () => async dispatch => {
   return res;
 };
 
-export const signup = (user) => async dispatch => {
+export const SignUp = (user) => async dispatch => {
   const { username, email, password } = user;
   const response = await csrfetch('/api/users', {
     method: 'POST',
@@ -33,7 +33,7 @@ export const signup = (user) => async dispatch => {
   return response;
 };
 
-export const logout = () => async dispatch => {
+export const LogOut = () => async dispatch => {
   await csrfetch('/api/session', {
     method: 'DELETE'
   });
