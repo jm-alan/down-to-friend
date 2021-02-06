@@ -5,16 +5,16 @@ module.exports = {
     username: process.env.DB_FROGGY,
     password: process.env.DB_FRESH,
     database: process.env.DB_KRISPY,
-    host: process.env.DB_KREME
+    host: process.env.DB_KREME,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
   },
   jwtConfig: {
     secret: process.env.JWT_SECRET,
     expiresIn: process.env.JWT_EXPIRES_IN
-  },
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false
-    }
   }
 };
