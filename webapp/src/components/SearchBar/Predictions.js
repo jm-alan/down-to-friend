@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 
 import Debouncer from '../../utils/Debouncer';
-import { AutoComplete, Search } from '../../store/search';
+import { AutoComplete, Searching } from '../../store/search';
 import { PlaceDetails } from '../../utils/Places';
 
 const debouncedPlaceDetails = Debouncer(PlaceDetails, 750);
@@ -11,9 +11,10 @@ export default function Predictions ({ predictions, updateSearch }) {
 
   const autocompleteClick = (e, prediction) => {
     dispatch(AutoComplete([]));
-    dispatch(Search());
+    dispatch(Searching(true));
     updateSearch(e.target.innerText);
     debouncedPlaceDetails(prediction.place_id, dispatch, true);
+    dispatch(Searching(false));
   };
 
   return predictions.length

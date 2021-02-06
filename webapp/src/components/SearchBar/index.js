@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Predictions from './Predictions';
 import Debouncer from '../../utils/Debouncer';
 import { PlaceSearch, PlaceDetails } from '../../utils/Places';
-import { AutoComplete, Search } from '../../store/search';
+import { AutoComplete, Searching } from '../../store/search';
 import { UnloadReel } from '../../store/reel';
 
 import './Search.css';
@@ -27,10 +27,11 @@ export default function SearchBar () {
 
   const submit = submitEvent => {
     submitEvent.preventDefault();
-    dispatch(Search());
+    dispatch(Searching(true));
     dispatch(AutoComplete([]));
     dispatch(UnloadReel());
     debouncedPlaceDetails(search, dispatch);
+    dispatch(Searching(false))
   };
 
   return (
