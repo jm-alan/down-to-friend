@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       defaultLocale: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       }
     },
     {

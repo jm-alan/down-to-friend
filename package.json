@@ -1,0 +1,19 @@
+{
+  "name": "downtofriend",
+  "version": "1.0.0",
+  "engines": {
+    "node": "14.x"
+  },
+  "description": "Capstone solo project - React/Redux/Express/Sequelize",
+  "main": "index.js",
+  "scripts": {
+    "heroku-postbuild": "npm run build --prefix webapp",
+    "install": "npm --prefix backend install backend && npm --prefix webapp install webapp",
+    "sequelize": "npm run --prefix backend sequelize",
+    "sequelize-cli": "npm run --prefix backend sequelize-cli",
+    "start": "npm start --prefix backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
