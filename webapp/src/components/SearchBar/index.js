@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Predictions from './Predictions';
 import Debouncer from '../../utils/Debouncer';
 import { PlaceSearch, PlaceDetails } from '../../utils/Places';
-import { AutoComplete } from '../../store/search';
+import { AutoComplete, Search } from '../../store/search';
 import { UnloadReel } from '../../store/reel';
 
 import './Search.css';
@@ -14,11 +14,12 @@ const debouncedPlaceDetails = Debouncer(PlaceDetails, 750);
 
 export default function SearchBar () {
   const dispatch = useDispatch();
-  const { predictions } = useSelector(state => state.search);
+  const { predictions, searched } = useSelector(state => state.search);
 
   const [search, updateSearch] = useState('');
 
   const handleSearch = ({ target: { value } }) => {
+    if (searched) return;
     updateSearch(value);
     if (value.length) debouncedPlaceSearch(value, dispatch);
     else (dispatch(AutoComplete([])));
@@ -26,6 +27,8 @@ export default function SearchBar () {
 
   const submit = submitEvent => {
     submitEvent.preventDefault();
+    dispatch(Search());
+    dispatch(AutoComplete([]));
     dispatch(UnloadReel());
     debouncedPlaceDetails(search, dispatch);
   };
@@ -43,7 +46,10 @@ export default function SearchBar () {
           value={search}
           onChange={handleSearch}
         />
-        <Predictions predictions={predictions} />
+        <Predictions
+          predictions={predictions}
+          updateSearch={updateSearch}
+        />
       </form>
     </div>
   );

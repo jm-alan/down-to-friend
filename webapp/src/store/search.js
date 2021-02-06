@@ -4,14 +4,14 @@ const SEARCH = 'search/SEARCH';
 
 export const AutoComplete = predictions => ({ type: AUTO, predictions });
 
-export const Search = query => ({ type: SEARCH, query });
+export const Search = () => ({ type: SEARCH });
 
-export default function reducer (state = { predictions: [], query: null, searched: false }, { type, predictions, query }) {
+export default function reducer (state = { predictions: [], query: null, searched: false }, { type, predictions }) {
   switch (type) {
     case AUTO:
       return { ...state, predictions, searched: false };
     case SEARCH:
-      return { ...state, query, searched: true };
+      return { ...state, searched: true };
     default:
       return state;
   }

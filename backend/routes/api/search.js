@@ -35,7 +35,7 @@ router.get('/details', asyncHandler(async (req, res) => {
     },
     message: `Detail request failed. ${resp.status} ${resp.statusText}`
   };
-  const { geometry: { location } } = resp.ok
+  const { result: { geometry: { location } } } = resp.ok
     ? await resp.json()
     : failedGeometry;
   return res.json({ location });
