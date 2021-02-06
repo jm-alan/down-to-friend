@@ -4,12 +4,14 @@ import session from './session';
 import reel from './reel';
 import map from './map';
 import search from './search';
+import modal from './modal';
 
 const rootReducer = combineReducers({
   session,
   reel,
   map,
-  search
+  search,
+  modal
 });
 
 let enhancer;

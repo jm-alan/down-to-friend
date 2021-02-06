@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import ProfileButton from './ProfileButton';
-import LoginFormModal from '../LoginFormModal';
+import FormModal from '../FormModal';
 import SearchBar from '../SearchBar';
 
 import './Navigation.css';
@@ -12,31 +12,18 @@ function Navigation ({ isLoaded }) {
   return isLoaded
     ? (
       <nav className='navbar'>
-        <ul>
-          <li>
+        <div className='user-navigation-buttons'>
+          <div className='nav-button-container'>
             <NavLink exact to='/'>
               <button className='nav-button home'>
                 Home
               </button>
             </NavLink>
-          </li>
+          </div>
           {user
-            ? (
-              <li>
-                <ProfileButton />
-              </li>
-              )
-            : (
-              <>
-                <li>
-                  <LoginFormModal />
-                </li>
-                <li>
-                  <NavLink to='/signup'>Sign Up</NavLink>
-                </li>
-              </>
-              )}
-        </ul>
+            ? <ProfileButton />
+            : <FormModal />}
+        </div>
         <SearchBar />
       </nav>
       )

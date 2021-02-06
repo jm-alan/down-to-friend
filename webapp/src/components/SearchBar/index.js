@@ -31,7 +31,7 @@ export default function SearchBar () {
     dispatch(AutoComplete([]));
     dispatch(UnloadReel());
     debouncedPlaceDetails(search, dispatch);
-    dispatch(Searching(false))
+    dispatch(Searching(false));
   };
 
   return (
@@ -40,6 +40,12 @@ export default function SearchBar () {
         className='searchbar-form'
         onSubmit={submit}
       >
+        <button
+          type='submit'
+          className='location-search-submit'
+        >
+          <i className='fas fa-search-location search-icon' />
+        </button>
         <input
           className='searchbar-input'
           type='text'

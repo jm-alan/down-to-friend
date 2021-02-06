@@ -31,7 +31,7 @@ function ProfileButton () {
   }, [showMenu]);
 
   return (
-    <>
+    <div className='nav-button-container'>
       <button onClick={openMenu}>
         <i className='fas fa-user-circle' />
       </button>
@@ -44,7 +44,7 @@ function ProfileButton () {
           </li>
         </ul>
       )}
-    </>
+    </div>
   );
 }
 

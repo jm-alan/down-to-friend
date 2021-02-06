@@ -21,4 +21,32 @@
 #modal-content {
   position: absolute;
   background-color:white;
+  box-sizing: border-box;
+  padding: 10px 40px;
+  border-radius: 5px;
+  width: 400px;
+}
+
+div.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form.modal input {
+  box-sizing: border-box;
+  font-size: xx-large;
+  width: 100%;
+}
+
+div.form-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }

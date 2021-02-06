@@ -6,7 +6,11 @@ router.get('/autocomplete', asyncHandler(async (req, res) => {
   const { query: { query } } = req;
   if (!query) return res.json({ predictions: [] });
   const resp = await fetch(
-    `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${query}&key=${process.env.API_KEY}`
+    `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${
+      query
+    }&key=${
+      process.env.API_KEY
+    }`
   );
   const failedPredictions = {
     predictions: [
