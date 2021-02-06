@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { LogIn } from '../../store/session';
-import { ModalDisplay } from '../../store/modal';
+import { ModalDisplay, ModalForm } from '../../store/modal';
 
 function LoginForm () {
   const dispatch = useDispatch();
@@ -22,6 +22,10 @@ function LoginForm () {
     e.preventDefault();
     dispatch(LogIn('demo@user.io', 'password'))
       .then(dispatch(ModalDisplay(false)));
+  };
+
+  const switchForm = () => {
+    dispatch(ModalForm('signup'));
   };
 
   return (
@@ -60,6 +64,7 @@ function LoginForm () {
           </button>
           <button
             type='button'
+            onClick={switchForm}
           >
             Sign Up
           </button>

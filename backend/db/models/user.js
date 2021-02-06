@@ -35,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
       avatarId: {
         type: DataTypes.INTEGER,
         allowNull: true
+      },
+      defaultLocale: {
+        type: DataTypes.STRING,
+        allowNull: false
       }
     },
     {

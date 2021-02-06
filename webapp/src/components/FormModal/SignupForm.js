@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { SignUp } from '../../store/session';
+import { ModalDisplay, ModalForm } from '../../store/modal';
 
 function SignupFormPage () {
   const dispatch = useDispatch();
@@ -16,11 +17,16 @@ function SignupFormPage () {
     if (password === confirmPassword) {
       setErrors([]);
       return dispatch(SignUp({ email, username, password }))
+        .then(dispatch(ModalDisplay(false)))
         .catch(res => {
           if (res.data && res.data.errors) setErrors(res.data.errors);
         });
     }
     return setErrors(['Confirm Password field must be the same as the Password field']);
+  };
+
+  const switchForm = () => {
+    dispatch(ModalForm('login'));
   };
 
   return (
@@ -68,11 +74,15 @@ function SignupFormPage () {
           >
             Sign Up
           </button>
-          <button
-            type='button'
-          >
-            Log In
-          </button>
+          <label>
+            {'Already have an account? '}
+            <button
+              type='button'
+              onClick={switchForm}
+            >
+              Log In
+            </button>
+          </label>
         </div>
       </form>
     </div>

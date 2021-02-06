@@ -7,10 +7,7 @@ export const ModalForm = form => ({ type: FORM, form });
 export const ModalDisplay = display => ({ type: DISPLAY, display });
 
 export default function reducer (
-  state = {
-    form: 'login',
-    display: false
-  },
+  state = { form: 'login', display: false },
   { type, form, display }) {
   switch (type) {
     case FORM:
