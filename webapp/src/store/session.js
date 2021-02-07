@@ -40,5 +40,11 @@ export const LogOut = () => async dispatch => {
   dispatch(setSession());
 };
 
-const reducer = (state = { user: null }, { type, user }) => type === USER ? ({ user }) : state;
-export default reducer;
+export default function reducer (state = { user: null, loaded: false }, { type, user }) {
+  switch (type) {
+    case USER:
+      return { ...state, user, loaded: true };
+    default:
+      return state;
+  }
+}
