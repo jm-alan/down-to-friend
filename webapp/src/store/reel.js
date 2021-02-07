@@ -10,7 +10,7 @@ const UNLOAD = 'reel/UNLOAD';
 
 const enumerate = (list) => ({ type: ENUMERATE, list });
 
-export const Enumerate = (
+export const EnumerateReel = (
   centerLng,
   centerLat,
   lowerLng,
