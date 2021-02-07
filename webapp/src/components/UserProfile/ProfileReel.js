@@ -9,6 +9,7 @@ export default function ProfileReel ({ type, name, list, loaded }) {
               <EventSummary
                 key={idx}
                 event={event}
+                isProfile
               />
               ))
             : (
