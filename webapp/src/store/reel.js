@@ -10,7 +10,14 @@ const UNLOAD = 'reel/UNLOAD';
 
 const enumerate = (list) => ({ type: ENUMERATE, list });
 
-export const Enumerate = (centerLng, centerLat, lowerLng, upperLng, lowerLat, upperLat) => async dispatch => {
+export const Enumerate = (
+  centerLng,
+  centerLat,
+  lowerLng,
+  upperLng,
+  lowerLat,
+  upperLat
+) => async dispatch => {
   const { data } = await csrfetch(
     `/api/events?centerLng=${
       centerLng

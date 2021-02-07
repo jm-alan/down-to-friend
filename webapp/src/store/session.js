@@ -2,7 +2,11 @@ import csrfetch from './csrf.js';
 
 const USER = 'session/USER';
 
-const setSession = (user = null) => ({ type: USER, user });
+const LOAD = 'session/LOAD';
+
+const setSession = (user = null, loaded = true) => ({ type: USER, user, loaded });
+
+export const LoadSession = () => ({ type: LOAD, loaded: true });
 
 export const LogIn = (identification, password) => async dispatch => {
   const res = await csrfetch('/api/session', {
@@ -13,23 +17,23 @@ export const LogIn = (identification, password) => async dispatch => {
   return res;
 };
 
-export const restoreUser = () => async dispatch => {
+export const RestoreUser = () => async dispatch => {
   const res = await csrfetch('/api/session');
   dispatch(setSession(res.data.user));
   return res;
 };
 
 export const SignUp = (user) => async dispatch => {
-  const { username, email, password } = user;
+  const { firstName, email, password } = user;
   const response = await csrfetch('/api/users', {
     method: 'POST',
     body: JSON.stringify({
-      username,
+      firstName,
       email,
       password
     })
   });
-  dispatch(setSession(response.data.user));
+  dispatch(setSession(response.data.user, false));
   return response;
 };
 
@@ -40,10 +44,14 @@ export const LogOut = () => async dispatch => {
   dispatch(setSession());
 };
 
-export default function reducer (state = { user: null, loaded: false }, { type, user }) {
+export default function reducer (
+  state = { user: null, loaded: false },
+  { type, user, loaded }) {
   switch (type) {
     case USER:
-      return { ...state, user, loaded: true };
+      return { ...state, user, loaded };
+    case LOAD:
+      return { ...state, loaded };
     default:
       return state;
   }
