@@ -13,11 +13,11 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isEmail()
     .withMessage('Please provide a valid email.'),
-  check('username')
+  check('firstName')
     .exists({ checkFalsy: true })
-    .isLength({ min: 4 })
-    .withMessage('Please provide a username with at least 4 characters.'),
-  check('username').not().isEmail().withMessage('Username cannot be an email.'),
+    .isLength({ min: 2 })
+    .withMessage('Please provide a name with at least 2 characters.'),
+  check('username').not().isEmail().withMessage('Name cannot be an email.'),
   check('password')
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
@@ -28,7 +28,7 @@ const validateSignup = [
 router.get('/me/locale', requireAuth, asyncHandler(async (req, res) => {
   const { user: { defaultLocale } } = req;
   if (defaultLocale) return res.json(JSON.parse(defaultLocale));
-  res.json({ lat: null, lng: null });
+  res.json({ lat: 38.57366700738277, lng: -121.49428149672518 });
 }));
 
 router.post('/me/locale', requireAuth, asyncHandler(async (req, res) => {
@@ -47,8 +47,9 @@ router.post('/me/locale', requireAuth, asyncHandler(async (req, res) => {
 }));
 
 router.post('/', validateSignup, asyncHandler(async (req, res) => {
-  const { email, password, username } = req.body;
-  const user = await User.signup({ email, username, password });
+  const { email, password, firstName } = req.body;
+  console.log(firstName);
+  const user = await User.signup({ email, firstName, password });
 
   await setTokenCookie(res, user);
 
