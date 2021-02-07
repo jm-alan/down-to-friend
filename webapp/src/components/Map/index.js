@@ -11,10 +11,7 @@ export default function Map ({ list }) {
   const { lat, lng, zoom } = useSelector(state => state.map);
   const { enumerable } = useSelector(state => state.reel);
 
-  const focalCenter = { lat, lng };
-
   const handleMapChange = ({ center, bounds, zoom: changeZoom }) => {
-    console.log('Enumerable:', enumerable);
     if (enumerable) {
       document.querySelectorAll('.map-pin')
         .forEach(pin => pin.classList.remove('focus'));
@@ -45,7 +42,7 @@ export default function Map ({ list }) {
         bootstrapURLKeys={{
           key: process.env.REACT_APP_API_KEY
         }}
-        center={focalCenter}
+        center={{ lng, lat }}
         zoom={zoom}
         onChange={handleMapChange}
       >{list && list.map(event => (
