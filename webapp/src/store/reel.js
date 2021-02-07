@@ -8,12 +8,25 @@ const LOAD = 'reel/LOAD';
 
 const UNLOAD = 'reel/UNLOAD';
 
-const enumerate = (list, searchCenter) => ({ type: ENUMERATE, list, searchCenter });
+const enumerate = (list) => ({ type: ENUMERATE, list });
 
-export const Enumerate = (lng, lat, lngDiff, latDiff) => async dispatch => {
-  const { data } = await csrfetch(`/api/events?longitude=${lng}&latitude=${lat}&lngDiff=${lngDiff}&latDiff=${latDiff}`);
-  dispatch(enumerate(data.list, { lng, lat }));
-  dispatch(LoadReel());
+export const Enumerate = (centerLng, centerLat, lowerLng, upperLng, lowerLat, upperLat) => async dispatch => {
+  const { data } = await csrfetch(
+    `/api/events?centerLng=${
+      centerLng
+    }&centerLat=${
+      centerLat
+    }&lowerLng=${
+      lowerLng
+    }&upperLng=${
+      upperLng
+    }&lowerLat=${
+      lowerLat
+    }&upperLat=${
+      upperLat
+    }`
+  );
+  dispatch(enumerate(data.list));
 };
 
 export const SetEnumerable = enumerable => ({ type: MODE, enumerable });
@@ -27,10 +40,10 @@ const reducer = (state = {
   loaded: false,
   searchCenter: { lat: 0, lng: 0 },
   enumerable: true
-}, { type, list, searchCenter, enumerable }) => {
+}, { type, list, enumerable }) => {
   switch (type) {
     case ENUMERATE:
-      return { ...state, list, searchCenter };
+      return { ...state, list };
     case LOAD:
       return { ...state, loaded: true };
     case UNLOAD:
