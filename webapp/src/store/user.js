@@ -11,11 +11,12 @@ export const GetLocale = () => async dispatch => {
 };
 
 export const SetLocale = locale => async dispatch => {
-  const res = await csrfetch('/api/users/me/locale', {
+  const { data } = await csrfetch('/api/users/me/locale', {
     method: 'POST',
     body: JSON.stringify({ locale })
   });
-  if (res.data?.success) dispatch(updateLocale(locale));
+  if (data.success) dispatch(updateLocale(locale));
+  return locale;
 };
 
 export default function reducer (state = { locale: { lat: null, lng: null } }, { type, locale }) {
