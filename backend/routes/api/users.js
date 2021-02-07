@@ -1,5 +1,5 @@
 const express = require('express');
-const { check } = require('express-validator');
+const { check, body } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 
 const { handleValidationErrors } = require('../../utils/validation');
@@ -25,20 +25,35 @@ const validateSignup = [
   handleValidationErrors
 ];
 
-// Sign up
-router.post(
-  '/',
-  validateSignup,
-  asyncHandler(async (req, res) => {
-    const { email, password, username } = req.body;
-    const user = await User.signup({ email, username, password });
+router.get('/me/locale', requireAuth, asyncHandler(async (req, res) => {
+  const { user: { defaultLocale } } = req;
+  if (defaultLocale) return res.json(JSON.parse(defaultLocale));
+  res.json({ lat: null, lng: null });
+}));
 
-    await setTokenCookie(res, user);
-
-    return res.json({
-      user
+router.post('/me/locale', requireAuth, asyncHandler(async (req, res) => {
+  const { user, body: { locale } } = req;
+  try {
+    await user.update({
+      defaultLocale: JSON.stringify(locale)
     });
-  })
+    return res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    console.error(err.toString());
+    console.error('The above error occured during User locale update @ POST/api/users/me/locale');
+    return res.json({ success: false });
+  }
+}));
+
+router.post('/', validateSignup, asyncHandler(async (req, res) => {
+  const { email, password, username } = req.body;
+  const user = await User.signup({ email, username, password });
+
+  await setTokenCookie(res, user);
+
+  return res.json({ user });
+})
 );
 
 module.exports = router;

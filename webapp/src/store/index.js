@@ -1,17 +1,20 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+
 import session from './session';
 import reel from './reel';
 import map from './map';
 import search from './search';
 import modal from './modal';
+import user from './user';
 
 const rootReducer = combineReducers({
   session,
   reel,
   map,
   search,
-  modal
+  modal,
+  user
 });
 
 let enhancer;

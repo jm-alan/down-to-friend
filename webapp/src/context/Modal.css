@@ -10,6 +10,7 @@
 }
 
 #modal-background {
+  z-index: 998;
   position: fixed;
   top: 0;
   right: 0;
@@ -19,18 +20,30 @@
 }
 
 #modal-content {
+  z-index: 999;
+  background-color: steelblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   position: absolute;
-  background-color:white;
   box-sizing: border-box;
   padding: 10px 40px;
   border-radius: 5px;
   width: 400px;
+  height: 400px;
+  overflow: hidden;
+}
+
+#modal-content h1 {
+  margin: 0px;
+  color: white;
 }
 
 div.form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
 }
 
 form.modal {
@@ -40,13 +53,76 @@ form.modal {
 }
 
 form.modal input {
+  color: white;
+  background-color: unset;
+  border-radius: 5px;
+  border: none;
+  border-bottom: 1px solid darkgrey;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
   box-sizing: border-box;
   font-size: xx-large;
   width: 100%;
 }
 
+form.modal input::placeholder {
+  color: lightgrey;
+}
+
+form.modal input:focus {
+  outline: none;
+}
+
+form.modal input:focus::placeholder {
+  color: transparent;
+}
+
 div.form-button-container {
   width: 100%;
   display: flex;
+  flex-direction: column;
+}
+
+div.form-button-container button {
+  height: 36px;
+  position: relative;
+  color: white;
+  font-weight: bolder;
+  border-radius: 5px;
+  margin-top: 5px;
+  border: none;
+  box-sizing: border-box;
+  padding: 5px;
+  background-color: unset;
+  font-size: larger;
+}
+
+div.form-button-container button:hover {
+  border: 2px solid white;
+  bottom: 2px;
+}
+
+div.form-button-container button:active {
+  bottom: 0px;
+}
+
+div.form-button-container button .nextarrow {
+  margin-left: 10px;
+}
+
+div.form-button-container button:focus {
+  outline: none;
+}
+
+div.signup-phases-container {
+  transition: all 0.4s;
+  position: relative;
+  left: 0;
+  display: flex;
   justify-content: space-between;
+  width: 680px;
+}
+
+div.signup-phases-container .form-container {
+  width: 320px;
 }

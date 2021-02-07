@@ -1,13 +1,20 @@
-.searchbar-container {
+nav .searchbar-container {
+  z-index: 999;
   display: flex;
   width: 500px;
   height: 50px;
   margin-right: 30px;
 }
 
+.searchbar-container ul {
+  list-style: none;
+  margin: 0px;
+}
+
 button.location-search-submit {
   width: 50px;
   font-size: xx-large;
+  z-index: 999;
 }
 
 .searchbar-form {
@@ -21,6 +28,7 @@ button.location-search-submit {
   box-sizing: border-box;
   font-size: x-large;
   font-weight: bolder;
+  z-index: 999;
 }
 
 .searchbar-input:focus {
@@ -30,19 +38,15 @@ button.location-search-submit {
 
 
 .search-prediction-container {
+  z-index: 998;
   transition: all 0.5s;
   box-sizing: border-box;
   position: absolute;
   top: 50px;
-  z-index: -1;
   width: 500px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-}
-
-.searchbar-input:not(:focus) + .search-prediction-container {
-  top: -600px;
 }
 
 .search-prediction {

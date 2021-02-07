@@ -11,15 +11,13 @@ module.exports = {
       avatarId: {
         type: Sequelize.INTEGER,
         allowNull: true,
-        unique: true,
         references: {
           model: 'Images'
         }
       },
-      username: {
+      firstName: {
         type: Sequelize.STRING(30),
-        allowNull: false,
-        unique: true
+        allowNull: false
       },
       email: {
         type: Sequelize.STRING,

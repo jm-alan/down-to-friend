@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import GoogleMap from 'google-map-react';
 
 import Pin from './Pin';
-import { Enumerate, UnloadReel, SetEnumerable } from '../../store/reel';
+import { Enumerate, UnloadReel, LoadReel, SetEnumerable } from '../../store/reel';
 import { Focus } from '../../store/map';
 
 export default function Map ({ list }) {
@@ -14,6 +14,7 @@ export default function Map ({ list }) {
   const focalCenter = { lat, lng };
 
   const handleMapChange = ({ center, bounds, zoom: changeZoom }) => {
+    console.log('Enumerable:', enumerable);
     if (enumerable) {
       document.querySelectorAll('.map-pin')
         .forEach(pin => pin.classList.remove('focus'));
@@ -21,11 +22,20 @@ export default function Map ({ list }) {
       dispatch(Enumerate(
         center.lng,
         center.lat,
-        Math.abs(bounds.ne.lng - bounds.sw.lng),
-        Math.abs(bounds.ne.lat - bounds.sw.lat)
-      ));
+        Math.min(bounds.nw.lng, bounds.se.lng),
+        Math.max(bounds.nw.lng, bounds.se.lng),
+        Math.min(bounds.nw.lat, bounds.se.lat),
+        Math.max(bounds.nw.lat, bounds.se.lat)
+      ))
+        .then(() => {
+          dispatch(LoadReel());
+        });
     }
-    if (center.lat !== lat || center.lng !== lng || zoom !== changeZoom) dispatch(Focus(center.lng, center.lat, changeZoom));
+    if (center.lat !== lat ||
+      center.lng !== lng ||
+      zoom !== changeZoom) {
+      dispatch(Focus(center.lng, center.lat, bounds, changeZoom));
+    }
     dispatch(SetEnumerable(true));
   };
 

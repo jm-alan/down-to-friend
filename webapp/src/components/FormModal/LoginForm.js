@@ -30,7 +30,7 @@ function LoginForm () {
 
   return (
     <div className='form-container login'>
-      <h1>Log In</h1>
+      <h1>Get Back To It</h1>
       <form
         className='login-form modal'
         onSubmit={handleSubmit}
@@ -66,7 +66,7 @@ function LoginForm () {
             type='button'
             onClick={switchForm}
           >
-            Sign Up
+            Don't have an account?
           </button>
         </div>
       </form>
