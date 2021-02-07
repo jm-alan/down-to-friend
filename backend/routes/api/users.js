@@ -31,6 +31,11 @@ router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
   return res.json({ user });
 }));
 
+router.get('/me', requireAuth, asyncHandler(async (req, res) => {
+  const { user } = req;
+  return res.json({ user });
+}));
+
 router.get('/me/locale', requireAuth, asyncHandler(async (req, res) => {
   const { user: { defaultLocale } } = req;
   if (defaultLocale) return res.json(JSON.parse(defaultLocale));

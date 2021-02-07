@@ -14,7 +14,11 @@ export default function ProfileReel ({ type, name, list, loaded }) {
               ))
             : (
               <h1>
-                {`Looks like ${name} hasn't ${type} any events.`}
+                {`Looks like ${
+                  name === 'you'
+                  ? 'you haven\'t'
+                  : `${name} hasn't`
+                  } ${type} any events.`}
               </h1>
               )
         : (

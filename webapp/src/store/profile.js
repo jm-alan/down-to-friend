@@ -11,17 +11,17 @@ const enumerate = (type, list) => ({ type, list });
 const loadProfile = user => ({ type: LOAD, user });
 
 export const LoadProfile = whereAmI => async dispatch => {
-  const { data } = await csrfetch(`/api${whereAmI}`);
+  const { data } = await csrfetch(`/api/users/${whereAmI}`);
   dispatch(loadProfile(data.user));
 };
 
 export const EnumerateHosted = whereAmI => async dispatch => {
-  const { data } = await csrfetch(`/api${whereAmI}/events/hosting`);
+  const { data } = await csrfetch(`/api/users/${whereAmI}/events/hosting`);
   dispatch(enumerate(HOSTED, data.events));
 };
 
 export const EnumerateAttending = whereAmI => async dispatch => {
-  const { data } = await csrfetch(`/api${whereAmI}/events/attending`);
+  const { data } = await csrfetch(`/api/users/${whereAmI}/events/attending`);
   dispatch(enumerate(ATTENDED, data.events));
 };
 
