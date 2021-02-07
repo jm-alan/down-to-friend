@@ -1,29 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 
 import Home from './components/Home';
-import { restoreUser } from './store/session';
+import { RestoreUser } from './store/session';
 import Navigation from './components/Navigation';
 
 export default function App () {
   const dispatch = useDispatch();
-  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
-    dispatch(restoreUser())
-      .then(() => setIsLoaded(true));
+    dispatch(RestoreUser());
   }, [dispatch]);
 
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
-      {isLoaded && (
-        <Switch>
-          <Route exact path='/'>
-            <Home />
-          </Route>
-        </Switch>
-      )}
+      <Navigation />
+      <Switch>
+        <Route exact path='/'>
+          <Home />
+        </Route>
+      </Switch>
     </>
   );
 }
