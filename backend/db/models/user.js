@@ -81,8 +81,8 @@ module.exports = (sequelize, DataTypes) => {
     User.belongsToMany(models.Message, unreadMap);
   };
   User.prototype.toSafeObject = function () {
-    const { id, username, email } = this;
-    return { id, username, email };
+    const { id, firstName, email } = this;
+    return { id, firstName, email };
   };
 
   User.prototype.validatePassword = function (password) {
@@ -98,7 +98,7 @@ module.exports = (sequelize, DataTypes) => {
     const user = await User.scope('loginUser').findOne({
       where: {
         [Op.or]: {
-          username: identification,
+          firstName: identification,
           email: identification
         }
       }
@@ -108,10 +108,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  User.signup = async function ({ username, email, password }) {
+  User.signup = async function ({ firstName, email, password }) {
     const hashedPassword = bcrypt.hashSync(password);
     const user = await User.create({
-      username,
+      firstName,
       email,
       hashedPassword
     });
