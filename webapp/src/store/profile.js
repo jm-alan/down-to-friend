@@ -4,21 +4,37 @@ const HOSTED = 'profile/HOSTED';
 
 const ATTENDED = 'profile/ATTENDED';
 
+const LOAD = 'profile/LOAD';
+
 const enumerate = (type, list) => ({ type, list });
 
+const loadProfile = user => ({ type: LOAD, user });
+
+export const LoadProfile = whereAmI => async dispatch => {
+  const { data } = await csrfetch(`/api${whereAmI}`);
+  dispatch(loadProfile(data.user));
+};
+
 export const EnumerateHosted = whereAmI => async dispatch => {
-  const { data } = await csrfetch(`/api/users/${whereAmI}/events/hosted`);
+  const { data } = await csrfetch(`/api${whereAmI}/events/hosting`);
   dispatch(enumerate(HOSTED, data.events));
 };
 
+export const EnumerateAttending = whereAmI => async dispatch => {
+  const { data } = await csrfetch(`/api${whereAmI}/events/attending`);
+  dispatch(enumerate(ATTENDED, data.events));
+};
+
 export default function reducer (
-  state = { hosted: [], attended: [] },
-  { type, list }) {
+  state = { hosted: [], attended: [], user: null, loadedHosted: false, loadedAttending: false, loadedProfile: false },
+  { type, list, user }) {
   switch (type) {
     case HOSTED:
-      return { ...state, hosted: list };
+      return { ...state, hosted: list, loadedHosted: true };
     case ATTENDED:
-      return { ...state, attended: list };
+      return { ...state, attended: list, loadedAttending: true };
+    case LOAD:
+      return { ...state, user, loadedProfile: true };
     default:
       return state;
   }

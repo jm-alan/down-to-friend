@@ -7,6 +7,7 @@ import map from './map';
 import search from './search';
 import modal from './modal';
 import user from './user';
+import profile from './profile';
 
 const rootReducer = combineReducers({
   session,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   map,
   search,
   modal,
-  user
+  user,
+  profile
 });
 
 let enhancer;

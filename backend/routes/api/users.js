@@ -1,10 +1,10 @@
 const express = require('express');
-const { check, body } = require('express-validator');
+const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, Image } = require('../../db/models');
 
 const router = express.Router();
 
@@ -25,6 +25,12 @@ const validateSignup = [
   handleValidationErrors
 ];
 
+router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
+  const { params: { id } } = req;
+  const user = await User.findByPk(id);
+  return res.json({ user });
+}));
+
 router.get('/me/locale', requireAuth, asyncHandler(async (req, res) => {
   const { user: { defaultLocale } } = req;
   if (defaultLocale) return res.json(JSON.parse(defaultLocale));
@@ -44,6 +50,92 @@ router.post('/me/locale', requireAuth, asyncHandler(async (req, res) => {
     console.error('The above error occured during User locale update @ POST/api/users/me/locale');
     return res.json({ success: false });
   }
+}));
+
+router.get('/me/events/hosting', requireAuth, asyncHandler(async (req, res) => {
+  const { user } = req;
+  const events = await user.getHostedEvents({
+    include: [
+      {
+        model: User,
+        as: 'EventAttendees'
+      },
+      {
+        model: User,
+        as: 'Host',
+        include: {
+          model: Image,
+          as: 'Avatar'
+        }
+      }
+    ]
+  });
+  res.json({ events });
+}));
+
+router.get('/me/events/attending', requireAuth, asyncHandler(async (req, res) => {
+  const { user } = req;
+  const events = await user.getAttendingEvents({
+    include: [
+      {
+        model: User,
+        as: 'EventAttendees'
+      },
+      {
+        model: User,
+        as: 'Host',
+        include: {
+          model: Image,
+          as: 'Avatar'
+        }
+      }
+    ]
+  });
+  res.json({ events });
+}));
+
+router.get('/:id(\\d+)/events/hosting', asyncHandler(async (req, res) => {
+  const { params: { id } } = req;
+  const user = await User.findByPk(id);
+  const events = await user.getHostedEvents({
+    include: [
+      {
+        model: User,
+        as: 'EventAttendees'
+      },
+      {
+        model: User,
+        as: 'Host',
+        include: {
+          model: Image,
+          as: 'Avatar'
+        }
+      }
+    ]
+  });
+  res.json({ events });
+}));
+
+router.get('/:id(\\d+)/events/attending', asyncHandler(async (req, res) => {
+  const { params: { id } } = req;
+  const user = await User.findByPk(id);
+  const events = await user.getAttendingEvents({
+    include: [
+      {
+        model: User,
+        as: 'EventAttendees'
+      },
+      {
+        model: User,
+        as: 'Host',
+        include: {
+          model: Image,
+          as: 'Avatar'
+        }
+      }
+    ]
+  });
+  res.json({ events });
 }));
 
 router.post('/', validateSignup, asyncHandler(async (req, res) => {

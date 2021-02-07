@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       defaultScope: {
         attributes: {
-          exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt']
+          exclude: ['defaultLocale', 'hashedPassword', 'email', 'createdAt', 'updatedAt']
         }
       },
       scopes: {
@@ -70,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       otherKey: 'messageId'
     };
-    User.hasMany(models.Event, { as: 'CreatedEvents', foreignKey: 'ownerId' });
+    User.hasMany(models.Event, { as: 'HostedEvents', foreignKey: 'ownerId' });
     User.hasMany(models.EventPost, { as: 'PostComments', foreignKey: 'ownerId' });
     User.hasMany(models.Message, { as: 'SentMessages', foreignKey: 'senderId' });
     User.hasMany(models.Message, { as: 'ReceivedMessages', foreignKey: 'recipientId' });

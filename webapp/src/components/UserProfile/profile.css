@@ -1,0 +1,5 @@
+.user-profile-container {
+  display: flex;
+  height: calc(100vh - 60px);
+  justify-content: space-between;
+}

@@ -38,15 +38,15 @@ export default function EventSummary ({ event }) {
               className='event-summary-username'
             >
               <Link
-                to={`/users/${event.User.id}`}
+                to={`/users/${event.Host.id}`}
               >
-                {event.User.firstName}
+                {event.Host.firstName}
               </Link>
             </div>
             <div className='user-profile-image-container'>
-              <Link to={`/users/${event.User.id}`}>
+              <Link to={`/users/${event.Host.id}`}>
                 <img
-                  src={event.User.Avatar.url}
+                  src={event.Host.Avatar.url}
                   alt='profile thumbnail'
                 />
               </Link>
