@@ -11,11 +11,19 @@ import csrfetch, { restoreCSRF } from './store/csrf';
 
 import './index.css';
 
+// eslint-disable-next-line
+String.prototype.toTitleCase = function () {
+  if (!this.match(/ /g)) return [this[0].toUpperCase(), this.slice(1)].join('');
+  return this.split(' ')
+    .map(word => [word[0].toUpperCase(), word.slice(1)].join(''))
+    .join(' ');
+};
+
 const store = configureStore();
 
 if (process.env.NODE_ENV !== 'production') {
   restoreCSRF();
-  window.csrfFetch = csrfetch;
+  window.csrfetch = csrfetch;
   window.store = store;
 }
 
