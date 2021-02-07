@@ -3,57 +3,55 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import EventReel from './EventReel';
 import GoogleMap from '../Map';
-import { Enumerate } from '../../store/reel';
-import { Focus } from '../../store/map';
+import { Focus, LoadMap } from '../../store/map';
+import { GetLocale } from '../../store/user';
 
 import './home.css';
 
 const onLocAccept = (geoObj, dispatch) => {
   const { coords: { longitude, latitude } } = geoObj;
   dispatch(Focus(longitude, latitude, null, 10));
+  dispatch(LoadMap());
 };
 
 const onLocReject = dispatch => {
   dispatch(Focus(-121.49428149672518, 38.57366700738277, null, 10));
+  dispatch(LoadMap());
 };
 
 export default function Home () {
   const dispatch = useDispatch();
-  const { list } = useSelector(state => state.reel);
-  const { user, loaded } = useSelector(state => state.session);
-  const { locale: { lng, lat } } = useSelector(state => state.user);
-  const { lng: mapLng, lat: mapLat } = useSelector(state => state.map);
+  const { list, loaded: reelLoaded } = useSelector(state => state.reel);
+  const { user, loaded: sessionLoaded } = useSelector(state => state.session);
+  const { loaded: mapLoaded } = useSelector(state => state.map);
 
   useEffect(() => {
-    if (loaded) {
-      if (user && lng && lat) {
-        dispatch(Focus(lng, lat, null, 10));
+    if (sessionLoaded) {
+      if (user) {
+        dispatch(GetLocale())
+          .then(({ lng, lat }) => {
+            dispatch(Focus(lng, lat, null, 10));
+            dispatch(LoadMap());
+          });
       } else {
         window.navigator.geolocation
           .getCurrentPosition(
             geoObj => onLocAccept(geoObj, dispatch),
             () => onLocReject(dispatch));
       }
-      dispatch(Enumerate(
-        mapLng,
-        mapLat,
-        mapLng - 0.5,
-        mapLng + 0.5,
-        mapLat - 0.5,
-        mapLat + 0.5
-      ));
     }
-  }, [dispatch, user, lng, lat, loaded, mapLng, mapLat]);
+  }, [sessionLoaded, dispatch, user]);
 
-  return loaded && list && (
+  return (sessionLoaded || reelLoaded) && (
     <div className='home-container'>
       <EventReel
         list={list}
       />
-      <GoogleMap
-        loaded={loaded}
-        list={list}
-      />
+      {mapLoaded && (
+        <GoogleMap
+          list={list}
+        />
+      )}
     </div>
   );
 }
