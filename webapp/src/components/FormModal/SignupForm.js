@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { SignUp } from '../../store/session';
+import { SignUp, LoadSession } from '../../store/session';
 import { SetLocale } from '../../store/user';
 import { ModalDisplay, ModalForm, SignupPhase } from '../../store/modal';
 import { Focus } from '../../store/map';
@@ -10,7 +10,7 @@ function SignupFormPage () {
   const dispatch = useDispatch();
   const { phase } = useSelector(state => state.modal);
   const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState([]);
@@ -19,7 +19,7 @@ function SignupFormPage () {
     e.preventDefault();
     if (password === confirmPassword) {
       setErrors([]);
-      return dispatch(SignUp({ email, username, password }))
+      return dispatch(SignUp({ email, firstName, password }))
         .then(() => dispatch(SignupPhase(2)))
         .catch(res => {
           if (res.data && res.data.errors) setErrors(res.data.errors);
@@ -34,12 +34,13 @@ function SignupFormPage () {
     dispatch(SetLocale({ lng, lat }));
     dispatch(Focus(lng, lat, null, 10));
     dispatch(ModalDisplay(false));
+    dispatch(LoadSession());
   };
 
   const onLocReject = () => {
-    dispatch(ModalDisplay(false));
     dispatch(Focus(-121.49428149672518, 38.57366700738277, null, 10));
     dispatch(ModalDisplay(false));
+    dispatch(LoadSession());
   };
 
   const promptLocation = () => {
@@ -71,10 +72,10 @@ function SignupFormPage () {
             {errors.map((error, idx) => <li key={idx}>{error}</li>)}
           </ul>
           <input
-            placeholder='username'
+            placeholder='first name'
             type='text'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
             required
           />
           <input
