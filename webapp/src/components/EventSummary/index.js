@@ -36,7 +36,7 @@ export default function EventSummary ({ event }) {
           <div className='event-summary-user-container'>
             <div className='event-summary-username'>
               <Link to={`/users/${event.User.id}`}>
-                {event.User.username}
+                {event.User.firstName}
               </Link>
             </div>
             <div className='user-profile-image-container'>
@@ -56,7 +56,7 @@ export default function EventSummary ({ event }) {
             </div>
             <div className='event-summary-title-container'>
               <h1>
-                {event.title}
+                {event.title.toTitleCase()}
               </h1>
             </div>
             <div className='event-summary-attending-container'>
