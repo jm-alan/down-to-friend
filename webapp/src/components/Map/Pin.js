@@ -34,7 +34,7 @@ export default function Pin ({ event }) {
         }}
       >
         <div>
-          {event.title} with {event.User.username}
+          {event.title.toTitleCase()} with {event.User.firstName}
         </div>
       </div>
     </NavHashLink>
