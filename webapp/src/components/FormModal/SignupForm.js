@@ -31,10 +31,16 @@ function SignupFormPage () {
 
   const onLocAccept = geoObj => {
     const { coords: { longitude: lng, latitude: lat } } = geoObj;
-    dispatch(SetLocale({ lng, lat }));
-    dispatch(Focus(lng, lat, null, 10));
-    dispatch(ModalDisplay(false));
-    dispatch(LoadSession());
+    dispatch(SetLocale({ lng, lat }))
+      .then(({ lng, lat }) => {
+        dispatch(Focus(lng, lat, null, 10));
+      })
+      .then(() => {
+        dispatch(ModalDisplay(false));
+      })
+      .then(() => {
+        dispatch(LoadSession());
+      });
   };
 
   const onLocReject = () => {
