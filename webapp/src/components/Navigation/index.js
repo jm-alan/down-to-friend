@@ -7,27 +7,23 @@ import SearchBar from '../SearchBar';
 
 import './Navigation.css';
 
-function Navigation ({ isLoaded }) {
-  const { user } = useSelector(state => state.session);
-  return isLoaded
-    ? (
-      <nav className='navbar'>
-        <div className='user-navigation-buttons'>
-          <div className='nav-button-container'>
-            <NavLink exact to='/'>
-              <button className='nav-button home'>
-                Home
-              </button>
-            </NavLink>
-          </div>
-          {user
-            ? <ProfileButton />
-            : <FormModal />}
+export default function Navigation ({ isLoaded }) {
+  const { user, loaded: sessionLoaded } = useSelector(state => state.session);
+  return (
+    <nav className='navbar'>
+      <div className='user-navigation-buttons'>
+        <div className='nav-button-container'>
+          <NavLink exact to='/'>
+            <button className='nav-button home'>
+              Home
+            </button>
+          </NavLink>
         </div>
-        <SearchBar />
-      </nav>
-      )
-    : null;
+        {sessionLoaded && user
+          ? <ProfileButton />
+          : <FormModal />}
+      </div>
+      <SearchBar />
+    </nav>
+  );
 }
-
-export default Navigation;
