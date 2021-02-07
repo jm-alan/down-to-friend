@@ -23,7 +23,6 @@ export default function Home () {
   const dispatch = useDispatch();
   const { list, loaded: reelLoaded } = useSelector(state => state.reel);
   const { user, loaded: sessionLoaded } = useSelector(state => state.session);
-  const { loaded: mapLoaded } = useSelector(state => state.map);
 
   useEffect(() => {
     if (sessionLoaded) {
@@ -31,6 +30,8 @@ export default function Home () {
         dispatch(GetLocale())
           .then(({ lng, lat }) => {
             dispatch(Focus(lng, lat, null, 10));
+          })
+          .then(() => {
             dispatch(LoadMap());
           });
       } else {
@@ -47,11 +48,9 @@ export default function Home () {
       <EventReel
         list={list}
       />
-      {mapLoaded && (
-        <GoogleMap
-          list={list}
-        />
-      )}
+      <GoogleMap
+        list={list}
+      />
     </div>
   );
 }
