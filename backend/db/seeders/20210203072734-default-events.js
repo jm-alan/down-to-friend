@@ -7,10 +7,10 @@ const events = [];
 for (let i = 0; i < 5000; i++) {
   const dateTime = faker.date.future();
   events.push({
-    ownerId: 1,
+    ownerId: i % 98 + 3,
     dateTime,
     minGroup: 3,
-    maxGroup: i % 6 + 4,
+    maxGroup: i % 7 + 4,
     latitude: faker.address.latitude(48.5, 30),
     longitude: faker.address.longitude(-82, -122),
     title: faker.lorem.words(2),

@@ -2,33 +2,35 @@
 const faker = require('faker');
 const bcrypt = require('bcryptjs');
 
+const createUsers = () => {
+  const users = [];
+  for (let i = 1; i < 100; i++) {
+    users.push({
+      email: faker.internet.email(),
+      firstName: faker.name.firstName(),
+      avatarId: 1,
+      hashedPassword: bcrypt.hashSync(faker.internet.password())
+    });
+  }
+  return users;
+};
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Users', [
       {
         email: 'admin@dtf.io',
-        username: 'Admin',
+        firstName: 'Admin',
         avatarId: 1,
         hashedPassword: '$2a$10$u7QLeGRHwQjjoQyLEyO3rO4tMZj5R2./S8/4tK76ef1jJ8Pb5K3um'
       },
       {
         email: 'demo@user.io',
-        username: 'Demo-lition',
-        avatarId: 2,
+        firstName: 'Demo',
+        avatarId: 1,
         hashedPassword: bcrypt.hashSync('password')
       },
-      {
-        email: faker.internet.email(),
-        username: 'FakeUser1',
-        avatarId: 3,
-        hashedPassword: bcrypt.hashSync(faker.internet.password())
-      },
-      {
-        email: faker.internet.email(),
-        username: 'FakeUser2',
-        avatarId: 4,
-        hashedPassword: bcrypt.hashSync(faker.internet.password())
-      }
+      ...createUsers()
     ], {});
   },
 
