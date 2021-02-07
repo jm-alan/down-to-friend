@@ -6,7 +6,7 @@ nav {
   background-color: steelblue;
   height: 50px;
   width: 100%;
-  z-index: 999;
+  z-index: 998;
   display: flex;
   align-items: center;
   justify-content: space-between;
