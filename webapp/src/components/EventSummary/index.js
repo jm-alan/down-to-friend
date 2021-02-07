@@ -19,7 +19,7 @@ export default function EventSummary ({ event }) {
     document.getElementById(`map-pin-event-${event.id}`)
       .classList.add('focus');
     dispatch(SetEnumerable(false));
-    dispatch(Focus(event.longitude, event.latitude, 12));
+    dispatch(Focus(event.longitude, event.latitude, null, 12));
   };
 
   return (
@@ -34,8 +34,12 @@ export default function EventSummary ({ event }) {
       >
         <div className='event-summary-header-container'>
           <div className='event-summary-user-container'>
-            <div className='event-summary-username'>
-              <Link to={`/users/${event.User.id}`}>
+            <div
+              className='event-summary-username'
+            >
+              <Link
+                to={`/users/${event.User.id}`}
+              >
                 {event.User.firstName}
               </Link>
             </div>
