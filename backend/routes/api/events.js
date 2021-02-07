@@ -31,6 +31,7 @@ router.get('/', restoreUser, asyncHandler(async (req, res) => {
       include: [
         {
           model: User,
+          as: 'Host',
           include: {
             model: Image,
             as: 'Avatar'
