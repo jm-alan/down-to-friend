@@ -6,9 +6,13 @@ const ATTENDED = 'profile/ATTENDED';
 
 const LOAD = 'profile/LOAD';
 
+const UNLOAD = 'profile/UNLOAD';
+
 const enumerate = (type, list) => ({ type, list });
 
 const loadProfile = user => ({ type: LOAD, user });
+
+export const UnloadProfile = () => ({ type: UNLOAD });
 
 export const LoadProfile = whereAmI => async dispatch => {
   const { data } = await csrfetch(`/api/users/${whereAmI}`);
@@ -35,6 +39,8 @@ export default function reducer (
       return { ...state, attended: list, loadedAttending: true };
     case LOAD:
       return { ...state, user, loadedProfile: true };
+    case UNLOAD:
+      return { ...state, loadedProfile: false, loadedHosted: false, loadedAttending: false };
     default:
       return state;
   }
