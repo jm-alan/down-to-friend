@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import ProfileReel from './ProfileReel';
-import { EnumerateHosted, EnumerateAttending, LoadProfile } from '../../store/profile';
+import { EnumerateHosted, EnumerateAttending, LoadProfile, UnloadProfile } from '../../store/profile';
 
 import './profile.css';
 
@@ -24,6 +24,9 @@ export default function UserProfile () {
     dispatch(EnumerateHosted(whereAmI));
     dispatch(EnumerateAttending(whereAmI));
     dispatch(LoadProfile(whereAmI));
+    return () => {
+      dispatch(UnloadProfile());
+    };
   }, [dispatch, whereAmI]);
 
   return loadedProfile && sessionLoaded
