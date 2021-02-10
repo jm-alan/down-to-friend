@@ -9,23 +9,21 @@ const setSession = (user = null, loaded = true) => ({ type: USER, user, loaded }
 export const LoadSession = () => ({ type: LOAD, loaded: true });
 
 export const LogIn = (identification, password) => async dispatch => {
-  const res = await csrfetch('/api/session', {
+  const { data: { user } } = await csrfetch('/api/session', {
     method: 'POST',
     body: JSON.stringify({ identification, password })
   });
-  dispatch(setSession(res.data.user));
-  return res;
+  dispatch(setSession(user));
 };
 
 export const RestoreUser = () => async dispatch => {
-  const res = await csrfetch('/api/session');
-  dispatch(setSession(res.data.user));
-  return res;
+  const { data: { user } } = await csrfetch('/api/session');
+  dispatch(setSession(user));
 };
 
-export const SignUp = (user) => async dispatch => {
-  const { firstName, email, password } = user;
-  const response = await csrfetch('/api/users', {
+export const SignUp = newUser => async dispatch => {
+  const { firstName, email, password } = newUser;
+  const { data: { user } } = await csrfetch('/api/users', {
     method: 'POST',
     body: JSON.stringify({
       firstName,
@@ -33,8 +31,7 @@ export const SignUp = (user) => async dispatch => {
       password
     })
   });
-  dispatch(setSession(response.data.user, false));
-  return response;
+  dispatch(setSession(user, false));
 };
 
 export const LogOut = () => async dispatch => {
