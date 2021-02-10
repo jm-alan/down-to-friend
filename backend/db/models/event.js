@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Event.associate = function (models) {
     const attendeeMap = {
-      as: 'EventAttendees',
+      as: 'AttendingUsers',
       through: models.Attendee,
       foreignKey: 'eventId',
       otherKey: 'userId'
@@ -25,11 +25,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'eventId',
       otherKey: 'imageId'
     };
+    const fKey = { foreignKey: 'eventId' };
+
+    [models.Attendee, models.EventPost, models.EventDetailImage]
+      .forEach(model => Event.hasMany(model, fKey));
     Event.belongsTo(models.User, { as: 'Host', foreignKey: 'ownerId' });
-    Event.hasMany(models.Attendee, { foreignKey: 'eventId' });
-    Event.hasMany(models.EventDetailImage, { foreignKey: 'eventId' });
-    Event.hasMany(models.EventPost, { foreignKey: 'eventId' });
-    Event.hasMany(models.Attendee, { foreignKey: 'eventId' });
     Event.belongsToMany(models.User, attendeeMap);
     Event.belongsToMany(models.Image, detailImageMap);
   };
