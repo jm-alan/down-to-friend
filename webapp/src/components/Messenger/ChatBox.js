@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Message from './Message';
@@ -16,6 +16,7 @@ export default function ChatBox ({ conversation }) {
   const dispatch = useDispatch();
   const { messages, socket } = useSelector(state => state.messenger);
   const { user } = useSelector(state => state.session);
+  const socketRef = useRef(socket);
 
   const [message, updateMessage] = useState('');
   const [hasBegunTyping, setBegunTyping] = useState(false);
@@ -24,9 +25,9 @@ export default function ChatBox ({ conversation }) {
     updateMessage(value);
     if (!hasBegunTyping) {
       setBegunTyping(true);
-      socket.emit('isTyping', user, conversation);
+      socketRef.current.emit('isTyping', user, conversation);
     }
-    debouncedTyping(socket, setBegunTyping, user, conversation);
+    debouncedTyping(socketRef.current, setBegunTyping, user, conversation);
   };
 
   const typingForwarder = ({ target: { value } }) => {
@@ -41,19 +42,19 @@ export default function ChatBox ({ conversation }) {
   const onSend = (e) => {
     e.preventDefault();
     if (conversation) {
-      socket.emit('message', conversation, message);
+      socketRef.current.emit('message', conversation, message);
       updateMessage('');
     }
   };
 
   useEffect(() => {
-    socket.on(`conversation${conversation}`, () => {
+    socketRef.current.on(`conversation${conversation}`, () => {
       dispatch(LoadConvo(conversation));
     });
     return () => {
-      socket.close();
+      socketRef.current.close();
     };
-  }, [dispatch, user, conversation, messages, socket]);
+  }, [dispatch, user, conversation, messages, socketRef.current]);
 
   return (
     <>
