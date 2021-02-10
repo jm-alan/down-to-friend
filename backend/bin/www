@@ -1,18 +1,45 @@
 #!/usr/bin/env node
-
 const { port } = require('../config');
 
 const app = require('../app');
 const db = require('../db/models');
+const { socketRequireAuth } = require('../utils/auth');
 
-// Check the database connection before starting the app
 db.sequelize
   .authenticate()
   .then(() => {
-    console.log('Database connection success! Sequelize is ready to use...');
+    console.log('Sequelize connected.');
 
-    // Start listening for connections
-    app.listen(port, () => console.log(`Listening on port ${port}...`));
+    const http = app.listen(port, () => console.log(`UP successful. Bind:${port}...`));
+
+    const io = require('socket.io')(http);
+
+    io.use(socketRequireAuth)
+      .on('connection', (socket) => {
+        db.Conversation.findByPk(socket.handshake.query.conversation)
+          .then(convo => {
+            if (!convo) throw new Error();
+            return convo.hasChattingUser(socket.user);
+          })
+          .then(tf => {
+            if (!tf) throw new Error();
+            else {
+              const { user } = socket;
+              socket.on('message', (conversationId, content) => {
+                user.createSentMessage({
+                  conversationId,
+                  content
+                })
+                  .then(() => {
+                    io.emit(`conversation${conversationId}`);
+                  });
+              });
+            }
+          })
+          .catch(() => {
+            socket.disconnect();
+          });
+      });
   })
   .catch((err) => {
     console.log('Database connection failure.');
