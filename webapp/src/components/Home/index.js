@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import EventReel from './EventReel';
 import GoogleMap from '../Map';
-import { Focus, LoadMap } from '../../store/map';
+import { Focus, LoadMap, UnloadMap } from '../../store/map';
 import { GetLocale } from '../../store/user';
 
 import './home.css';
+import { UnloadReel, SetEnumerable } from '../../store/reel';
 
 const onLocAccept = (geoObj, dispatch) => {
   const { coords: { longitude, latitude } } = geoObj;
@@ -25,6 +26,7 @@ export default function Home () {
   const { user, loaded: sessionLoaded } = useSelector(state => state.session);
 
   useEffect(() => {
+    dispatch(SetEnumerable(true));
     if (sessionLoaded) {
       if (user) {
         dispatch(GetLocale())
@@ -41,6 +43,10 @@ export default function Home () {
             () => onLocReject(dispatch));
       }
     }
+    return () => {
+      dispatch(UnloadReel());
+      dispatch(UnloadMap());
+    };
   }, [sessionLoaded, dispatch, user]);
 
   return (sessionLoaded || reelLoaded) && (

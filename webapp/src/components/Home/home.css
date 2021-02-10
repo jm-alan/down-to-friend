@@ -35,5 +35,5 @@ div.map-pin.focus {
 
 .event-reel-container {
   width: 40%;
-  overflow: auto;
+  overflow-y: auto;
 }
