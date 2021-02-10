@@ -26,6 +26,7 @@ db.sequelize
             else {
               const { user } = socket;
               socket.on('message', (conversationId, content) => {
+                if (!content || !content.length) return;
                 user.createSentMessage({
                   conversationId,
                   content
