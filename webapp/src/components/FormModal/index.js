@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import WrappedModal from './WrappedModal';
-import { ModalForm, ModalDisplay } from '../../store/modal';
+import { ModalForm, ShowModal } from '../../store/modal';
 
 export default function LoginFormModal () {
   const dispatch = useDispatch();
@@ -9,12 +9,12 @@ export default function LoginFormModal () {
 
   const loginClick = () => {
     dispatch(ModalForm('login'));
-    dispatch(ModalDisplay(true));
+    dispatch(ShowModal());
   };
 
   const signupClick = () => {
     dispatch(ModalForm('signup'));
-    dispatch(ModalDisplay(true));
+    dispatch(ShowModal());
   };
 
   return (
