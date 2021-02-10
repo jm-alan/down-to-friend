@@ -8,6 +8,8 @@ import search from './search';
 import modal from './modal';
 import user from './user';
 import profile from './profile';
+import messenger from './messenger';
+import newChat from './newchat';
 
 const rootReducer = combineReducers({
   session,
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
   search,
   modal,
   user,
-  profile
+  profile,
+  messenger,
+  newChat
 });
 
 let enhancer;
