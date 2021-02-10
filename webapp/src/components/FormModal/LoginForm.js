@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { LogIn } from '../../store/session';
-import { ModalDisplay, ModalForm } from '../../store/modal';
+import { HideModal, ModalForm } from '../../store/modal';
 
 function LoginForm () {
   const dispatch = useDispatch();
@@ -14,14 +14,16 @@ function LoginForm () {
     e.preventDefault();
     setErrors([]);
     dispatch(LogIn(identification, password))
-      .then(() => dispatch(ModalDisplay(false)))
+      .then(() => dispatch(HideModal()))
       .catch(res => setErrors(res.data?.errors || []));
   };
 
   const demoLogin = (e) => {
     e.preventDefault();
     dispatch(LogIn('demo@user.io', 'password'))
-      .then(dispatch(ModalDisplay(false)));
+      .then(() => {
+        dispatch(HideModal());
+      });
   };
 
   const switchForm = () => {
@@ -41,7 +43,7 @@ function LoginForm () {
           ))}
         </ul>
         <input
-          placeholder='username'
+          placeholder='email'
           type='text'
           value={identification}
           onChange={({ target: { value } }) => setIdentification(value)}

@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       defaultScope: {
         attributes: {
-          exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt']
+          exclude: ['defaultLocale', 'hashedPassword', 'email', 'createdAt', 'updatedAt']
         }
       },
       scopes: {
@@ -57,6 +57,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   );
+
   User.associate = function (models) {
     const attendeeMap = {
       as: 'AttendingEvents',
@@ -65,21 +66,30 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'eventId'
     };
     const unreadMap = {
-      as: 'UnreadMessages',
+      as: 'UnreadConversations',
       through: models.Notification,
       foreignKey: 'userId',
-      otherKey: 'messageId'
+      otherKey: 'conversationId'
     };
-    User.hasMany(models.Event, { as: 'CreatedEvents', foreignKey: 'ownerId' });
-    User.hasMany(models.EventPost, { as: 'PostComments', foreignKey: 'ownerId' });
-    User.hasMany(models.Message, { as: 'SentMessages', foreignKey: 'senderId' });
-    User.hasMany(models.Message, { as: 'ReceivedMessages', foreignKey: 'recipientId' });
-    User.hasMany(models.Notification, { foreignKey: 'userId' });
+    const convoMap = {
+      as: 'Chats',
+      through: models.RosterEntry,
+      foreignKey: 'userId',
+      otherKey: 'conversationId'
+    };
+
     User.hasMany(models.Attendee, { foreignKey: 'userId' });
+    User.hasMany(models.Notification, { foreignKey: 'userId' });
+    User.hasMany(models.Event, { as: 'HostedEvents', foreignKey: 'ownerId' });
+    User.hasMany(models.Message, { as: 'SentMessages', foreignKey: 'senderId' });
+    User.hasMany(models.EventPost, { as: 'PostComments', foreignKey: 'ownerId' });
+    User.hasMany(models.Conversation, { as: 'OwnedConversations', foreignKey: 'createdBy' });
     User.belongsTo(models.Image, { as: 'Avatar', foreignKey: 'avatarId' });
     User.belongsToMany(models.Event, attendeeMap);
-    User.belongsToMany(models.Message, unreadMap);
+    User.belongsToMany(models.Conversation, unreadMap);
+    User.belongsToMany(models.Conversation, convoMap);
   };
+
   User.prototype.toSafeObject = function () {
     const { id, firstName, email } = this;
     return { id, firstName, email };
@@ -94,13 +104,9 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   User.login = async function ({ identification, password }) {
-    const { Op } = require('sequelize');
     const user = await User.scope('loginUser').findOne({
       where: {
-        [Op.or]: {
-          firstName: identification,
-          email: identification
-        }
+        email: identification
       }
     });
     if (user && user.validatePassword(password)) {

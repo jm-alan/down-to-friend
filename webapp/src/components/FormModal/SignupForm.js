@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { SignUp, LoadSession } from '../../store/session';
+import { SignUp } from '../../store/session';
 import { SetLocale } from '../../store/user';
-import { ModalDisplay, ModalForm, SignupPhase } from '../../store/modal';
-import { Focus } from '../../store/map';
+import { HideModal, ModalForm, SignupPhase } from '../../store/modal';
+import { Focus, LoadMap } from '../../store/map';
+import { LoadReel } from '../../store/reel';
 
 function SignupFormPage () {
   const dispatch = useDispatch();
@@ -31,16 +32,18 @@ function SignupFormPage () {
 
   const onLocAccept = geoObj => {
     const { coords: { longitude: lng, latitude: lat } } = geoObj;
-    dispatch(SetLocale({ lng, lat }));
-    dispatch(Focus(lng, lat, null, 10));
-    dispatch(ModalDisplay(false));
-    dispatch(LoadSession());
+    dispatch(SetLocale({ lng, lat }))
+      .then(({ lng, lat }) => {
+        dispatch(Focus(lng, lat, null, 10));
+      })
+      .then(() => {
+        dispatch(HideModal());
+      });
   };
 
   const onLocReject = () => {
     dispatch(Focus(-121.49428149672518, 38.57366700738277, null, 10));
-    dispatch(ModalDisplay(false));
-    dispatch(LoadSession());
+    dispatch(HideModal());
   };
 
   const promptLocation = () => {
@@ -48,7 +51,9 @@ function SignupFormPage () {
   };
 
   const onSetupLater = () => {
-    dispatch(ModalDisplay(false));
+    dispatch(LoadReel());
+    dispatch(LoadMap());
+    dispatch(HideModal());
   };
 
   const switchForm = () => {
@@ -68,7 +73,7 @@ function SignupFormPage () {
           onSubmit={handleSubmit}
           className='signup-form modal'
         >
-          <ul>
+          <ul className='errors'>
             {errors.map((error, idx) => <li key={idx}>{error}</li>)}
           </ul>
           <input

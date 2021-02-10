@@ -7,6 +7,9 @@ import map from './map';
 import search from './search';
 import modal from './modal';
 import user from './user';
+import profile from './profile';
+import messenger from './messenger';
+import newChat from './newchat';
 
 const rootReducer = combineReducers({
   session,
@@ -14,7 +17,10 @@ const rootReducer = combineReducers({
   map,
   search,
   modal,
-  user
+  user,
+  profile,
+  messenger,
+  newChat
 });
 
 let enhancer;

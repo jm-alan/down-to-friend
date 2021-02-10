@@ -1,40 +1,35 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Notifications', {
+    return queryInterface.createTable('Conversations', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      conversationId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Conversations'
-        }
+      name: {
+        type: Sequelize.STRING(100),
+        allowNull: true
       },
-      userId: {
-        allowNull: false,
+      createdBy: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Users'
-        }
+        },
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('now')
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('now')
+        type: Sequelize.DATE
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Notifications');
+    return queryInterface.dropTable('Conversations');
   }
 };

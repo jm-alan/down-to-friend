@@ -15,11 +15,11 @@ module.exports = {
           model: 'Users'
         }
       },
-      recipientId: {
+      conversationId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users'
+          model: 'Conversations'
         }
       },
       content: {

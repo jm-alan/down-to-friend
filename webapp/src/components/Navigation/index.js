@@ -13,14 +13,23 @@ export default function Navigation ({ isLoaded }) {
     <nav className='navbar'>
       <div className='user-navigation-buttons'>
         <div className='nav-button-container'>
-          <NavLink exact to='/'>
+          <NavLink to='/'>
             <button className='nav-button home'>
               Home
             </button>
           </NavLink>
         </div>
         {sessionLoaded && user
-          ? <ProfileButton />
+          ? (
+            <>
+              <ProfileButton />
+              <NavLink to='/messages'>
+                <button>
+                  Messages
+                </button>
+              </NavLink>
+            </>
+            )
           : <FormModal />}
       </div>
       <SearchBar />

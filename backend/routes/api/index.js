@@ -1,13 +1,14 @@
 const router = require('express').Router();
 const asyncHandler = require('express-async-handler');
 
-const sessionRouter = require('./session.js');
-const usersRouter = require('./users.js');
+const sessionRouter = require('./session');
+const usersRouter = require('./users');
 const eventsRouter = require('./events');
 const searchRouter = require('./search');
+const convoRouter = require('./convo');
 
 // GET /api/set-token-cookie
-const { setTokenCookie } = require('../../utils/auth.js');
+const { setTokenCookie } = require('../../utils/auth');
 const { User } = require('../../db/models');
 router.get(
   '/set-token-cookie',
@@ -35,5 +36,7 @@ router.use('/users', usersRouter);
 router.use('/events', eventsRouter);
 
 router.use('/search', searchRouter);
+
+router.use('/conversations', convoRouter);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 .home-container {
   position: relative;
   display: flex;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 60px);
   overflow: hidden;
 }
 
@@ -35,5 +35,5 @@ div.map-pin.focus {
 
 .event-reel-container {
   width: 40%;
-  overflow: auto;
+  overflow-y: auto;
 }

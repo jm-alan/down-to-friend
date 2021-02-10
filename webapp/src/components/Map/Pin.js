@@ -15,7 +15,7 @@ export default function Pin ({ event }) {
     document.querySelectorAll('.map-pin')
       .forEach(pin => pin.classList.remove('focus'));
     document.getElementById(`map-pin-event-${event.id}`).classList.add('focus');
-    dispatch(Focus(event.longitude, event.latitude, 12));
+    dispatch(Focus(event.longitude, event.latitude, null, 12));
   };
 
   return (
@@ -34,7 +34,7 @@ export default function Pin ({ event }) {
         }}
       >
         <div>
-          {event.title.toTitleCase()} with {event.User.firstName}
+          {event.title.toTitleCase()} with {event.Host.firstName}
         </div>
       </div>
     </NavHashLink>
