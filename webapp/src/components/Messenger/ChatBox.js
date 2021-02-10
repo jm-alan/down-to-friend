@@ -53,7 +53,8 @@ export default function ChatBox ({ conversation }) {
     return () => {
       socket.close();
     };
-  }, [dispatch, user, conversation, messages]);
+  }, [dispatch, user, conversation, messages, socket]);
+
   return (
     <>
       <div className='messages-container'>

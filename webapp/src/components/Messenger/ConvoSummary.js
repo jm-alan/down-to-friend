@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import io from 'socket.io-client';
 
@@ -7,23 +7,24 @@ import { LoadConvo, SetSocket, UnsetSocket } from '../../store/messenger';
 export default function ConvoSummary ({ convo }) {
   const dispatch = useDispatch();
 
-  let socket;
-
-  useEffect(() => {
-    socket = io(undefined, {
+  const socketRef = useRef(
+    io(undefined, {
       query: {
         conversation: convo.id
       }
-    });
+    })
+  );
+
+  useEffect(() => {
     return () => {
-      socket.close();
+      socketRef.current.close();
       dispatch(UnsetSocket());
     };
   }, [convo.id]);
 
   const onSelectConvo = () => {
     dispatch(LoadConvo(convo.id));
-    dispatch(SetSocket(socket));
+    dispatch(SetSocket(socketRef.current));
   };
 
   return (
