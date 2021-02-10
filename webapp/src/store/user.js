@@ -4,6 +4,28 @@ const LOCALE = 'user/LOCALE';
 
 const updateLocale = locale => ({ type: LOCALE, locale });
 
+export const JoinEvent = eventId => async dispatch => {
+  const { data } = await csrfetch(`/api/events/${eventId}/attendees`, {
+    method: 'POST'
+  });
+  if (!data.success) {
+    throw new Error(
+      'Sorry, something went wrong. Please refresh the page and try again.'
+    );
+  }
+};
+
+export const LeaveEvent = eventId => async dispatch => {
+  const { data } = await csrfetch(`/api/events/${eventId}/attendees/me`, {
+    method: 'DELETE'
+  });
+  if (!data.success) {
+    throw new Error(
+      'Sorry, something went wrong. Please refresh the page and try again.'
+    );
+  }
+};
+
 export const GetLocale = () => async dispatch => {
   const { data: { lng, lat } } = await csrfetch('/api/users/me/locale');
   dispatch(updateLocale({ lng, lat }));
