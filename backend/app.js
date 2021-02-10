@@ -1,3 +1,10 @@
+// eslint-disable-next-line
+Array.prototype.asyncForEach = async function (asyncCB) {
+  for (let i = 0; i < this.length; i++) {
+    await asyncCB(this[i], i, this);
+  }
+};
+
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
