@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler');
 
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Image } = require('../../db/models');
+const { User, Conversation, Event } = require('../../db/models');
 
 const router = express.Router();
 
@@ -25,6 +25,25 @@ const validateSignup = [
   handleValidationErrors
 ];
 
+router.get('/me/conversations', requireAuth, asyncHandler(async (req, res) => {
+  const { user } = req;
+  const conversations = await user.getChats({
+    include: ['ChattingUsers']
+  });
+  return res.json({ conversations });
+}));
+
+router.get('/me/conversations/:id(\\d+)/messages', requireAuth, asyncHandler(async (req, res) => {
+  const { user, params: { id } } = req;
+  const convo = await Conversation.findByPk(id);
+  if (!convo || !(await convo.hasChattingUser(user))) return res.json({ messages: [] });
+  const messages = await convo.getMessages({
+    include: ['Sender'],
+    order: [['createdAt', 'ASC']]
+  });
+  return res.json({ messages });
+}));
+
 router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
   const { params: { id } } = req;
   const user = await User.findByPk(id);
@@ -39,7 +58,7 @@ router.get('/me', requireAuth, asyncHandler(async (req, res) => {
 router.get('/me/locale', requireAuth, asyncHandler(async (req, res) => {
   const { user: { defaultLocale } } = req;
   if (defaultLocale) return res.json(JSON.parse(defaultLocale));
-  res.json({ lat: 38.57366700738277, lng: -121.49428149672518 });
+  return res.json({ lat: 38.57366700738277, lng: -121.49428149672518 });
 }));
 
 router.post('/me/locale', requireAuth, asyncHandler(async (req, res) => {
@@ -61,42 +80,39 @@ router.get('/me/events/hosting', requireAuth, asyncHandler(async (req, res) => {
   const { user } = req;
   const events = await user.getHostedEvents({
     include: [
-      {
-        model: User,
-        as: 'EventAttendees'
-      },
+      'AttendingUsers',
       {
         model: User,
         as: 'Host',
-        include: {
-          model: Image,
-          as: 'Avatar'
-        }
+        include: ['Avatar']
       }
     ]
   });
-  res.json({ events });
+  return res.json({ events });
 }));
 
 router.get('/me/events/attending', requireAuth, asyncHandler(async (req, res) => {
   const { user } = req;
   const events = await user.getAttendingEvents({
     include: [
-      {
-        model: User,
-        as: 'EventAttendees'
-      },
+      'AttendingUsers',
       {
         model: User,
         as: 'Host',
-        include: {
-          model: Image,
-          as: 'Avatar'
-        }
+        include: ['Avatar']
       }
     ]
   });
-  res.json({ events });
+  return res.json({ events });
+}));
+
+router.get('/me/events/attending/:eventId(\\d+)/attendees', requireAuth, asyncHandler(async (req, res) => {
+  const { user, params: { eventId } } = req;
+  const event = await Event.findByPk(eventId);
+  if (!event || !(await event.hasAttendingUser(user))) return res.json({ people: [] });
+  let people = await event.getAttendingUsers();
+  people = people.filter(person => person.id !== user.id);
+  return res.json({ people });
 }));
 
 router.get('/:id(\\d+)/events/hosting', asyncHandler(async (req, res) => {
@@ -104,21 +120,15 @@ router.get('/:id(\\d+)/events/hosting', asyncHandler(async (req, res) => {
   const user = await User.findByPk(id);
   const events = await user.getHostedEvents({
     include: [
-      {
-        model: User,
-        as: 'EventAttendees'
-      },
+      'AttendingUsers',
       {
         model: User,
         as: 'Host',
-        include: {
-          model: Image,
-          as: 'Avatar'
-        }
+        include: ['Avatar']
       }
     ]
   });
-  res.json({ events });
+  return res.json({ events });
 }));
 
 router.get('/:id(\\d+)/events/attending', asyncHandler(async (req, res) => {
@@ -126,29 +136,22 @@ router.get('/:id(\\d+)/events/attending', asyncHandler(async (req, res) => {
   const user = await User.findByPk(id);
   const events = await user.getAttendingEvents({
     include: [
-      {
-        model: User,
-        as: 'EventAttendees'
-      },
+      'AttendingUsers',
       {
         model: User,
         as: 'Host',
-        include: {
-          model: Image,
-          as: 'Avatar'
-        }
+        include: ['Avatar']
       }
     ]
   });
-  res.json({ events });
+  return res.json({ events });
 }));
 
 router.post('/', validateSignup, asyncHandler(async (req, res) => {
   const { email, password, firstName } = req.body;
-  console.log(firstName);
   const user = await User.signup({ email, firstName, password });
 
-  await setTokenCookie(res, user);
+  setTokenCookie(res, user);
 
   return res.json({ user });
 })
