@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LogOut } from '../../store/session';
+import { SetLocale } from '../../store/user';
 
 import './ProfileButton.css';
 
 function ProfileButton () {
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.session);
+  const { lng, lat } = useSelector(state => state.map);
 
   const [showMenu, setShowMenu] = useState(false);
 
@@ -22,6 +24,10 @@ function ProfileButton () {
   const logout = (e) => {
     e.preventDefault();
     dispatch(LogOut());
+  };
+
+  const setLocale = () => {
+    dispatch(SetLocale({ lng, lat }));
   };
 
   useEffect(() => {
@@ -41,6 +47,13 @@ function ProfileButton () {
           <li>{user.email}</li>
           <li>
             <button onClick={logout}>Log Out</button>
+          </li>
+          <li>
+            <button
+              onClick={setLocale}
+            >
+              Set Default Locale
+            </button>
           </li>
         </ul>
       )}
