@@ -18,7 +18,8 @@ export default function UserProfile () {
     loadedHosted,
     loadedAttending
   } = useSelector(state => state.profile);
-  const { user: loggedInUser, loaded: sessionLoaded } = useSelector(state => state.session);
+  const loggedInUser = useSelector(state => state.session.user);
+  const sessionLoaded = useSelector(state => state.session.loaded);
 
   useEffect(() => {
     dispatch(EnumerateHosted(whereAmI));

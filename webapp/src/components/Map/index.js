@@ -9,7 +9,7 @@ export default function Map ({ list }) {
   const dispatch = useDispatch();
 
   const { lat, lng, zoom, loaded } = useSelector(state => state.map);
-  const { enumerable } = useSelector(state => state.reel);
+  const enumerable = useSelector(state => state.reel.enumerable);
 
   const handleMapChange = ({ center, bounds, zoom: changeZoom }) => {
     if (enumerable) {

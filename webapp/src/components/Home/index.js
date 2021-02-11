@@ -22,8 +22,10 @@ const onLocReject = dispatch => {
 
 export default function Home () {
   const dispatch = useDispatch();
-  const { list, loaded: reelLoaded } = useSelector(state => state.reel);
-  const { user, loaded: sessionLoaded } = useSelector(state => state.session);
+  const reelLoaded = useSelector(state => state.reel.loaded);
+  const list = useSelector(state => state.reel.list);
+  const sessionLoaded = useSelector(state => state.session.loaded);
+  const user = useSelector(state => state.session.user);
 
   useEffect(() => {
     dispatch(SetEnumerable(true));

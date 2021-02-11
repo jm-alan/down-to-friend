@@ -8,8 +8,8 @@ import { ShowNewChat } from '../../store/newchat';
 
 export default function Conversations () {
   const dispatch = useDispatch();
-  const { conversations } = useSelector(state => state.messenger);
-  const { newChat } = useSelector(state => state.newChat);
+  const conversations = useSelector(state => state.messenger.conversations);
+  const displayNewChat = useSelector(state => state.newChat.display);
 
   const popNewChat = () => {
     dispatch(ShowNewChat());
@@ -28,7 +28,7 @@ export default function Conversations () {
         >
           <i className='fas fa-plus' /> New Chat
         </button>
-        {newChat
+        {displayNewChat
           ? <NewChatModal />
           : null}
       </div>

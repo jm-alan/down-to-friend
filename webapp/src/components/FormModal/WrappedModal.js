@@ -7,7 +7,7 @@ import { Modal } from '../../context/Modal';
 
 export default function FormModal () {
   const dispatch = useDispatch();
-  const { form } = useSelector(state => state.modal);
+  const form = useSelector(state => state.modal.form);
 
   return (
     <Modal

@@ -40,13 +40,13 @@ export default function reducer (
 ) {
   switch (type) {
     case SHOWNEWCHAT:
-      return { ...state, newChat: true };
+      return { ...state, display: true };
     case HIDENEWCHAT:
       return {
         ...state,
         events: [],
         people: [],
-        newChat: false
+        display: false
       };
     case EVENTS:
       return { ...state, events };

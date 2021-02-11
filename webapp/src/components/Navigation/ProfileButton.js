@@ -8,7 +8,7 @@ import './ProfileButton.css';
 
 function ProfileButton () {
   const dispatch = useDispatch();
-  const { user } = useSelector(state => state.session);
+  const user = useSelector(state => state.session.user);
   const { lng, lat } = useSelector(state => state.map);
 
   const [showMenu, setShowMenu] = useState(false);

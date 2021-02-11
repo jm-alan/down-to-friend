@@ -9,7 +9,7 @@ import { ShowModal } from '../../store/modal';
 export default function SummaryBody ({ profileClick, event }) {
   const dispatch = useDispatch();
   const totalSlots = event.maxGroup;
-  const { user } = useSelector(state => state.session);
+  const user = useSelector(state => state.session.user);
   const [totalAttending, setTotalAttending] = useState(event.AttendingUsers.length);
   const [slotsRemaining, setSlotsRemaining] = useState(totalSlots - totalAttending);
   const [isAttending, setIsAttending] = useState(!!event.isAttending);

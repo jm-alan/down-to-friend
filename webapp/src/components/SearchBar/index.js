@@ -14,7 +14,8 @@ const debouncedPlaceDetails = Debouncer(PlaceDetails, 750);
 
 export default function SearchBar () {
   const dispatch = useDispatch();
-  const { predictions, searched } = useSelector(state => state.search);
+  const searched = useSelector(state => state.search.searched);
+  const predictions = useSelector(state => state.search.predictions);
 
   const [search, updateSearch] = useState('');
 

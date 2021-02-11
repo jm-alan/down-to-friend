@@ -9,7 +9,7 @@ import { LoadReel } from '../../store/reel';
 
 function SignupFormPage () {
   const dispatch = useDispatch();
-  const { phase } = useSelector(state => state.modal);
+  const phase = useSelector(state => state.modal.phase);
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [password, setPassword] = useState('');

@@ -29,7 +29,7 @@ export function ModalProvider ({ children }) {
 export function Modal ({ onClose, children }) {
   const dispatch = useDispatch();
   const modalNode = useContext(ModalContext);
-  const { after } = useSelector(state => state.modal);
+  const after = useSelector(state => state.modal.after);
 
   useEffect(() => {
     return () => {

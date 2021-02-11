@@ -10,7 +10,8 @@ export default function NewChatModal () {
   const [event, selectEvent] = useState(-1);
   const [person, selectPerson] = useState(-1);
 
-  const { events, people } = useSelector(state => state.newChat);
+  const events = useSelector(state => state.newChat.events);
+  const people = useSelector(state => state.newChat.people);
 
   const onSubmit = (e) => {
     e.preventDefault();

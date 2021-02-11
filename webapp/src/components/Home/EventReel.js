@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import EventSummary from '../EventSummary';
 
 export default function EventReel ({ list }) {
-  const { loaded } = useSelector(state => state.reel);
+  const loaded = useSelector(state => state.reel.loaded);
   return (
     <div className='event-reel-container'>
       {loaded

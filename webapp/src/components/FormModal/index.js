@@ -5,7 +5,7 @@ import { ModalForm, ShowModal } from '../../store/modal';
 
 export default function LoginFormModal () {
   const dispatch = useDispatch();
-  const { display } = useSelector(state => state.modal);
+  const display = useSelector(state => state.modal.display);
 
   const loginClick = () => {
     dispatch(ModalForm('login'));

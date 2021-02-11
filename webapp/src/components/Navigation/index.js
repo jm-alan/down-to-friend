@@ -8,7 +8,9 @@ import SearchBar from '../SearchBar';
 import './Navigation.css';
 
 export default function Navigation ({ isLoaded }) {
-  const { user, loaded: sessionLoaded } = useSelector(state => state.session);
+  const user = useSelector(state => state.session.user);
+  const sessionLoaded = useSelector(state => state.session.loaded);
+
   return (
     <nav className='navbar'>
       <div className='user-navigation-buttons'>
