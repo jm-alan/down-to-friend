@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import Conversations from './Conversations';
-import ChatBox from './ChatBox';
+import ChatContainer from './ChatContainer';
 import { LoadMessenger, UnloadMessenger } from '../../store/messenger';
 
 import './messenger.css';
 
 export default function Messenger () {
   const dispatch = useDispatch();
-  const { conversation } = useSelector(state => state.messenger);
-  const { user, loaded } = useSelector(state => state.session);
+  const user = useSelector(state => state.session.user);
+  const loaded = useSelector(state => state.session.loaded);
+  const conversation = useSelector(state => state.messenger.conversation);
 
   useEffect(() => {
     dispatch(LoadMessenger());
@@ -30,9 +31,7 @@ export default function Messenger () {
             <div className='chat-box-container'>
               {conversation
                 ? (
-                  <ChatBox
-                    conversation={conversation}
-                  />
+                  <ChatContainer />
                   )
                 : null}
             </div>

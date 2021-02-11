@@ -4,10 +4,9 @@
   overflow: hidden;
 }
 
-.conversation-container-outer, .chat-box-container {
+.conversation-container-outer {
   box-sizing: border-box;
   padding: 10px;
-  border-collapse: collapse;
 }
 
 .conversation-container-outer {
@@ -51,8 +50,10 @@ form.newchat-form option {
 
 .messages-container {
   width: 500px;
+  height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .chat-message.sent,
