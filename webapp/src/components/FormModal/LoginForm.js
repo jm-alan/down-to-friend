@@ -10,7 +10,7 @@ function LoginForm () {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     setErrors([]);
     dispatch(LogIn(identification, password))
@@ -18,7 +18,7 @@ function LoginForm () {
       .catch(res => setErrors(res.data?.errors || []));
   };
 
-  const demoLogin = (e) => {
+  const demoLogin = e => {
     e.preventDefault();
     dispatch(LogIn('demo@user.io', 'password'))
       .then(() => {
