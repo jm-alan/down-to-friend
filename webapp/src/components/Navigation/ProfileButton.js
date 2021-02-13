@@ -21,7 +21,7 @@ function ProfileButton () {
     setShowMenu(false);
   };
 
-  const logout = (e) => {
+  const logout = e => {
     e.preventDefault();
     dispatch(LogOut());
   };

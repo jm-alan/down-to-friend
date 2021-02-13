@@ -2,8 +2,76 @@ const router = require('express').Router();
 const asyncHandler = require('express-async-handler');
 const { Op } = require('sequelize');
 
-const { User, Event } = require('../../db/models');
+const { User, Event, EventPost } = require('../../db/models');
 const { restoreUser, requireAuth } = require('../../utils/auth');
+
+router.get('/:eventId(\\d+)/posts', asyncHandler(async (req, res) => {
+  const { params: { eventId } } = req;
+  const posts = await EventPost.findAll({
+    where: { eventId },
+    include: {
+      model: User,
+      as: 'Author',
+      include: ['Avatar']
+    }
+  });
+  return res.json({ posts });
+}));
+
+router.post('/:eventId(\\d+)/posts', requireAuth, asyncHandler(async (req, res) => {
+  const { user, params: { eventId }, body: { body } } = req;
+  const event = await Event.findByPk(eventId);
+  if (!event) return res.json({ success: false, reason: 'That event does not exist.' });
+  try {
+    if (await event.hasAttendingUser(user)) {
+      await user.createEventComment({ eventId, body });
+      return res.json({ success: true });
+    }
+    return res.json({
+      success: false,
+      reason: 'You must be attending an avent to comment.'
+    });
+  } catch (err) {
+    console.error(err);
+    console.error(err.toString());
+    return res.json({
+      success: false,
+      reason: 'Something went wrong. Please refresh the page and try again.'
+    });
+  }
+}));
+
+router.delete('/:eventId(\\d+)/posts/:postId(\\d+)', requireAuth, asyncHandler(async (req, res) => {
+  const { user, params: { eventId, postId } } = req;
+  const event = Event.findByPk(eventId);
+  if (!event) return res.json({ success: false, reason: 'That event does not exist.' });
+  const post = await EventPost.findByPk(postId);
+  if (!post) return res.json({ success: false, reason: 'That post does not exist.' });
+  if (!(post.ownerId === user.id)) {
+    return res.json({
+      success: false,
+      reason: 'That post belongs to another user.'
+    });
+  }
+  await post.destroy();
+  return res.json({ success: true });
+}));
+
+router.patch('/:eventId(\\d+)/posts/:postId(\\d+)', requireAuth, asyncHandler(async (req, res) => {
+  const { user, body: { body }, params: { eventId, postId } } = req;
+  const event = await Event.findByPk(eventId);
+  if (!event) return res.json({ success: false, reason: 'That event does not exist.' });
+  const post = await EventPost.findByPk(postId);
+  if (!post) return res.json({ success: false, reason: 'That post does not exist.' });
+  if (!(post.ownerId === user.id)) {
+    return res.json({
+      success: false,
+      reason: 'That post belongs to another user.'
+    });
+  }
+  await post.update({ body });
+  return res.json({ success: true });
+}));
 
 router.delete('/:eventId(\\d+)/attendees/me', requireAuth, asyncHandler(async (req, res) => {
   const { user, params: { eventId } } = req;
@@ -16,12 +84,31 @@ router.delete('/:eventId(\\d+)/attendees/me', requireAuth, asyncHandler(async (r
 router.post('/:eventId(\\d+)/attendees', requireAuth, asyncHandler(async (req, res) => {
   const { user, params: { eventId } } = req;
   const event = await Event.findByPk(eventId);
-  console.log('Event found at POST/attendees:', event);
-  if (!event) return res.json({ success: false });
-  if ((await event.countAttendingUsers()) < event.maxGroup && !(await event.hasAttendingUser(user))) {
+  if (!event) return res.json({ success: false, reason: 'That event does not exist.' });
+  if (
+    (await event.countAttendingUsers()) < event.maxGroup &&
+    !(await event.hasAttendingUser(user))
+  ) {
     event.addAttendingUser(user);
     return res.json({ success: true });
-  } else return res.json({ success: false });
+  } else return res.json({ success: false, reason: 'That event is full, or you are already attending.' });
+}));
+
+router.get('/:eventId', restoreUser, asyncHandler(async (req, res) => {
+  const { user, params: { eventId } } = req;
+  let event = await Event.findByPk(eventId, {
+    include: [
+      'AttendingUsers',
+      {
+        model: User,
+        as: 'Host',
+        include: ['Avatar']
+      }
+    ]
+  });
+  const isAttending = await event.hasAttendingUser(user);
+  event = { ...event.dataValues, isAttending };
+  return res.json({ event });
 }));
 
 router.get('/', restoreUser, asyncHandler(async (req, res) => {
@@ -38,7 +125,7 @@ router.get('/', restoreUser, asyncHandler(async (req, res) => {
   } = req;
   if (!lowerLng || !upperLat) return res.json({ success: false });
   if (lowerLng) {
-    let localEvents = await Event.findAll({
+    let list = await Event.findAll({
       limit: 100,
       where: {
         longitude: {
@@ -57,40 +144,12 @@ router.get('/', restoreUser, asyncHandler(async (req, res) => {
       ]
     });
     if (user) {
-      await localEvents.asyncForEach(async event => {
+      await list.asyncForEach(async event => {
         event.isAttending = await event.hasAttendingUser(user);
       });
-      localEvents = localEvents.map(({
-        id,
-        tags,
-        Host,
-        title,
-        closes,
-        maxGroup,
-        dateTime,
-        latitude,
-        longitude,
-        createdAt,
-        description,
-        isAttending,
-        AttendingUsers
-      }) => ({
-        id,
-        tags,
-        Host,
-        title,
-        closes,
-        maxGroup,
-        dateTime,
-        latitude,
-        longitude,
-        createdAt,
-        description,
-        isAttending,
-        AttendingUsers
-      }));
+      list = list.map(event => ({ ...event.dataValues, isAttending: event.isAttending }));
     }
-    localEvents.sort((event1, event2) => {
+    list.sort((event1, event2) => {
       const event1distance = Math.sqrt(
         (event1.longitude - centerLng) ** 2 + (event1.latitude - centerLat) ** 2
       );
@@ -99,7 +158,7 @@ router.get('/', restoreUser, asyncHandler(async (req, res) => {
       );
       return event1distance - event2distance;
     });
-    return res.json({ list: localEvents });
+    return res.json({ list });
   }
 }));
 

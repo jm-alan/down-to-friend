@@ -19,7 +19,6 @@ export default function ConvoSummary ({ convo }) {
     });
     setLiveSocket(socket);
     return () => {
-      console.log('Cleanup; unmount and close');
       socket.close();
       dispatch(UnsetSocket());
     };

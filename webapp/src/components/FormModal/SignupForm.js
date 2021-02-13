@@ -16,7 +16,7 @@ function SignupFormPage () {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     if (password === confirmPassword) {
       setErrors([]);

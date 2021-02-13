@@ -13,7 +13,7 @@ export default function NewChatModal () {
   const events = useSelector(state => state.newChat.events);
   const people = useSelector(state => state.newChat.people);
 
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     e.preventDefault();
     setErrors([]);
     dispatch(CreateChat(person))
