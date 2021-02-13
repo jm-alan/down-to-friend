@@ -36,7 +36,7 @@ export default function InputBox () {
     );
   };
 
-  const onSend = (e) => {
+  const onSend = e => {
     e.preventDefault();
     if (conversation && message.length) {
       socket.emit('message', conversation, message);
