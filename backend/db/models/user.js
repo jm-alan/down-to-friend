@@ -82,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Notification, { foreignKey: 'userId' });
     User.hasMany(models.Event, { as: 'HostedEvents', foreignKey: 'ownerId' });
     User.hasMany(models.Message, { as: 'SentMessages', foreignKey: 'senderId' });
-    User.hasMany(models.EventPost, { as: 'PostComments', foreignKey: 'ownerId' });
+    User.hasMany(models.EventPost, { as: 'EventComments', foreignKey: 'ownerId' });
     User.hasMany(models.Conversation, { as: 'OwnedConversations', foreignKey: 'createdBy' });
     User.belongsTo(models.Image, { as: 'Avatar', foreignKey: 'avatarId' });
     User.belongsToMany(models.Event, attendeeMap);
