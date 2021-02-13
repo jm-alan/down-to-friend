@@ -29,36 +29,37 @@ export default function Home () {
 
   useEffect(() => {
     dispatch(SetEnumerable(true));
-    if (sessionLoaded) {
-      if (user) {
-        dispatch(GetLocale())
-          .then(({ lng, lat }) => {
-            dispatch(Focus(lng, lat, null, 10));
-          })
-          .then(() => {
-            dispatch(LoadMap());
-          });
-      } else {
-        window.navigator.geolocation
-          .getCurrentPosition(
-            geoObj => onLocAccept(geoObj, dispatch),
-            () => onLocReject(dispatch));
-      }
+    if (user) {
+      dispatch(GetLocale())
+        .then(({ lng, lat }) => {
+          dispatch(Focus(lng, lat, null, 10));
+        })
+        .then(() => {
+          dispatch(LoadMap());
+        });
+    } else {
+      window.navigator.geolocation
+        .getCurrentPosition(
+          geoObj => onLocAccept(geoObj, dispatch),
+          () => onLocReject(dispatch));
     }
+
     return () => {
       dispatch(UnloadReel());
       dispatch(UnloadMap());
     };
-  }, [sessionLoaded, dispatch, user]);
+  }, [dispatch, user]);
 
   return (sessionLoaded || reelLoaded) && (
-    <div className='home-container'>
-      <EventReel
-        list={list}
-      />
-      <GoogleMap
-        list={list}
-      />
-    </div>
+    <>
+      <div className='home-container'>
+        <EventReel
+          list={list}
+        />
+        <GoogleMap
+          list={list}
+        />
+      </div>
+    </>
   );
 }
