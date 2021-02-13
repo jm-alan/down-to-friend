@@ -4,15 +4,18 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import FormModal from '../FormModal';
 import SearchBar from '../SearchBar';
+import EventDetailModal from '../EventDetailModal';
 
 import './Navigation.css';
 
-export default function Navigation ({ isLoaded }) {
+export default function Navigation () {
   const user = useSelector(state => state.session.user);
+  const event = useSelector(state => state.eventModal.event);
   const sessionLoaded = useSelector(state => state.session.loaded);
 
   return (
     <nav className='navbar'>
+      {event && <EventDetailModal />}
       <div className='user-navigation-buttons'>
         <div className='nav-button-container'>
           <NavLink to='/'>
