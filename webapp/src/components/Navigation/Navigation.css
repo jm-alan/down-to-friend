@@ -14,6 +14,24 @@ nav {
 
 div.user-navigation-buttons {
   display: flex;
+  width: 250px;
+  justify-content: space-around;
+}
+
+div.user-navigation-buttons button {
+  background-color: unset;
+  border: none;
+  color: white;
+  font-size: larger;
+  font-weight: bolder;
+}
+
+div.user-navigation-buttons button:focus {
+  outline: none;
+}
+
+div.user-navigation-buttons button:hover {
+  cursor: pointer
 }
 
 button.new-event-button {

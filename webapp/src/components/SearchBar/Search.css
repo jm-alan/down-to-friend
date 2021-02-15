@@ -15,6 +15,9 @@ button.location-search-submit {
   width: 50px;
   font-size: xx-large;
   z-index: 999;
+  background-color: unset;
+  border: none;
+  color: white;
 }
 
 .searchbar-form {
