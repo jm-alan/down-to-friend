@@ -1,13 +1,23 @@
-import { useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
 
 import Message from './Message';
 
-export default function MessagesContainer () {
-  const messages = useSelector(state => state.messenger.messages);
+export default function MessagesContainer ({ rollingMessages }) {
+  const messageContainer = useRef(null);
+
+  useEffect(() => {
+    if (messageContainer.current) {
+      const scroll = messageContainer.current.scrollHeight - messageContainer.current.clientHeight;
+      messageContainer.current.scrollTo(0, scroll);
+    }
+  });
 
   return (
-    <div className='messages-container'>
-      {messages.map((msg, idx) => (
+    <div
+      className='messages-container'
+      ref={messageContainer}
+    >
+      {rollingMessages.map((msg, idx) => (
         <Message
           key={idx}
           msg={msg}
