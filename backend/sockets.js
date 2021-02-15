@@ -32,8 +32,8 @@ io.use(socketRequireAuth)
                   conversationId,
                   content
                 })
-                  .then(() => {
-                    socket.to(conversationId).emit('message');
+                  .then(({ content }) => {
+                    socket.to(conversationId).emit('message', content, user);
                     db.Conversation.findByPk(conversationId, {
                       include: ['ChattingUsers']
                     })
