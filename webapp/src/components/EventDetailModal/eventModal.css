@@ -74,16 +74,17 @@ div.event-comment-user-container {
   padding: 10px 15px;
 }
 
-div.event-comment-avatar-container {
+div.avatar-container {
   font-size: xx-large;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 50px;
   width: 50px;
-  background-color: steelblue;
+  background-color: rgb(70, 130, 180);
   color: white;
   border-radius: 50%;
+  overflow: hidden;
 }
 
 div.event-comment-body-container {

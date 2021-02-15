@@ -1,8 +1,12 @@
 const FOCUS = 'map/FOCUS';
 
+const LOAD = 'map/LOAD';
+
 const UNLOAD = 'map/UNLOAD';
 
-const LOAD = 'map/LOAD';
+const FIX = 'map/FIX';
+
+const UNFIX = 'map/UNFIX';
 
 export const LoadMap = () => ({ type: LOAD });
 
@@ -16,13 +20,18 @@ export const Focus = (lng, lat, bounds, zoom) => ({
   zoom
 });
 
+export const FixMap = () => ({ type: FIX });
+
+export const UnfixMap = () => ({ type: UNFIX });
+
 export default function reducer (
   state = {
     lat: 38.57366700738277,
     lng: -121.49428149672518,
     zoom: 10,
     bounds: null,
-    loaded: false
+    loaded: false,
+    fixed: false
   },
   { type, lat, lng, bounds, zoom }
 ) {
@@ -33,6 +42,10 @@ export default function reducer (
       return { ...state, loaded: true };
     case UNLOAD:
       return { ...state, loaded: false };
+    case FIX:
+      return { ...state, fixed: true };
+    case UNFIX:
+      return { ...state, fixed: false };
     default:
       return state;
   }

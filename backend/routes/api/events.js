@@ -18,6 +18,19 @@ router.get('/:eventId(\\d+)/posts', asyncHandler(async (req, res) => {
   return res.json({ posts });
 }));
 
+router.get('/tagged/:tag(\\w+)', asyncHandler(async (req, res) => {
+  const { params: { tag } } = req;
+  const events = Event.findAll({
+    where: {
+      tags: {
+      // eslint-disable-next-line
+      [Op.regexp]: `^${tag}(?= )|(?<= )${tag}(?= )|(?<= )${tag}$`
+      }
+    }
+  });
+  return res.json({ events });
+}));
+
 router.post('/:eventId(\\d+)/posts', requireAuth, asyncHandler(async (req, res) => {
   const { user, params: { eventId }, body: { body } } = req;
   const event = await Event.findByPk(eventId);
@@ -109,6 +122,16 @@ router.get('/:eventId', restoreUser, asyncHandler(async (req, res) => {
   const isAttending = await event.hasAttendingUser(user);
   event = { ...event.dataValues, isAttending };
   return res.json({ event });
+}));
+
+router.post('/', requireAuth, asyncHandler(async (req, res) => {
+  const { user, body: { event } } = req;
+  try {
+    const newEvent = await user.createHostedEvent(event);
+    res.json({ success: true, newEvent });
+  } catch (err) {
+    res.json({ success: false, reason: 'Event creation failed.' });
+  }
 }));
 
 router.get('/', restoreUser, asyncHandler(async (req, res) => {

@@ -5,6 +5,7 @@ import ProfileButton from './ProfileButton';
 import FormModal from '../FormModal';
 import SearchBar from '../SearchBar';
 import EventDetailModal from '../EventDetailModal';
+import NewEventButton from './NewEventButton';
 
 import './Navigation.css';
 
@@ -16,6 +17,7 @@ export default function Navigation () {
   return (
     <nav className='navbar'>
       {event && <EventDetailModal />}
+      <NewEventButton />
       <div className='user-navigation-buttons'>
         <div className='nav-button-container'>
           <NavLink to='/'>

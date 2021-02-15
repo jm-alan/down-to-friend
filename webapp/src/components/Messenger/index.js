@@ -24,23 +24,15 @@ export default function Messenger () {
   return loaded
     ? user
         ? (
-          <div
-            className='messaging-container'
-          >
+          <div className='messaging-container default'>
             <Conversations />
             <div className='chat-box-container'>
               {conversation
-                ? (
-                  <ChatContainer />
-                  )
+                ? <ChatContainer />
                 : null}
             </div>
           </div>
           )
         : <Redirect to='/' />
-    : (
-      <h1>
-        Loading...
-      </h1>
-      );
+    : <img src={`${process.env.PUBLIC_URL}/img/dual-ring-small.svg`} alt='Loading...' />;
 }

@@ -57,9 +57,5 @@ export default function UserProfile () {
             Sorry, it seems that user doesn't exist.
           </h1>
           )
-    : (
-      <h1>
-        Loading...
-      </h1>
-      );
+    : <img src={`${process.env.PUBLIC_URL}/img/dual-ring-small.svg`} alt='Loading...' />;
 }

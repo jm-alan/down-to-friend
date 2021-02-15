@@ -15,6 +15,14 @@ module.exports = (sequelize, DataTypes) => {
             if (Validator.isEmail(value)) {
               throw new Error('Cannot be an email.');
             }
+          },
+          isValid (value) {
+            if (value.match(/[^a-zA-Z-]/)) {
+              throw new Error(
+                `Currently, first names may only contain the letters A-Z, or a hyphen.
+                We apologize for the inconvenience.`
+              );
+            }
           }
         }
       },
@@ -91,8 +99,8 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   User.prototype.toSafeObject = function () {
-    const { id, firstName, email } = this;
-    return { id, firstName, email };
+    const { id, firstName, email, Avatar } = this;
+    return { id, firstName, email, Avatar };
   };
 
   User.prototype.validatePassword = function (password) {
@@ -100,7 +108,9 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   User.getCurrentUserById = async function (id) {
-    return await User.scope('currentUser').findByPk(id);
+    return await User.scope('currentUser').findByPk(id, {
+      include: ['Avatar']
+    });
   };
 
   User.login = async function ({ identification, password }) {
@@ -110,7 +120,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
     if (user && user.validatePassword(password)) {
-      return await User.scope('currentUser').findByPk(user.id);
+      return await User.scope('currentUser').findByPk(user.id, {
+        include: ['Avatar']
+      });
     }
   };
 
@@ -121,7 +133,9 @@ module.exports = (sequelize, DataTypes) => {
       email,
       hashedPassword
     });
-    return await User.scope('currentUser').findByPk(user.id);
+    return await User.scope('currentUser').findByPk(user.id, {
+      include: ['Avatar']
+    });
   };
 
   return User;

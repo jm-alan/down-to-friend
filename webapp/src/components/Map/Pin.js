@@ -23,18 +23,21 @@ export default function Pin ({ event }) {
       to={`#event-summary-${event.id}`}
       smooth
     >
-      <div
-        className='map-pin'
-        id={`map-pin-event-${event.id}`}
-        onMouseDown={e => {
-          setMouseXY({ x: e.clientX, y: e.clientY });
-        }}
-        onMouseUp={e => {
-          if (DeepEqual({ x: e.clientX, y: e.clientY }, mouseXY)) pinClick();
-        }}
-      >
-        <div>
-          {event.title.toTitleCase()} with {event.Host.firstName}
+      <div className='map-pin-container'>
+        <div className='map-pin-precise' />
+        <div
+          className='map-pin'
+          id={`map-pin-event-${event.id}`}
+          onMouseDown={e => {
+            setMouseXY({ x: e.clientX, y: e.clientY });
+          }}
+          onMouseUp={e => {
+            (DeepEqual({ x: e.clientX, y: e.clientY }, mouseXY)) && pinClick();
+          }}
+        >
+          <div>
+            {event.title.toTitleCase()} with {event.Host.firstName}
+          </div>
         </div>
       </div>
     </NavHashLink>

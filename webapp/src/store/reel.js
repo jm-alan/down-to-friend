@@ -2,21 +2,29 @@ import csrfetch from './csrf';
 
 const ENUMERATE = 'reel/ENUMERATE';
 
+const RESTORE = 'reel/RESTORE';
+
 const MODE = 'reel/MODE';
 
 const LOAD = 'reel/LOAD';
 
 const UNLOAD = 'reel/UNLOAD';
 
-const enumerate = (list) => ({ type: ENUMERATE, list });
+const enumerate = list => ({ type: ENUMERATE, list });
+
+export const HardSetList = pin => ({ type: ENUMERATE, list: pin ?? [] });
+
+export const RestoreList = () => ({ type: RESTORE });
+
+export const SetEnumerable = enumerable => ({ type: MODE, enumerable });
+
+export const LoadReel = () => ({ type: LOAD });
+
+export const UnloadReel = () => ({ type: UNLOAD });
 
 export const EnumerateReel = (
-  centerLng,
-  centerLat,
-  lowerLng,
-  upperLng,
-  lowerLat,
-  upperLat
+  centerLng, centerLat, lowerLng,
+  upperLng, lowerLat, upperLat
 ) => async dispatch => {
   const { data } = await csrfetch(
     `/api/events?centerLng=${
@@ -36,27 +44,32 @@ export const EnumerateReel = (
   dispatch(enumerate(data.list));
 };
 
-export const SetEnumerable = enumerable => ({ type: MODE, enumerable });
-
-export const LoadReel = () => ({ type: LOAD });
-
-export const UnloadReel = () => ({ type: UNLOAD });
-
 const reducer = (state = {
   list: null,
   loaded: false,
   searchCenter: { lat: 0, lng: 0 },
-  enumerable: true
+  enumerable: true,
+  store: []
 }, { type, list, enumerable }) => {
   switch (type) {
     case ENUMERATE:
-      return { ...state, list };
+      return {
+        ...state,
+        store: state.list ?? [],
+        list
+      };
     case LOAD:
       return { ...state, loaded: true };
     case UNLOAD:
       return { ...state, loaded: false };
     case MODE:
       return { ...state, enumerable };
+    case RESTORE:
+      return {
+        ...state,
+        store: [],
+        list: [...state.store]
+      };
     default:
       return state;
   }

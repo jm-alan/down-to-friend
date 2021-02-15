@@ -4,7 +4,7 @@ import Debouncer from '../../utils/Debouncer';
 import { AutoComplete, Searching } from '../../store/search';
 import { PlaceDetails } from '../../utils/Places';
 
-const debouncedPlaceDetails = Debouncer(PlaceDetails, 750);
+const debouncedPlaceDetails = Debouncer(PlaceDetails, 500);
 
 export default function Predictions ({ predictions, updateSearch }) {
   const dispatch = useDispatch();
@@ -19,14 +19,16 @@ export default function Predictions ({ predictions, updateSearch }) {
 
   return predictions.length
     ? (
-      <ul className='search-prediction-container'>
+      <ul
+        className='search-prediction-container'
+      >
         {predictions.map((prediction, idx) => (
           <li
             key={idx}
             className='search-prediction'
           >
             <div
-              onClick={(e) => autocompleteClick(e, prediction)}
+              onClick={e => autocompleteClick(e, prediction)}
             >
               {prediction.description}
             </div>

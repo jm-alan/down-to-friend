@@ -80,28 +80,28 @@ function SignupFormPage () {
             placeholder='first name'
             type='text'
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={e => setFirstName(e.target.value)}
             required
           />
           <input
             placeholder='email'
             type='text'
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
             required
           />
           <input
             placeholder='password'
             type='password'
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
             required
           />
           <input
             placeholder='confirm password'
             type='password'
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={e => setConfirmPassword(e.target.value)}
             required
           />
           <div className='form-button-container'>

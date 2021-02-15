@@ -8,11 +8,11 @@ import { Focus } from '../../store/map';
 export default function Map ({ list }) {
   const dispatch = useDispatch();
 
-  const { lat, lng, zoom, loaded } = useSelector(state => state.map);
+  const { lat, lng, zoom, loaded, fixed } = useSelector(state => state.map);
   const enumerable = useSelector(state => state.reel.enumerable);
 
   const handleMapChange = ({ center, bounds, zoom: changeZoom }) => {
-    if (enumerable) {
+    if (enumerable && !fixed) {
       document.querySelectorAll('.map-pin')
         .forEach(pin => pin.classList.remove('focus'));
       dispatch(UnloadReel());

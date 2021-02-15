@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User, Conversation } = require('../db/models');
+const { User } = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -31,7 +31,9 @@ const restoreUser = (req, res, next) => {
 
     try {
       const { id } = jwtPayload.data;
-      req.user = await User.scope('currentUser').findByPk(id);
+      req.user = await User.scope('currentUser').findByPk(id, {
+        include: ['Avatar']
+      });
     } catch (e) {
       res.clearCookie('token');
       return next();
@@ -46,24 +48,30 @@ const restoreUser = (req, res, next) => {
 };
 
 const socketRequireAuth = (socket, next) => {
-  socket.handshake.headers &&
-  socket.handshake.headers.cookie &&
-  jwt.verify(socket.handshake.headers.cookie.match(/(?<=; token=)(.*)(?=;)/)[0], secret, null, async (err, payload) => {
-    if (err) {
-      return socket.disconnect();
-    }
+  try {
+    socket.handshake.headers &&
+    socket.handshake.headers.cookie &&
+    jwt.verify(socket.handshake.headers.cookie.match(/(?<=(\W+)token=)([a-zA-Z0-9-._]+)/)[0], secret, null, async (err, payload) => {
+      if (err) {
+        return socket.disconnect(true);
+      }
 
-    try {
-      const { id } = payload.data;
-      socket.user = await User.scope('currentUser').findByPk(id);
-    } catch (payloadErr) {
-      return socket.disconnect();
-    }
+      try {
+        const { id } = payload.data;
+        socket.user = await User.scope('currentUser').findByPk(id, {
+          include: ['Avatar']
+        });
+      } catch (payloadErr) {
+        return socket.disconnect(true);
+      }
 
-    if (!socket.user) return socket.disconnect();
+      if (!socket.user) return socket.disconnect(true);
 
-    return next();
-  });
+      return next();
+    });
+  } catch (err) {
+    return socket.disconnect(true);
+  }
 };
 
 const requireAuth = [

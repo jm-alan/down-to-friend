@@ -3,29 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import EventReel from './EventReel';
 import GoogleMap from '../Map';
+import NewEvent from '../NewEvent';
 import { Focus, LoadMap, UnloadMap } from '../../store/map';
 import { GetLocale } from '../../store/user';
 
 import './home.css';
 import { UnloadReel, SetEnumerable } from '../../store/reel';
 
-const onLocAccept = (geoObj, dispatch) => {
-  const { coords: { longitude, latitude } } = geoObj;
-  dispatch(Focus(longitude, latitude, null, 10));
-  dispatch(LoadMap());
-};
-
-const onLocReject = dispatch => {
-  dispatch(Focus(-121.49428149672518, 38.57366700738277, null, 10));
-  dispatch(LoadMap());
-};
-
 export default function Home () {
   const dispatch = useDispatch();
-  const reelLoaded = useSelector(state => state.reel.loaded);
   const list = useSelector(state => state.reel.list);
-  const sessionLoaded = useSelector(state => state.session.loaded);
   const user = useSelector(state => state.session.user);
+  const reelLoaded = useSelector(state => state.reel.loaded);
+  const sessionLoaded = useSelector(state => state.session.loaded);
+  const displayNewEvent = useSelector(state => state.newEvent.display);
 
   useEffect(() => {
     dispatch(SetEnumerable(true));
@@ -38,10 +29,8 @@ export default function Home () {
           dispatch(LoadMap());
         });
     } else {
-      window.navigator.geolocation
-        .getCurrentPosition(
-          geoObj => onLocAccept(geoObj, dispatch),
-          () => onLocReject(dispatch));
+      dispatch(LoadMap());
+      dispatch(Focus(-121.49428149672518, 38.57366700738277, null, 10));
     }
 
     return () => {
@@ -51,15 +40,35 @@ export default function Home () {
   }, [dispatch, user]);
 
   return (sessionLoaded || reelLoaded) && (
-    <>
-      <div className='home-container'>
-        <EventReel
-          list={list}
-        />
-        <GoogleMap
-          list={list}
-        />
-      </div>
-    </>
+    <div className='home-container'>
+      {reelLoaded
+        ? (
+          <div className='reel-newevent-view-controller'>
+            <div
+              className='reel-newevent-sliding-controller'
+              style={{
+                left: displayNewEvent ? '-768px' : '0px'
+              }}
+            >
+              <EventReel
+                list={list}
+              />
+              <NewEvent />
+            </div>
+          </div>
+          )
+        : (
+          <div className='loading-container'>
+            <img
+              className='loading-spinner'
+              src={`${process.env.PUBLIC_URL}/img/dual-ring-small.svg`}
+              alt='Loading...'
+            />
+          </div>
+          )}
+      <GoogleMap
+        list={list}
+      />
+    </div>
   );
 }

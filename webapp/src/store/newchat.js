@@ -1,8 +1,8 @@
 import csrfetch from './csrf';
 
-const SHOWNEWCHAT = 'newchat/SHOW';
+const SHOW = 'newchat/SHOW';
 
-const HIDENEWCHAT = 'newchat/HIDE';
+const HIDE = 'newchat/HIDE';
 
 const EVENTS = 'newchat/EVENTS';
 
@@ -12,14 +12,14 @@ const enumerateEvents = events => ({ type: EVENTS, events });
 
 const enumeratePeople = people => ({ type: ATTENDING, people });
 
-export const ShowNewChat = () => ({ type: SHOWNEWCHAT });
+export const ShowNewChat = () => ({ type: SHOW });
 
-export const HideNewChat = () => ({ type: HIDENEWCHAT });
+export const HideNewChat = () => ({ type: HIDE });
 
-export const CreateChat = userId => async () => {
+export const CreateChat = userIds => async () => {
   const { data } = await csrfetch('/api/conversations', {
     method: 'POST',
-    body: JSON.stringify({ userId })
+    body: JSON.stringify({ userIds })
   });
   return data.convo;
 };
@@ -39,9 +39,9 @@ export default function reducer (
   { type, events, people }
 ) {
   switch (type) {
-    case SHOWNEWCHAT:
+    case SHOW:
       return { ...state, display: true };
-    case HIDENEWCHAT:
+    case HIDE:
       return {
         ...state,
         events: [],

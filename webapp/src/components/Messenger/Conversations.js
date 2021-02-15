@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import ConvoSummary from './ConvoSummary';
-import NewChatModal from './NewChatModal';
+import ConvoSocketWrapper from './ConvoSocketWrapper';
+import NewChatModal from '../NewChatModal';
 import { LoadAllConvos } from '../../store/messenger';
 import { ShowNewChat } from '../../store/newchat';
 
@@ -22,19 +22,21 @@ export default function Conversations () {
   return (
     <div className='conversation-container-outer'>
       <div className='new-chat-container'>
-        <button
-          className='new-conversation'
-          onClick={popNewChat}
-        >
-          <i className='fas fa-plus' /> New Chat
-        </button>
+        <div className='new-chat-button-container'>
+          <button
+            className='new-conversation'
+            onClick={popNewChat}
+          >
+            <i className='fas fa-plus' /> New Chat
+          </button>
+        </div>
         {displayNewChat
           ? <NewChatModal />
           : null}
       </div>
       <div className='conversation-container-inner'>
         {conversations.map((convo, idx) => (
-          <ConvoSummary
+          <ConvoSocketWrapper
             key={idx}
             convo={convo}
           />

@@ -1,18 +1,22 @@
 import csrfetch from './csrf';
 
-const LOADALLCONVOS = 'chat/LOADALLCONVOS';
+const LOAD = 'chat/LOAD';
+
+const LOADALL = 'chat/LOADALL';
 
 const LOADCONVO = 'chat/LOADCONVO';
 
-const LOAD = 'chat/LOAD';
+const SOCKET = 'chat/SOCKET';
+
+const REGISTER = 'chat/REGISTER';
+
+const UNREGISTER = 'chat/UNREGISTER';
 
 const UNLOAD = 'chat/UNLOAD';
 
-const SOCKET = 'chat/SOCKET';
-
 const loadConvo = (conversation, messages) => ({ type: LOADCONVO, conversation, messages });
 
-const loadAllConvos = conversations => ({ type: LOADALLCONVOS, conversations });
+const loadAllConvos = conversations => ({ type: LOADALL, conversations });
 
 export const LoadAllConvos = () => async dispatch => {
   const { data } = await csrfetch('/api/users/me/conversations');
@@ -24,13 +28,15 @@ export const LoadConvo = convoId => async dispatch => {
   dispatch(loadConvo(convoId, data.messages));
 };
 
+export const RegisterSocket = (convoId, socket) => ({ type: REGISTER, convoId, socket });
+
+export const UnsregisterSocket = convoId => ({ type: UNREGISTER, convoId });
+
 export const LoadMessenger = () => ({ type: LOAD });
 
 export const UnloadMessenger = () => ({ type: UNLOAD });
 
-export const SetSocket = socket => ({ type: SOCKET, socket });
-
-export const UnsetSocket = () => ({ type: SOCKET, socket: null });
+export const SetSocket = convoId => ({ type: SOCKET, convoId });
 
 export default function reducer (
   state = {
@@ -41,6 +47,7 @@ export default function reducer (
     loadedMessenger: false,
     loadedConversations: false,
     loadedMessages: false,
+    convoSockets: {},
     socket: null
   },
   {
@@ -48,12 +55,14 @@ export default function reducer (
     conversation,
     conversations,
     messages,
+    convoSockets,
+    convoId,
     socket
   }
 ) {
   switch (type) {
-    case LOADALLCONVOS:
-      return { ...state, conversations };
+    case LOADALL:
+      return { ...state, socket: null, conversations };
     case LOAD:
       return { ...state, loadedMessenger: true };
     case UNLOAD:
@@ -74,7 +83,12 @@ export default function reducer (
         loadedMessages: true
       };
     case SOCKET:
-      return { ...state, socket };
+      return { ...state, socket: state.convoSockets[convoId] };
+    case REGISTER:
+      return { ...state, convoSockets: { ...convoSockets, [convoId]: socket } };
+    case UNREGISTER:
+      delete state.convoSockets[convoId];
+      return state;
     default:
       return state;
   }
