@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { EditComment } from '../../store/eventModal';
 
 export default function CommentEditor ({ comment, setEdit, hangHeight }) {
-  console.log(hangHeight);
   const dispatch = useDispatch();
   const event = useSelector(state => state.eventModal.event);
 

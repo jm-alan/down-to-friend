@@ -32,7 +32,7 @@ export default function EventComment ({ comment }) {
                   {comment.Author.firstName}
                 </div>
                 <Link to={`/users/${comment.Author.id}`}>
-                  <div className='event-comment-avatar-container'>
+                  <div className='avatar-container event-comment'>
                     {comment.Author.Avatar
                       ? <img src={comment.Author.Avatar.url} alt='' />
                       : <i className='fas fa-user' />}
