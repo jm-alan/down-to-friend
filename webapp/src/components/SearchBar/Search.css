@@ -24,7 +24,7 @@ button.location-search-submit {
 }
 
 .searchbar-input {
-  width: 100%;
+  width: 450px;
   box-sizing: border-box;
   font-size: x-large;
   font-weight: bolder;
@@ -36,20 +36,25 @@ button.location-search-submit {
   background-color: rgb(230, 230, 230);
 }
 
+.searchbar-input::placeholder {
+  text-align: center;
+}
+
 
 .search-prediction-container {
+  width: 500px;
+  padding: 0px;
   z-index: 998;
-  transition: all 0.5s;
   box-sizing: border-box;
   position: absolute;
   top: 50px;
-  width: 500px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
 .search-prediction {
+  margin-left: 50px;
   background-color: white;
   flex-grow: 1;
   white-space: normal;
