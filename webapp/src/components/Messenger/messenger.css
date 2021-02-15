@@ -1,5 +1,8 @@
-.messaging-container {
+.messaging-container.default {
+  width: 960px;
   display: flex;
+  margin: 0px auto;
+  justify-content: flex-start;
   height: calc(100vh - 60px);
   overflow: hidden;
 }
@@ -7,22 +10,93 @@
 .conversation-container-outer {
   box-sizing: border-box;
   padding: 10px;
-}
-
-.conversation-container-outer {
   border-right: 2px solid black;
-}
-
-.conversation-container-outer {
-  width: 350px;
+  min-width: 350px;
 }
 
 .chat-box-container {
-  flex-grow: 1;
+  overflow: hidden;
+  height: calc(100vh - 60px);
 }
 
 .typebox-container {
   width: 100%;
+}
+
+div.new-chat-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 100px;
+}
+
+span.chatting-user-name {
+  margin-left: 5px;
+  color: steelblue;
+  font-weight: bolder;
+  font-size: larger;
+}
+
+span.chatting-user-name:not(.last)::after {
+  content: ' |';
+}
+
+button.new-conversation {
+  color: white;
+  height: 40px;
+  width: 100px;
+  border-radius: 5px;
+  background-color: steelblue;
+  border: none;
+}
+
+button.new-conversation:hover {
+  box-shadow: 0px 0px 5px darkgrey;
+}
+
+button.new-conversation:focus {
+  outline: none;
+}
+
+button.new-conversation:active {
+  height: 38px;
+  width: 98px;
+}
+
+div.added-persons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+div.added-persons div.added-persons-title.micro {
+  color: white;
+  padding: 5px;
+}
+
+div.added-persons h1,
+div.added-persons h2,
+div.added-persons h3,
+div.added-persons h4,
+div.added-persons h5,
+div.added-persons h6
+{
+  margin: 0px;
+}
+
+div.added-persons-list {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+div.person-added {
+  color: white;
+  font-weight: bolder;
+  font-size: larger;
 }
 
 form.newchat-form {
@@ -49,46 +123,127 @@ form.newchat-form option {
 }
 
 .messages-container {
-  width: 500px;
-  height: calc(100vh - 100px);
-  display: flex;
-  flex-direction: column;
+  width: 610px;
+  height: calc(100vh - 150px);
   overflow-y: auto;
-}
-
-.chat-message.sent,
-.chat-message.sent .chat-message-user-container {
-  margin-left: auto;
-}
-
-.chat-message.received,
-.chat-message.received .chat-message-user-container {
-  margin-right: auto;
+  border-bottom: 1px solid darkgrey;
+  padding: 10px 0px;
+  justify-content: flex-end;
 }
 
 .chat-message {
+  margin: 5px;
   display: flex;
-  flex-direction: column;
-  width: 300px;
+  width: 350px;
   height: min-content;
-  padding: 10px;
-  border: 1px solid black;
+}
+
+.chat-message.sent {
+  margin-right: 5px;
+  flex-direction: row-reverse;
+}
+
+.chat-message.received {
+  margin-left: 5px;
+}
+
+.chat-message.sent {
+  margin-left: auto;
+}
+
+.chat-message.received {
+  margin-right: auto;
+}
+
+.chat-message.sent .chat-message-user-container {
+  margin-left: 5px;
+}
+
+.chat-message.received .chag-message-user-container {
+  margin-right: 5px;
 }
 
 .chat-message-user-container {
-  border: 1px solid darkgrey;
   width: min-content;
-  padding: 10px;
+  height: min-content;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .chat-message-content-container {
+  display: flex;
+  align-items: center;
   white-space: normal;
-  border: 1px solid darkgrey;
+  box-shadow: 0px 0px 3px darkgrey;
   padding: 10px;
 }
 
 .new-chat-container {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   border-bottom: 1px solid darkgrey;
+}
+
+div.convo-summary-container {
+  display: flex;
+  align-items: center;
+  height: 61px;
+  border-bottom: 1px solid darkgrey;
+}
+
+div.convo-summary-container:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 5px darkgrey;
+}
+
+div.typebox-container {
+  display: flex;
+  justify-content: center;
+  width: 610px;
+  height: 90px;
+}
+
+div.typebox-container form {
+  width: 590px;
+  height: 55px;
+  display: flex;
+}
+
+div.typebox-container form.focus {
+  box-shadow: 0px 0px 5px steelblue;
+}
+
+div.typebox-container input {
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid darkgrey;
+  overflow: visible;
+}
+
+div.typebox-container input:focus {
+  outline: none;
+}
+
+div.typebox-container button {
+  background-color: white;
+  color: steelblue;
+  border: none;
+  font-size: larger;
+  border-bottom: 1px solid darkgrey;
+}
+
+div.typebox-container button:focus, div.typebox-container button:hover {
+  outline: none;
+  color: white;
+  background-color: #4682b4;
+}
+
+div.convo-summary-container.unread {
+  background-color: rgb(147, 179, 206);
+}
+
+div.convo-summary-container.unread span {
+  color: white;
 }
