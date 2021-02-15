@@ -1,42 +1,23 @@
-import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import io from 'socket.io-client';
-
-import { LoadConvo, SetSocket, UnsetSocket } from '../../store/messenger';
-
-export default function ConvoSummary ({ convo }) {
-  const dispatch = useDispatch();
-  const [liveSocket, setLiveSocket] = useState(null);
-
-  useEffect(() => {
-    const socket = io(undefined, {
-      query: {
-        conversation: convo.id
-      }
-    });
-    socket.on(`conversation${convo.id}`, () => {
-      dispatch(LoadConvo(convo.id));
-    });
-    setLiveSocket(socket);
-    return () => {
-      socket.close();
-      dispatch(UnsetSocket());
-    };
-  }, [dispatch, convo.id]);
-
-  const onSelectConvo = () => {
-    dispatch(LoadConvo(convo.id));
-    dispatch(SetSocket(liveSocket));
-  };
-
+export default function ConvoSummary ({ convo, remainingUsers, onSelectConvo, unread }) {
   return (
     <div
-      className='convo-summary-container'
+      className={`convo-summary-container${
+        unread
+          ? ' unread'
+          : ''
+      }`}
       onClick={onSelectConvo}
     >
       {convo.name ||
-      convo.ChattingUsers.map(({ firstName }, idx) => (
-        <span key={idx}>
+      remainingUsers.map(({ firstName }, idx) => (
+        <span
+          key={idx}
+          className={`chatting-user-name ${
+            idx === remainingUsers.length - 1
+              ? 'last'
+              : ''
+          }`}
+        >
           {firstName}
         </span>
       ))}
