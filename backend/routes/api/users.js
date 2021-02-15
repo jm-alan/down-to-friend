@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler');
 
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Conversation, Event } = require('../../db/models');
+const { User, Conversation, Event, Notification } = require('../../db/models');
 
 const router = express.Router();
 
@@ -25,6 +25,23 @@ const validateSignup = [
   handleValidationErrors
 ];
 
+router.delete('/me/notifications/:notificationId(\\d+)', requireAuth, asyncHandler(async (req, res) => {
+  const { user, params: { notificationId } } = req;
+  const notif = await Notification.findByPk(notificationId, {
+    where: {
+      userId: user.id
+    }
+  });
+  (notif && await notif.destroy()) ?? res.json({ success: true });
+}));
+
+router.delete('/me/notifications', requireAuth, asyncHandler(async (req, res) => {
+  const { user } = req;
+  const notifs = await user.getNotifications();
+  await notifs.asyncForEach(async notif => await notif.destroy());
+  return res.json({ success: true });
+}));
+
 router.get('/me/conversations', requireAuth, asyncHandler(async (req, res) => {
   const { user } = req;
   const conversations = await user.getChats({
@@ -38,7 +55,11 @@ router.get('/me/conversations/:id(\\d+)/messages', requireAuth, asyncHandler(asy
   const convo = await Conversation.findByPk(id);
   if (!convo || !(await convo.hasChattingUser(user))) return res.json({ messages: [] });
   const messages = await convo.getMessages({
-    include: ['Sender'],
+    include: [{
+      model: User,
+      as: 'Sender',
+      include: ['Avatar']
+    }],
     order: [['createdAt', 'ASC']]
   });
   return res.json({ messages });
@@ -46,7 +67,9 @@ router.get('/me/conversations/:id(\\d+)/messages', requireAuth, asyncHandler(asy
 
 router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
   const { params: { id } } = req;
-  const user = await User.findByPk(id);
+  const user = await User.findByPk(id, {
+    include: ['Avatar']
+  });
   return res.json({ user });
 }));
 
