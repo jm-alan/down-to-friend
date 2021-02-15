@@ -111,6 +111,16 @@ router.get('/:eventId', restoreUser, asyncHandler(async (req, res) => {
   return res.json({ event });
 }));
 
+router.post('/', requireAuth, asyncHandler(async (req, res) => {
+  const { user, body: { event } } = req;
+  try {
+    const newEvent = await user.createHostedEvent(event);
+    res.json({ success: true, newEvent });
+  } catch (err) {
+    res.json({ success: false, reason: 'Event creation failed.' });
+  }
+}));
+
 router.get('/', restoreUser, asyncHandler(async (req, res) => {
   const {
     query: {
