@@ -10,13 +10,14 @@ const typingEmit = (socket, setBegunTyping, user, conversation) => {
 
 const debouncedTyping = Debouncer(typingEmit, 500);
 
-export default function InputBox () {
+export default function InputBox ({ updateRollingMessages }) {
   const socket = useSelector(state => state.messenger.socket);
   const conversation = useSelector(state => state.messenger.conversation);
   const user = useSelector(state => state.session.user);
 
   const [message, updateMessage] = useState('');
   const [hasBegunTyping, setBegunTyping] = useState(false);
+  const [formFocused, setFormFocused] = useState(false);
 
   const typingController = (value, updateMessage, hasBegunTyping, setBegunTyping) => {
     updateMessage(value);
@@ -39,7 +40,11 @@ export default function InputBox () {
   const onSend = e => {
     e.preventDefault();
     if (conversation && message.length) {
-      socket.emit('message', conversation, message);
+      updateRollingMessages(msgs => [...msgs, {
+        Sender: user,
+        content: message
+      }]);
+      socket.emit('message', message);
       updateMessage('');
     }
   };
@@ -47,19 +52,24 @@ export default function InputBox () {
   return (
     <div className='typebox-container'>
       <form
-        className='typebox-form'
+        className={`typebox-form ${formFocused ? 'focus' : ''}`}
         onSubmit={onSend}
       >
         <input
+          placeholder='send a message'
           className='typebox-input'
           value={message}
           onChange={typingForwarder}
+          onFocus={() => setFormFocused(true)}
+          onBlur={() => setFormFocused(false)}
         />
         <button
           type='submit'
           className='typebox-submit'
+          onFocus={() => setFormFocused(true)}
+          onBlur={() => setFormFocused(false)}
         >
-          Send
+          <i className='fas fa-paper-plane' />
         </button>
       </form>
     </div>
