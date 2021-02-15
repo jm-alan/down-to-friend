@@ -20,5 +20,5 @@ export async function PlaceDetails (query, dispatch, isPlace = false) {
     ? await window.fetch(`/api/search/details?placeId=${query}`)
     : await window.fetch(`/api/search/raw?query=${query}`);
   const { location: { lng, lat } } = await resp.json();
-  dispatch(Focus(lng, lat, 10));
+  dispatch(Focus(lng, lat, null, 12));
 }
