@@ -15,3 +15,34 @@ nav {
 div.user-navigation-buttons {
   display: flex;
 }
+
+button.new-event-button {
+  position: absolute;
+  left: 663px;
+  height: 30px;
+  width: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 5px;
+  background-color: white;
+  color: steelblue;
+  border: none;
+  font-weight: bolder;
+  font-size: 13.33333333px;
+}
+
+button.new-event-button:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 5px white;
+}
+
+button.new-event-button:focus {
+  outline: none;
+}
+
+button.new-event-button:active {
+  left: 664px;
+  height: 28px;
+  width: 73px;
+}
