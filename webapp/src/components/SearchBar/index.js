@@ -50,6 +50,7 @@ export default function SearchBar () {
         <input
           className='searchbar-input'
           type='text'
+          placeholder='Anaheim | NYC | 221B Baker St'
           maxLength={50}
           value={search}
           onChange={handleSearch}
