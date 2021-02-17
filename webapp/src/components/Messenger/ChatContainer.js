@@ -11,16 +11,17 @@ export default function ChatContainer () {
   const [rollingMessages, updateRollingMessages] = useState([]);
 
   useEffect(() => {
-    if (messages.length > rollingMessages.length) {
-      updateRollingMessages(messages);
-    }
-    conversation && socket && socket.on('message', (content, user) => {
+    updateRollingMessages(messages);
+    conversation && socket && socket.on(`convo-${conversation}`, (content, user) => {
       updateRollingMessages(rolling => [...rolling, {
         Sender: user,
         content
       }]);
     });
-  }, [socket, conversation, messages, messages.length, rollingMessages.length]);
+    return () => {
+      socket.off(`convo-${conversation}`);
+    };
+  }, [socket, conversation, messages]);
 
   return conversation
     ? (
