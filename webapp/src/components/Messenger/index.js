@@ -1,22 +1,34 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import io from 'socket.io-client';
 
 import Conversations from './Conversations';
 import ChatContainer from './ChatContainer';
-import { LoadMessenger, UnloadMessenger } from '../../store/messenger';
+import * as MessengerActions from '../../store/messenger';
+import { SetSocket, LoadMessenger, UnloadMessenger } from '../../store/messenger';
 
 import './messenger.css';
+
+if (process.env.NODE_ENV !== 'production') {
+  window.MessengerActions = MessengerActions;
+}
 
 export default function Messenger () {
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
   const loaded = useSelector(state => state.session.loaded);
-  const conversation = useSelector(state => state.messenger.conversation);
 
   useEffect(() => {
     dispatch(LoadMessenger());
+    const socket = io(undefined, {
+      query: {
+        type: 'chat'
+      }
+    });
+    dispatch(SetSocket(socket));
     return () => {
+      socket.close();
       dispatch(UnloadMessenger());
     };
   }, [dispatch]);
@@ -27,9 +39,7 @@ export default function Messenger () {
           <div className='messaging-container default'>
             <Conversations />
             <div className='chat-box-container'>
-              {conversation
-                ? <ChatContainer />
-                : null}
+              <ChatContainer />
             </div>
           </div>
           )

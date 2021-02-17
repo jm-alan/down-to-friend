@@ -44,7 +44,7 @@ export default function InputBox ({ updateRollingMessages }) {
         Sender: user,
         content: message
       }]);
-      socket.emit('message', message);
+      socket.emit(`convo-${conversation}`, message);
       updateMessage('');
     }
   };

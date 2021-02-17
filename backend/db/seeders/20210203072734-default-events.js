@@ -4,7 +4,7 @@ const faker = require('faker');
 
 const events = [];
 
-for (let i = 0; i < 5000; i++) {
+for (let i = 1; i <= 1000; i++) {
   const dateTime = faker.date.future();
   events.push({
     ownerId: i % 98 + 3,

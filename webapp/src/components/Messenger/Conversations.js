@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import ConvoSocketWrapper from './ConvoSocketWrapper';
+import ConvoSummary from './ConvoSummary';
 import NewChatModal from '../NewChatModal';
 import { LoadAllConvos } from '../../store/messenger';
 import { ShowNewChat } from '../../store/newchat';
@@ -36,7 +36,7 @@ export default function Conversations () {
       </div>
       <div className='conversation-container-inner'>
         {conversations.map((convo, idx) => (
-          <ConvoSocketWrapper
+          <ConvoSummary
             key={idx}
             convo={convo}
           />

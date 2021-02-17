@@ -190,6 +190,7 @@ div.convo-summary-container {
   align-items: center;
   height: 61px;
   border-bottom: 1px solid darkgrey;
+  flex-wrap: wrap;
 }
 
 div.convo-summary-container:hover {

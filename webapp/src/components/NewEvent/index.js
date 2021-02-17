@@ -126,7 +126,6 @@ export default function NewEventModal () {
               type='date'
               value={date}
               onChange={({ target: { value } }) => {
-                console.log('Date changed:', value);
                 updateDate(value);
               }}
               required

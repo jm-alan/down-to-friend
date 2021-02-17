@@ -35,7 +35,12 @@ export const EnumerateChatPeople = eventId => async dispatch => {
 };
 
 export default function reducer (
-  state = { newChat: false, events: [], people: [] },
+  state = {
+    events: [],
+    people: [],
+    eventsLoaded: false,
+    peopleLoaded: false
+  },
   { type, events, people }
 ) {
   switch (type) {
@@ -46,12 +51,14 @@ export default function reducer (
         ...state,
         events: [],
         people: [],
-        display: false
+        display: false,
+        eventsLoaded: false,
+        peopleLoaded: false
       };
     case EVENTS:
-      return { ...state, events };
+      return { ...state, events, eventsLoaded: true };
     case ATTENDING:
-      return { ...state, people };
+      return { ...state, people, peopleLoaded: true };
     default:
       return state;
   }

@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const createUsers = () => {
   const users = [];
-  for (let i = 1; i < 100; i++) {
+  for (let i = 1; i <= 98; i++) {
     users.push({
       email: faker.internet.email(),
       firstName: faker.name.firstName(),
