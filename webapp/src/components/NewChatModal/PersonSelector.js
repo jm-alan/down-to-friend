@@ -7,9 +7,7 @@ export default function PersonSelector ({ event, selectPerson, selectedPerson })
       ? (
         <select
           className='person-selector'
-          value={(selectedPerson.match(/^\d+/) &&
-              selectedPerson.match(/^\d+/)[0]) ??
-              ''}
+          value={selectedPerson}
           onChange={({ target: { value } }) => {
             selectPerson(value);
           }}
