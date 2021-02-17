@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import io from 'socket.io-client';
 
 import Conversations from './Conversations';
 import ChatContainer from './ChatContainer';
 import * as MessengerActions from '../../store/messenger';
-import { LoadMessenger, UnloadMessenger } from '../../store/messenger';
+import { SetSocket, LoadMessenger, UnloadMessenger } from '../../store/messenger';
 
 import './messenger.css';
 
@@ -17,14 +18,20 @@ export default function Messenger () {
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
   const loaded = useSelector(state => state.session.loaded);
-  const convoSockets = useSelector(state => state.messenger.convoSockets);
 
   useEffect(() => {
     dispatch(LoadMessenger());
+    const socket = io(undefined, {
+      query: {
+        type: 'chat'
+      }
+    });
+    dispatch(SetSocket(socket));
     return () => {
+      socket.close();
       dispatch(UnloadMessenger());
     };
-  }, [dispatch, convoSockets]);
+  }, [dispatch]);
 
   return loaded
     ? user
