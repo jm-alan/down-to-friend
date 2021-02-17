@@ -19,8 +19,14 @@ io.use(socketRequireAuth)
               if (!roomMap[convo.id]) roomMap[convo.id] = new Set();
               roomMap[convo.id].add(user.id);
               socket.join(convo.id);
-              socket.on(`convo-${convo.id}`, (message) => {
-                socket.to(convo.id).emit('message', message);
+              socket.on(`convo-${convo.id}`, (content) => {
+                user.createSentMessage({
+                  conversationId: convo.id,
+                  content
+                })
+                  .then(({ content }) => {
+                    socket.to(convo.id).emit(`convo-${convo.id}`, content, user);
+                  });
               });
               convo.getChattingUsers()
                 .then(users => {
