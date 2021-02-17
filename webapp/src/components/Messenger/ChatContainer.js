@@ -19,7 +19,7 @@ export default function ChatContainer () {
       }]);
     });
     return () => {
-      socket.off(`convo-${conversation}`);
+      socket && socket.off(`convo-${conversation}`);
     };
   }, [socket, conversation, messages]);
 

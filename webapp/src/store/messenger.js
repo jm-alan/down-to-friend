@@ -35,7 +35,6 @@ export default function reducer (
     conversations: [],
     conversation: 0,
     messages: [],
-    loadedMessenger: false,
     loadedConversations: false,
     loadedMessages: false,
     socket: null
@@ -52,11 +51,10 @@ export default function reducer (
     case LOADALL:
       return { ...state, conversations };
     case LOAD:
-      return { ...state, loadedMessenger: true };
+      return { ...state };
     case UNLOAD:
       return {
         ...state,
-        loadedMessenger: false,
         loadedConversations: false,
         loadedMessages: false,
         socket: null,
