@@ -6,7 +6,7 @@
 }
 
 .map-container {
-  width: 60%;
+  width: calc(100vw - 768px);
   right: 0;
 }
 
@@ -17,7 +17,7 @@ div.map-pin-container {
 
 div.map-pin-precise {
   position: absolute;
-  background-color: steelblue;
+  background-color: #4682b4;
   height: 10px;
   width: 10px;
   border-radius: 50%;

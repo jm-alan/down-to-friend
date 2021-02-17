@@ -32,6 +32,7 @@ button.location-search-submit {
   font-size: x-large;
   font-weight: bolder;
   z-index: 999;
+  border: none;
 }
 
 .searchbar-input:focus {

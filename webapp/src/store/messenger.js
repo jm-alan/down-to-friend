@@ -72,7 +72,8 @@ export default function reducer (
         loadedConversations: false,
         loadedMessages: false,
         socket: null,
-        conversation: 0
+        conversation: 0,
+        convoSockets: {}
       };
     case LOADCONVO:
       return {
@@ -85,7 +86,7 @@ export default function reducer (
     case SOCKET:
       return { ...state, socket: state.convoSockets[convoId] };
     case REGISTER:
-      return { ...state, convoSockets: { ...convoSockets, [convoId]: socket } };
+      return { ...state, convoSockets: { ...state.convoSockets, [convoId]: socket } };
     case UNREGISTER:
       delete state.convoSockets[convoId];
       return state;

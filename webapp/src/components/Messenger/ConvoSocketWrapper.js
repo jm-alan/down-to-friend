@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import io from 'socket.io-client';
 
 import ConvoSummary from './ConvoSummary';
-import { LoadConvo, SetSocket, RegisterSocket, UnsregisterSocket } from '../../store/messenger';
+import { LoadConvo, SetSocket, RegisterSocket } from '../../store/messenger';
 
 export default function ConvoSocketMount ({ convo }) {
   const dispatch = useDispatch();
@@ -15,7 +15,6 @@ export default function ConvoSocketMount ({ convo }) {
   const remainingUsers = convo.ChattingUsers.filter(({ id }) => id !== user.id);
 
   useEffect(() => {
-    console.log('render convo wrapper');
     const socket = io(undefined, {
       query: {
         type: 'chat',
@@ -27,17 +26,12 @@ export default function ConvoSocketMount ({ convo }) {
     });
     setLiveSocket(socket);
     dispatch(RegisterSocket(convo.id, socket));
-    return () => {
-      console.log('Unrender convo wrapper');
-      socket.close();
-      dispatch(UnsregisterSocket(convo.id));
-    };
   }, [dispatch, convo.id]);
 
   const onSelectConvo = () => {
     setUnread(false);
-    dispatch(LoadConvo(convo.id));
     dispatch(SetSocket(convo.id));
+    dispatch(LoadConvo(convo.id));
   };
 
   return (

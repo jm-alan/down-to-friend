@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import EventSelector from './EventSelector';
 import PersonSelector from './PersonSelector';
-import { LoadConvo } from '../../store/messenger';
+import { LoadConvo, LoadAllConvos, SetSocket } from '../../store/messenger';
 import { HideNewChat, CreateChat } from '../../store/newchat';
 
 export default function NewChatForm ({ addPeople, addedPeople }) {
@@ -21,6 +21,14 @@ export default function NewChatForm ({ addPeople, addedPeople }) {
     setErrors([]);
     dispatch(CreateChat(addedPeople.map(valToNum)))
       .then(convo => {
+        dispatch(LoadAllConvos());
+        return convo;
+      })
+      .then(convo => {
+        dispatch(SetSocket(convo.id));
+        return convo;
+      })
+      .then(convo => {
         if (convo) {
           dispatch(LoadConvo(convo.id));
         }
@@ -32,10 +40,10 @@ export default function NewChatForm ({ addPeople, addedPeople }) {
 
   const addPerson = () => {
     uniquePeople.has(selectedPerson) ||
-    (trackUniquePeople(people => people.add(selectedPerson)) ??
-    addPeople(addedPeople => [
-      ...addedPeople, selectedPerson
-    ]));
+    (
+      trackUniquePeople(people => people.add(selectedPerson)) ??
+      addPeople(addedPeople => [...addedPeople, selectedPerson])
+    );
   };
 
   return (
