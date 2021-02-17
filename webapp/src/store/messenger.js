@@ -8,10 +8,6 @@ const LOADCONVO = 'chat/LOADCONVO';
 
 const SOCKET = 'chat/SOCKET';
 
-const REGISTER = 'chat/REGISTER';
-
-const UNREGISTER = 'chat/UNREGISTER';
-
 const UNLOAD = 'chat/UNLOAD';
 
 const loadConvo = (conversation, messages) => ({ type: LOADCONVO, conversation, messages });
@@ -28,26 +24,20 @@ export const LoadConvo = convoId => async dispatch => {
   dispatch(loadConvo(convoId, data.messages));
 };
 
-export const RegisterSocket = (convoId, socket) => ({ type: REGISTER, convoId, socket });
-
-export const UnsregisterSocket = convoId => ({ type: UNREGISTER, convoId });
-
 export const LoadMessenger = () => ({ type: LOAD });
 
 export const UnloadMessenger = () => ({ type: UNLOAD });
 
-export const SetSocket = convoId => ({ type: SOCKET, convoId });
+export const SetSocket = socket => ({ type: SOCKET, socket });
 
 export default function reducer (
   state = {
     conversations: [],
     conversation: 0,
     messages: [],
-    connected: false,
     loadedMessenger: false,
     loadedConversations: false,
     loadedMessages: false,
-    convoSockets: {},
     socket: null
   },
   {
@@ -55,14 +45,12 @@ export default function reducer (
     conversation,
     conversations,
     messages,
-    convoSockets,
-    convoId,
     socket
   }
 ) {
   switch (type) {
     case LOADALL:
-      return { ...state, socket: null, conversations };
+      return { ...state, conversations };
     case LOAD:
       return { ...state, loadedMessenger: true };
     case UNLOAD:
@@ -84,12 +72,7 @@ export default function reducer (
         loadedMessages: true
       };
     case SOCKET:
-      return { ...state, socket: state.convoSockets[convoId] };
-    case REGISTER:
-      return { ...state, convoSockets: { ...state.convoSockets, [convoId]: socket } };
-    case UNREGISTER:
-      delete state.convoSockets[convoId];
-      return state;
+      return { ...state, socket };
     default:
       return state;
   }
