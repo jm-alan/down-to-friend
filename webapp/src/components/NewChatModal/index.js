@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import AddedPeople from './AddedPeople';
 import NewChatForm from './NewChatForm';
