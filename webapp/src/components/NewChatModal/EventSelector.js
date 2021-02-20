@@ -27,6 +27,7 @@ export default function EventSelector ({ event, selectEvent }) {
                 !event
                   ? (
                     <option
+                      key='vanish'
                       value=''
                     >
                       Pick an event
@@ -42,6 +43,7 @@ export default function EventSelector ({ event, selectEvent }) {
             ]
           : (
             <option
+              key='dead'
               disabled
               value=''
             >
