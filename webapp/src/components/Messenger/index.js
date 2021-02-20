@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import io from 'socket.io-client';
 
-import Conversations from './Conversations';
+import Conversations from './ConversationOuterContainer';
 import ChatContainer from './ChatContainer';
 import * as MessengerActions from '../../store/messenger';
 import { SetSocket, LoadMessenger, UnloadMessenger } from '../../store/messenger';
