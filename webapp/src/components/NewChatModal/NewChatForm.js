@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import EventSelector from './EventSelector';
 import PersonSelector from './PersonSelector';
-import { LoadConvo, LoadAllConvos, SetSocket } from '../../store/messenger';
+import { LoadConvo, LoadAllConvos } from '../../store/messenger';
 import { HideNewChat, CreateChat } from '../../store/newchat';
 
 export default function NewChatForm ({ addPeople, addedPeople }) {
   const dispatch = useDispatch();
+  const socket = useSelector(state => state.messenger.socket);
 
   const [errors, setErrors] = useState([]);
   const [selectedPerson, selectPerson] = useState('');
@@ -25,11 +26,8 @@ export default function NewChatForm ({ addPeople, addedPeople }) {
         return convo;
       })
       .then(convo => {
-        dispatch(SetSocket(convo.id));
-        return convo;
-      })
-      .then(convo => {
         if (convo) {
+          socket.emit('new', convo.id);
           dispatch(LoadConvo(convo.id));
         }
       })
