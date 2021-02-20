@@ -1,5 +1,4 @@
 nav .searchbar-container {
-  z-index: 999;
   display: flex;
   width: 500px;
   height: 50px;
@@ -14,14 +13,12 @@ nav .searchbar-container {
 button.location-search-submit {
   width: 50px;
   font-size: xx-large;
-  z-index: 999;
   background-color: unset;
   border: none;
   color: white;
 }
 
 .searchbar-form {
-  z-index: 999;
   flex-grow: 1;
   display: flex;
 }
@@ -31,7 +28,6 @@ button.location-search-submit {
   box-sizing: border-box;
   font-size: x-large;
   font-weight: bolder;
-  z-index: 999;
   border: none;
 }
 
