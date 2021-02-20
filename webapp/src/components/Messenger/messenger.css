@@ -12,10 +12,12 @@
   padding: 10px;
   border-right: 2px solid black;
   min-width: 350px;
+  max-width: 350px;
 }
 
 .chat-box-container {
   overflow: hidden;
+  width: 610px;
   height: calc(100vh - 60px);
 }
 
@@ -188,7 +190,9 @@ form.newchat-form option {
 div.convo-summary-container {
   display: flex;
   align-items: center;
-  height: 61px;
+  height: min-content;
+  min-height: 61px;
+  padding: 5px 10px;
   border-bottom: 1px solid darkgrey;
   flex-wrap: wrap;
 }
@@ -247,4 +251,8 @@ div.convo-summary-container.unread {
 
 div.convo-summary-container.unread span {
   color: white;
+}
+
+div.convo-summary-container.active {
+  border-left: 7px solid steelblue;
 }

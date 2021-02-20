@@ -49,9 +49,9 @@ const restoreUser = (req, res, next) => {
 
 const socketRequireAuth = (socket, next) => {
   try {
-    socket.handshake.headers &&
-    socket.handshake.headers.cookie &&
-    jwt.verify(socket.handshake.headers.cookie.match(/(?<=(\W+)token=)([a-zA-Z0-9-._]+)/)[0], secret, null, async (err, payload) => {
+    const patternMatch = string => string.match(/(?<=(^)token=)([a-zA-Z0-9-._]+)/);
+    const token = socket.handshake.headers.cookie.split('; ').filter(patternMatch)[0].split('=')[1];
+    jwt.verify(token, secret, null, async (err, payload) => {
       if (err) {
         return socket.disconnect(true);
       }
