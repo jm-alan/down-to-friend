@@ -10,6 +10,8 @@ const LOAD = 'reel/LOAD';
 
 const UNLOAD = 'reel/UNLOAD';
 
+const REF = 'reel/REF';
+
 const enumerate = list => ({ type: ENUMERATE, list });
 
 export const HardSetList = pin => ({ type: ENUMERATE, list: pin ?? [] });
@@ -21,6 +23,8 @@ export const SetEnumerable = enumerable => ({ type: MODE, enumerable });
 export const LoadReel = () => ({ type: LOAD });
 
 export const UnloadReel = () => ({ type: UNLOAD });
+
+export const SetRef = ref => ({ type: REF, ref });
 
 export const EnumerateReel = (
   centerLng, centerLat, lowerLng,
@@ -49,8 +53,9 @@ const reducer = (state = {
   loaded: false,
   searchCenter: { lat: 0, lng: 0 },
   enumerable: true,
+  ref: null,
   store: []
-}, { type, list, enumerable }) => {
+}, { type, list, enumerable, ref }) => {
   switch (type) {
     case ENUMERATE:
       return {
@@ -70,6 +75,8 @@ const reducer = (state = {
         store: [],
         list: [...state.store]
       };
+    case REF:
+      return { ...state, ref };
     default:
       return state;
   }
