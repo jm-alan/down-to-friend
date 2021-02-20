@@ -15,6 +15,7 @@ export default function ConvoSummary ({ convo }) {
 
   const onSelectConvo = () => {
     setUnread(false);
+    socket.emit(`viewing-${convo.id}`);
     dispatch(LoadConvo(convo.id));
   };
 
@@ -24,6 +25,9 @@ export default function ConvoSummary ({ convo }) {
         setUnread(true);
       }
     });
+    return () => {
+      socket && socket.off(`convo-${convo.id}`);
+    };
   }, [socket, conversation, convo.id]);
 
   return (
@@ -31,6 +35,10 @@ export default function ConvoSummary ({ convo }) {
       className={`convo-summary-container${
         unread
           ? ' unread'
+          : ''
+      }${
+        convo.id === conversation
+          ? ' active'
           : ''
       }`}
       onClick={onSelectConvo}
