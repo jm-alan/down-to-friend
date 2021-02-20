@@ -21,8 +21,7 @@ function ProfileButton () {
     setShowMenu(false);
   };
 
-  const logout = e => {
-    e.preventDefault();
+  const logout = () => {
     dispatch(LogOut());
   };
 
@@ -37,25 +36,37 @@ function ProfileButton () {
   }, [showMenu]);
 
   return (
-    <div className='nav-button-container'>
+    <div
+      className='nav-button-container'
+    >
       <button onClick={openMenu}>
         <i className='fas fa-user-circle' />
       </button>
       {showMenu && user && (
-        <ul className='profile-dropdown'>
-          <li>{user.username}</li>
-          <li>{user.email}</li>
-          <li>
-            <button onClick={logout}>Log Out</button>
-          </li>
-          <li>
+        <div
+          id='profile-button-container'
+          className='profile-dropdown'
+        >
+          <div className='profile-pop-item name'>
+            {user.firstName}
+          </div>
+          <div className='profile-pop-item logout'>
             <button
+              className='profile-dropdown-button'
+              onClick={logout}
+            >
+              Log Out
+            </button>
+          </div>
+          <div className='profile-pop-button set-locale'>
+            <button
+              className='profile-dropdown-button'
               onClick={setLocale}
             >
               Set Default Locale
             </button>
-          </li>
-        </ul>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -1,5 +1,9 @@
 .profile-dropdown {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 150px;
 }
 
 nav {
@@ -18,7 +22,7 @@ div.user-navigation-buttons {
   justify-content: space-around;
 }
 
-div.user-navigation-buttons button {
+div.navigation-container-left button {
   background-color: unset;
   border: none;
   color: white;
@@ -26,11 +30,11 @@ div.user-navigation-buttons button {
   font-weight: bolder;
 }
 
-div.user-navigation-buttons button:focus {
+div.navigation-container-left button:focus {
   outline: none;
 }
 
-div.user-navigation-buttons button:hover {
+div.navigation-container-left button:hover {
   cursor: pointer
 }
 
@@ -63,4 +67,55 @@ button.new-event-button:active {
   left: 664px;
   height: 28px;
   width: 73px;
+}
+
+div.navigation-container-left {
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+div.nav-button-container button.profile-dropdown-button {
+  border: 1px solid darkgrey;
+  border-radius: 5px;
+  color: steelblue;
+}
+
+#modal-content.about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#modal-content.about .about-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(192, 211, 214);
+  font-size: 130px;
+}
+
+#modal-content.about .about-icon-container a {
+  max-height: 130px;
+}
+
+#modal-content.about .about-icon-container:hover {
+  color: white;
+}
+
+button#about-me-display {
+  display: flex;
+  align-items: center;
+  font-size: x-large;
+}
+
+div.about-links-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.about-description-container {
+  text-align: center;
 }
