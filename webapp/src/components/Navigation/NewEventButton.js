@@ -2,15 +2,15 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { FixMap, UnfixMap } from '../../store/map';
 import { HardSetList, RestoreList } from '../../store/reel';
-import { ShowNewEvent, HideNewEvent } from '../../store/newEvent';
 import { ShowModal } from '../../store/modal';
+import { ShowReel, ShowNew, ShowLast } from '../../store/homeSlider';
 
 let hangingTimeout;
 
 export default function NewEventButton () {
   const dispatch = useDispatch();
-  const displayNewEvent = useSelector(state => state.newEvent.display);
   const user = useSelector(state => state.session.user);
+  const sliderMode = useSelector(state => state.homeSlider.mode);
 
   const bufferModeSwitch = () => switchMode();
 
@@ -20,23 +20,31 @@ export default function NewEventButton () {
   };
 
   const switchMode = () => {
-    switch (displayNewEvent) {
-      case false:
+    switch (sliderMode) {
+      case 'reel':
         hangingTimeout && clearTimeout(hangingTimeout);
         hangingTimeout = setTimeout(() => {
           dispatch(HardSetList());
           hangingTimeout = undefined;
         }, 500);
         dispatch(FixMap());
-        return dispatch(ShowNewEvent());
-      case true:
+        return dispatch(ShowNew());
+      case 'settings':
+        hangingTimeout && clearTimeout(hangingTimeout);
+        hangingTimeout = setTimeout(() => {
+          dispatch(HardSetList());
+          hangingTimeout = undefined;
+        }, 500);
+        dispatch(FixMap());
+        return dispatch(ShowNew());
+      case 'new':
         ((hangingTimeout || dispatch(RestoreList())) && clearTimeout(hangingTimeout)) ?? (hangingTimeout = undefined);
         dispatch(UnfixMap());
-        return dispatch(HideNewEvent());
+        return dispatch(ShowLast());
       default:
         dispatch(RestoreList());
         dispatch(UnfixMap());
-        return dispatch(HideNewEvent());
+        return dispatch(ShowReel());
     }
   };
 
@@ -45,7 +53,7 @@ export default function NewEventButton () {
       className='new-event-button'
       onClick={showNewEvent}
     >
-      {!displayNewEvent
+      {sliderMode !== 'new'
         ? (
           <>
             <i className='fas fa-plus' />
