@@ -4,6 +4,8 @@ import { FixMap, UnfixMap } from '../../store/map';
 import { HardSetList, RestoreList } from '../../store/reel';
 import { ShowNewEvent, HideNewEvent } from '../../store/newEvent';
 
+let hangingTimeout;
+
 export default function NewEventButton () {
   const dispatch = useDispatch();
   const displayNewEvent = useSelector(state => state.newEvent.display);
@@ -11,11 +13,15 @@ export default function NewEventButton () {
   const switchMode = () => {
     switch (displayNewEvent) {
       case false:
-        dispatch(HardSetList());
+        hangingTimeout && clearTimeout(hangingTimeout);
+        hangingTimeout = setTimeout(() => {
+          dispatch(HardSetList());
+          hangingTimeout = undefined;
+        }, 500);
         dispatch(FixMap());
         return dispatch(ShowNewEvent());
       case true:
-        dispatch(RestoreList());
+        ((hangingTimeout || dispatch(RestoreList())) && clearTimeout(hangingTimeout)) ?? (hangingTimeout = undefined);
         dispatch(UnfixMap());
         return dispatch(HideNewEvent());
       default:
