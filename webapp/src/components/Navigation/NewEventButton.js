@@ -3,12 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FixMap, UnfixMap } from '../../store/map';
 import { HardSetList, RestoreList } from '../../store/reel';
 import { ShowNewEvent, HideNewEvent } from '../../store/newEvent';
+import { ShowModal } from '../../store/modal';
 
 let hangingTimeout;
 
 export default function NewEventButton () {
   const dispatch = useDispatch();
   const displayNewEvent = useSelector(state => state.newEvent.display);
+  const user = useSelector(state => state.session.user);
+
+  const bufferModeSwitch = () => switchMode();
+
+  const showNewEvent = () => {
+    if (!user) return dispatch(ShowModal(bufferModeSwitch));
+    else return switchMode();
+  };
 
   const switchMode = () => {
     switch (displayNewEvent) {
@@ -34,7 +43,7 @@ export default function NewEventButton () {
   return (
     <button
       className='new-event-button'
-      onClick={switchMode}
+      onClick={showNewEvent}
     >
       {!displayNewEvent
         ? (
