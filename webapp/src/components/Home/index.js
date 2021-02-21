@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import EventReel from './EventReel';
 import GoogleMap from '../Map';
-import NewEvent from '../NewEvent';
+import Slider from '../Slider';
 import { GetLocale } from '../../store/user';
 import { Focus, LoadMap } from '../../store/map';
 import { SetEnumerable } from '../../store/reel';
@@ -17,7 +16,6 @@ export default function Home () {
   const sessionLoadState = useSelector(state => state.session.loadState);
   const reelLoaded = useSelector(state => state.reel.loaded);
   const sessionLoaded = useSelector(state => state.session.loaded);
-  const displayNewEvent = useSelector(state => state.newEvent.display);
 
   useEffect(() => {
     dispatch(SetEnumerable(true));
@@ -39,31 +37,7 @@ export default function Home () {
 
   return (sessionLoaded || reelLoaded) && (
     <div className='home-container'>
-      {reelLoaded
-        ? (
-          <div className='reel-newevent-view-controller'>
-            <div
-              className='reel-newevent-sliding-controller'
-              style={{
-                left: displayNewEvent ? '-768px' : '0px'
-              }}
-            >
-              <EventReel
-                list={list}
-              />
-              <NewEvent />
-            </div>
-          </div>
-          )
-        : (
-          <div className='loading-container'>
-            <img
-              className='loading-spinner'
-              src={`${process.env.PUBLIC_URL}/img/dual-ring-small.svg`}
-              alt='Loading...'
-            />
-          </div>
-          )}
+      <Slider />
       <GoogleMap
         list={list}
       />
