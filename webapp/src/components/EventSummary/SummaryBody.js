@@ -34,7 +34,10 @@ export default function SummaryBody ({ profileClick, event }) {
               </Link>
             </div>
             <div className='user-profile-image-container'>
-              <Link to={`/users/${event.Host.id}`}>
+              <Link
+                to={`/users/${event.Host.id}`}
+                onClick={profileClick}
+              >
                 <img
                   src={event.Host.Avatar.url}
                   alt='profile thumbnail'
