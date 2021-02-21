@@ -9,6 +9,7 @@ import EventDetailModal from '../EventDetailModal';
 import AboutMe from '../AboutMe';
 import { Focus } from '../../store/map';
 import { GetLocale } from '../../store/user';
+import { UnloadReel } from '../../store/reel';
 
 import './Navigation.css';
 
@@ -50,7 +51,9 @@ export default function Navigation () {
                   </button>
                 </NavLink>
                 <NavLink to='/messages'>
-                  <button>
+                  <button
+                    onClick={() => dispatch(UnloadReel())}
+                  >
                     Messages
                   </button>
                 </NavLink>
