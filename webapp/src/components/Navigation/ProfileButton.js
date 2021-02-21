@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, Link } from 'react-router-dom';
 
 import { LogOut } from '../../store/session';
-import { SetLocale } from '../../store/user';
+import { ShowSettings } from '../../store/homeSlider';
 
 import './ProfileButton.css';
 
 function ProfileButton () {
   const dispatch = useDispatch();
+  const location = useLocation();
   const user = useSelector(state => state.session.user);
-  const { lng, lat } = useSelector(state => state.map);
 
   const [showMenu, setShowMenu] = useState(false);
+
+  const isHome = location.pathname.match(/^\/$/);
 
   const openMenu = () => {
     if (!showMenu) setShowMenu(true);
@@ -23,10 +26,6 @@ function ProfileButton () {
 
   const logout = () => {
     dispatch(LogOut());
-  };
-
-  const setLocale = () => {
-    dispatch(SetLocale({ lng, lat }));
   };
 
   useEffect(() => {
@@ -48,9 +47,15 @@ function ProfileButton () {
           className='profile-dropdown'
         >
           <div className='profile-pop-item name'>
-            {user.firstName}
+            <Link to='/users/me'>
+              <button
+                className='profile-dropdown-button'
+              >
+                {user.firstName}
+              </button>
+            </Link>
           </div>
-          <div className='profile-pop-item logout'>
+          <div className={`profile-pop-item logout${isHome ? '' : ' last'}`}>
             <button
               className='profile-dropdown-button'
               onClick={logout}
@@ -58,14 +63,16 @@ function ProfileButton () {
               Log Out
             </button>
           </div>
-          <div className='profile-pop-button set-locale'>
-            <button
-              className='profile-dropdown-button'
-              onClick={setLocale}
-            >
-              Set Default Locale
-            </button>
-          </div>
+          {isHome && (
+            <div className='profile-pop-item search-preferences last'>
+              <button
+                className='profile-dropdown-button'
+                onClick={() => dispatch(ShowSettings())}
+              >
+                Search Preferences
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
