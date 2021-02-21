@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { HardSetList } from '../../store/reel';
 import { UnfixMap, Focus } from '../../store/map';
-import { CreateEvent, HideNewEvent } from '../../store/newEvent';
+import { CreateEvent, ShowLast } from '../../store/homeSlider';
 
 export default function NewEventModal () {
   const dispatch = useDispatch();
-  const { lng: longitude, lat: latitude } = useSelector(state => state.map);
   const user = useSelector(state => state.session.user);
+  const { lng: longitude, lat: latitude } = useSelector(state => state.map);
 
   const dateObj = new Date();
   const year = dateObj.getFullYear();
@@ -72,7 +72,7 @@ export default function NewEventModal () {
       .then(resp => {
         if (resp.success) {
           dispatch(UnfixMap());
-          dispatch(HideNewEvent());
+          dispatch(ShowLast());
           dispatch(Focus(longitude, latitude, null, 12));
         } else {
           setErrors([resp.reason]);
@@ -81,7 +81,7 @@ export default function NewEventModal () {
   };
 
   return (
-    <div className='form-container-newevent'>
+    <div className='slider-form-container newevent'>
       {errors.length
         ? (
           <ul className='errors'>
