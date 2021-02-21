@@ -4,40 +4,38 @@ import { useDispatch, useSelector } from 'react-redux';
 import EventReel from './EventReel';
 import GoogleMap from '../Map';
 import NewEvent from '../NewEvent';
-import { Focus, LoadMap, UnloadMap } from '../../store/map';
 import { GetLocale } from '../../store/user';
+import { Focus, LoadMap } from '../../store/map';
+import { SetEnumerable } from '../../store/reel';
 
 import './home.css';
-import { UnloadReel, SetEnumerable } from '../../store/reel';
 
 export default function Home () {
   const dispatch = useDispatch();
   const list = useSelector(state => state.reel.list);
   const user = useSelector(state => state.session.user);
+  const sessionLoadState = useSelector(state => state.session.loadState);
   const reelLoaded = useSelector(state => state.reel.loaded);
   const sessionLoaded = useSelector(state => state.session.loaded);
   const displayNewEvent = useSelector(state => state.newEvent.display);
 
   useEffect(() => {
     dispatch(SetEnumerable(true));
-    if (user) {
-      dispatch(GetLocale())
-        .then(({ lng, lat }) => {
-          dispatch(Focus(lng, lat, null, 10));
-        })
-        .then(() => {
-          dispatch(LoadMap());
-        });
-    } else {
-      dispatch(LoadMap());
-      dispatch(Focus(-121.49428149672518, 38.57366700738277, null, 10));
+    if (sessionLoadState === 'cold') {
+      if (user) {
+        dispatch(GetLocale())
+          .then(({ lng, lat }) => {
+            dispatch(Focus(lng, lat, null, 10));
+          })
+          .then(() => {
+            dispatch(LoadMap());
+          });
+      } else {
+        dispatch(LoadMap());
+        dispatch(Focus(-121.49428149672518, 38.57366700738277, null, 10));
+      }
     }
-
-    return () => {
-      dispatch(UnloadReel());
-      dispatch(UnloadMap());
-    };
-  }, [dispatch, user]);
+  }, [dispatch, user, sessionLoadState]);
 
   return (sessionLoaded || reelLoaded) && (
     <div className='home-container'>
