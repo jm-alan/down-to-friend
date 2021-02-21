@@ -163,8 +163,11 @@ export default function NewEventModal () {
               className='new-event maxGroup'
               type='number'
               value={maxGroup}
-              min={minGroup}
-              onChange={({ target: { value } }) => updateMaxGroup(value)}
+              min={4}
+              onChange={({ target: { value } }) => {
+                updateMaxGroup(value);
+                updateMinGroup(Math.min(value, minGroup));
+              }}
               required
             />
           </div>
