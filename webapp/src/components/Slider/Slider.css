@@ -10,7 +10,7 @@ div.reel-newevent-view-controller {
 }
 
 div.reel-newevent-sliding-controller {
-  transition: all 0.5s;
+  transition: all 0.65s;
   position: relative;
   display: flex;
   height: calc(100vh - 60px);
@@ -36,7 +36,7 @@ div.slider-form-container h6
   margin: 0px;
 }
 
-form.new-event-form {
+form.slider-form {
   border-radius: 5px;
   position: relative;
   padding: 15px 50px;
@@ -49,7 +49,7 @@ form.new-event-form {
   justify-content: space-between;
 }
 
-.new-event-form input {
+.slider-form.new-event input {
   border-radius: 5px;
   padding: 5px;
   width: 100%;
@@ -58,7 +58,7 @@ form.new-event-form {
   border-bottom: 1px solid darkgrey;
 }
 
-.new-event-form input:focus {
+.slider-form.new-event input:focus {
   outline: none;
   box-shadow: 0px 0px 5px darkgrey;
 }
@@ -133,6 +133,12 @@ img.loading-spinner {
   height: 200px;
 }
 
+span.pin-limit-label-wrapper {
+  font-size: 25px;
+  white-space: normal;
+  width: 250px;
+}
+
 div.new-event-submit-container {
   width: 100%;
   height: 100px;
@@ -163,4 +169,124 @@ button.new-event-submit:focus, button.new-event-submit:hover {
 button.new-event-submit:active {
   height: 48px;
   width: 148px;
+}
+
+div.max-events-display-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: min-content;
+  font-size: larger;
+}
+
+div.input-container.max-events input {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: 100px;
+  border: none;
+  border: 1px solid steelblue;
+  text-align: right;
+  font-size: larger;
+  text-align: center;
+}
+
+div.input-container.max-events input:focus {
+  outline: none;
+  box-shadow: 0px 0px 5px steelblue;
+}
+
+div.input-container.max-events {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.max-pins-warning-container {
+  border-radius: 5px;
+  background-color: white;
+  padding: 10px;
+  box-shadow: 0px 0px 5px darkgrey;
+  position: absolute;
+}
+
+.max-pins-warning {
+  color: red;
+  font-size: 18px;
+  width: 150px;
+  white-space: normal;
+}
+
+form.slider-form.search-preferences {
+  justify-content: space-around;
+}
+
+div.set-locale-display-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.set-locale-button {
+  display: flex;
+  align-items: center;
+  background-color: steelblue;
+  color: white;
+  font-size: larger;
+  font-weight: bolder;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  text-align: center;
+  white-space: normal;
+  max-width: 300px;
+  min-width: 300px;
+  max-height: 55px;
+  min-height: 55px;
+}
+
+button.set-locale-button:focus {
+  outline: none;
+}
+
+button.set-locale-button:hover {
+  box-shadow: 0px 0px 5px steelblue;
+}
+
+button.set-locale-button:active {
+  min-width: 298px;
+  max-width: 298px;
+  min-height: 53px;
+  max-height: 53px;
+}
+
+.saving-animation-container {
+  display: flex;
+  align-items: center;
+  font-size: x-large;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+div.input-and-button-container {
+  width: 175px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input-and-button-container button {
+  background-color: steelblue;
+  color: white;
+  border: none;
+  height: 30px;
+  width: 30px;
+  border-radius: 5px;
+  font-size: large;
+}
+
+.input-and-button-container button:focus {
+  outline: none;
 }
