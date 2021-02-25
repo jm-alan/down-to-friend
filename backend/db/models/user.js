@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len: [3, 30],
+          len: [2, 30],
           isNotEmail (value) {
             if (Validator.isEmail(value)) {
               throw new Error('Cannot be an email.');
@@ -47,6 +47,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultLocale: {
         type: DataTypes.STRING,
         allowNull: true
+      },
+      maxPins: {
+        type: DataTypes.INTEGER,
+        allowNull: false
       }
     },
     {
@@ -99,8 +103,8 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   User.prototype.toSafeObject = function () {
-    const { id, firstName, email, Avatar } = this;
-    return { id, firstName, email, Avatar };
+    const { id, firstName, email, maxPins, Avatar } = this;
+    return { id, firstName, email, maxPins, Avatar };
   };
 
   User.prototype.validatePassword = function (password) {
@@ -126,12 +130,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  User.signup = async function ({ firstName, email, password }) {
+  User.signup = async function ({ firstName, email, password, maxPins }) {
     const hashedPassword = bcrypt.hashSync(password);
     const user = await User.create({
       firstName,
       email,
-      hashedPassword
+      hashedPassword,
+      maxPins
     });
     return await User.scope('currentUser').findByPk(user.id, {
       include: ['Avatar']
