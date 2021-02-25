@@ -27,16 +27,11 @@ export function ModalProvider ({ children }) {
 }
 
 export function Modal ({ onClose, children }) {
-  const dispatch = useDispatch();
   const modalNode = useContext(ModalContext);
+  const user = useSelector(state => state.session.user);
   const after = useSelector(state => state.modal.after);
 
-  useEffect(() => {
-    return () => {
-      dispatch(LoadSession());
-      after && after();
-    };
-  }, [dispatch, after]);
+  useEffect(() => () => after && after(), [user, after]);
 
   return modalNode
     ? ReactDOM.createPortal(
