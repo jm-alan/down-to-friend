@@ -2,8 +2,9 @@ const express = require('express');
 const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 
+const { singlePublicFileUpload, singleMulterUpload } = require('../../awsS3');
 const { handleValidationErrors } = require('../../utils/validation');
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const { User, Conversation, Event, Notification } = require('../../db/models');
 
 const router = express.Router();
@@ -24,6 +25,34 @@ const validateSignup = [
     .withMessage('Password must be 6 characters or more.'),
   handleValidationErrors
 ];
+
+router.post(
+  '/me/profilePhoto',
+  requireAuth,
+  singleMulterUpload('image'),
+  asyncHandler(async (req, res) => {
+    try {
+      const { user, file } = req;
+      const url = await singlePublicFileUpload(file);
+      await user.createAvatar({ url });
+      res.json({ success: true, url });
+    } catch (err) {
+      console.error(err);
+      console.error('Short:', err.toString());
+      res.json({ success: false, reason: err.toString() });
+    }
+  })
+);
+
+router.post('/me/settings', requireAuth, asyncHandler(async (req, res) => {
+  const { user, body: { pins: maxPins } } = req;
+  try {
+    user.update({ maxPins });
+    return res.json({ success: true });
+  } catch (err) {
+    return res.json({ success: false });
+  }
+}));
 
 router.delete('/me/notifications/:notificationId(\\d+)', requireAuth, asyncHandler(async (req, res) => {
   const { user, params: { notificationId } } = req;
@@ -81,7 +110,7 @@ router.get('/me', requireAuth, asyncHandler(async (req, res) => {
 router.get('/me/locale', requireAuth, asyncHandler(async (req, res) => {
   const { user: { defaultLocale } } = req;
   if (defaultLocale) return res.json(JSON.parse(defaultLocale));
-  return res.json({ lat: 38.57366700738277, lng: -121.49428149672518 });
+  return res.json({ lng: -98.5795, lat: 39.8283 });
 }));
 
 router.post('/me/locale', requireAuth, asyncHandler(async (req, res) => {
@@ -101,7 +130,7 @@ router.post('/me/locale', requireAuth, asyncHandler(async (req, res) => {
 
 router.get('/me/events/hosting', requireAuth, asyncHandler(async (req, res) => {
   const { user } = req;
-  const events = await user.getHostedEvents({
+  let events = await user.getHostedEvents({
     include: [
       'AttendingUsers',
       {
@@ -111,12 +140,13 @@ router.get('/me/events/hosting', requireAuth, asyncHandler(async (req, res) => {
       }
     ]
   });
+  events = events.map(event => ({ ...event.dataValues, isAttending: true }));
   return res.json({ events });
 }));
 
 router.get('/me/events/attending', requireAuth, asyncHandler(async (req, res) => {
   const { user } = req;
-  const events = await user.getAttendingEvents({
+  let events = await user.getAttendingEvents({
     include: [
       'AttendingUsers',
       {
@@ -126,6 +156,10 @@ router.get('/me/events/attending', requireAuth, asyncHandler(async (req, res) =>
       }
     ]
   });
+  await events.asyncForEach(async event => {
+    event.isAttending = await event.hasAttendingUser(user);
+  });
+  events = events.map(event => ({ ...event.dataValues, isAttending: event.isAttending }));
   return res.json({ events });
 }));
 
@@ -138,10 +172,10 @@ router.get('/me/events/attending/:eventId(\\d+)/attendees', requireAuth, asyncHa
   return res.json({ people });
 }));
 
-router.get('/:id(\\d+)/events/hosting', asyncHandler(async (req, res) => {
-  const { params: { id } } = req;
+router.get('/:id(\\d+)/events/hosting', restoreUser, asyncHandler(async (req, res) => {
+  const { params: { id }, user: loggedInUser } = req;
   const user = await User.findByPk(id);
-  const events = await user.getHostedEvents({
+  let events = await user.getHostedEvents({
     include: [
       'AttendingUsers',
       {
@@ -151,13 +185,17 @@ router.get('/:id(\\d+)/events/hosting', asyncHandler(async (req, res) => {
       }
     ]
   });
+  loggedInUser && await events.asyncForEach(async event => {
+    event.isAttending = await event.hasAttendingUser(loggedInUser);
+  });
+  events = events.map(event => ({ ...event.dataValues, isAttending: event.isAttending }));
   return res.json({ events });
 }));
 
-router.get('/:id(\\d+)/events/attending', asyncHandler(async (req, res) => {
-  const { params: { id } } = req;
+router.get('/:id(\\d+)/events/attending', restoreUser, asyncHandler(async (req, res) => {
+  const { params: { id }, user: loggedInUser } = req;
   const user = await User.findByPk(id);
-  const events = await user.getAttendingEvents({
+  let events = await user.getAttendingEvents({
     include: [
       'AttendingUsers',
       {
@@ -167,12 +205,21 @@ router.get('/:id(\\d+)/events/attending', asyncHandler(async (req, res) => {
       }
     ]
   });
+  loggedInUser && await events.asyncForEach(async event => {
+    event.isAttending = await event.hasAttendingUser(loggedInUser);
+  });
+  events = events.map(event => ({ ...event.dataValues, isAttending: event.isAttending }));
   return res.json({ events });
 }));
 
 router.post('/', validateSignup, asyncHandler(async (req, res) => {
   const { email, password, firstName } = req.body;
-  const user = await User.signup({ email, firstName, password });
+  const user = await User.signup({
+    email,
+    firstName,
+    password,
+    maxPins: 50
+  });
 
   setTokenCookie(res, user);
 
