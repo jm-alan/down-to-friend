@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { HardSetList } from '../../store/reel';
@@ -21,12 +21,13 @@ export default function NewEventModal () {
   const [closes, updatedCloses] = useState(`${year}-${month}-${day}`);
   const [minGroup, updateMinGroup] = useState(4);
   const [maxGroup, updateMaxGroup] = useState(4);
-
   const [errors, setErrors] = useState([]);
+
+  const formRef = useRef(null);
 
   const promptFinder = e => {
     e.preventDefault();
-    if (!title) return;
+    if (!title) return formRef.current.submit();
     const event = {
       title,
       id: '',
@@ -40,10 +41,7 @@ export default function NewEventModal () {
     searchContainer.style.boxShadow = '0px 0px 30px white';
     let cycles = 0;
     const attentionInterval = setInterval(() => {
-      if (cycles === 2) {
-        clearInterval(attentionInterval);
-        searchBar.focus();
-      }
+      (cycles === 2 && clearInterval(attentionInterval)) ?? searchBar.focus();
       if (cycles % 2) {
         searchBar.style.backgroundColor = 'darkgrey';
         searchContainer.style.boxShadow = '0px 0px 20px white';
@@ -90,8 +88,9 @@ export default function NewEventModal () {
           )
         : null}
       <form
-        className='new-event-form'
+        className='slider-form new-event'
         onSubmit={onSubmit}
+        ref={formRef}
       >
         <div className='new-event-location-select'>
           <button
