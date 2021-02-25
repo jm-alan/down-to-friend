@@ -26,7 +26,7 @@ export default function NewEventButton () {
         hangingTimeout = setTimeout(() => {
           dispatch(HardSetList());
           hangingTimeout = undefined;
-        }, 500);
+        }, 660);
         dispatch(FixMap());
         return dispatch(ShowNew());
       case 'settings':
@@ -34,11 +34,13 @@ export default function NewEventButton () {
         hangingTimeout = setTimeout(() => {
           dispatch(HardSetList());
           hangingTimeout = undefined;
-        }, 500);
+        }, 660);
         dispatch(FixMap());
         return dispatch(ShowNew());
       case 'new':
-        ((hangingTimeout || dispatch(RestoreList())) && clearTimeout(hangingTimeout)) ?? (hangingTimeout = undefined);
+        (
+          (hangingTimeout || dispatch(RestoreList())) && clearTimeout(hangingTimeout)
+        ) ?? (hangingTimeout = undefined);
         dispatch(UnfixMap());
         return dispatch(ShowLast());
       default:

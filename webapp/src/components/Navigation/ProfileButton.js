@@ -7,7 +7,7 @@ import { ShowSettings } from '../../store/homeSlider';
 
 import './ProfileButton.css';
 
-function ProfileButton () {
+export default function ProfileButton () {
   const dispatch = useDispatch();
   const location = useLocation();
   const user = useSelector(state => state.session.user);
@@ -78,5 +78,3 @@ function ProfileButton () {
     </div>
   );
 }
-
-export default ProfileButton;

@@ -28,7 +28,7 @@ export default function Navigation () {
         .then(({ lng, lat }) => {
           dispatch(Focus(lng, lat, null, 10));
         });
-    } else return dispatch(Focus(-121.49428149672518, 38.57366700738277, null, 10));
+    } else return dispatch(Focus(-98.5795, 39.8283, null, 6));
   };
 
   return (
