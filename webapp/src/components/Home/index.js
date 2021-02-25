@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import GoogleMap from '../Map';
 import Slider from '../Slider';
 import { GetLocale } from '../../store/user';
-import { Focus, LoadMap } from '../../store/map';
+import { Focus, LoadMap, SetPins } from '../../store/map';
 import { SetEnumerable } from '../../store/reel';
 
 import './home.css';
@@ -23,16 +23,17 @@ export default function Home () {
       if (user) {
         dispatch(GetLocale())
           .then(({ lng, lat }) => {
-            dispatch(Focus(lng, lat, null, 10));
+            dispatch(Focus(lng, lat, null, 8));
           })
           .then(() => {
             dispatch(LoadMap());
           });
       } else {
         dispatch(LoadMap());
-        dispatch(Focus(-121.49428149672518, 38.57366700738277, null, 10));
+        dispatch(Focus(-98.5795, 39.8283, null, 6));
       }
     }
+    user && dispatch(SetPins(user.maxPins));
   }, [dispatch, user, sessionLoadState]);
 
   return (sessionLoaded || reelLoaded) && (
