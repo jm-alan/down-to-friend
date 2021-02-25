@@ -8,9 +8,17 @@ const FIX = 'map/FIX';
 
 const UNFIX = 'map/UNFIX';
 
+const PINS = 'map/PINS';
+
 export const LoadMap = () => ({ type: LOAD });
 
 export const UnloadMap = () => ({ type: UNLOAD });
+
+export const SetPins = pins => ({ type: PINS, pins });
+
+export const FixMap = () => ({ type: FIX });
+
+export const UnfixMap = () => ({ type: UNFIX });
 
 export const Focus = (lng, lat, bounds, zoom) => ({
   type: FOCUS,
@@ -20,20 +28,19 @@ export const Focus = (lng, lat, bounds, zoom) => ({
   zoom
 });
 
-export const FixMap = () => ({ type: FIX });
-
-export const UnfixMap = () => ({ type: UNFIX });
+const initialState = {
+  lat: 38.57366700738277,
+  lng: -121.49428149672518,
+  zoom: 10,
+  bounds: null,
+  loaded: false,
+  fixed: false,
+  pins: 1
+};
 
 export default function reducer (
-  state = {
-    lat: 38.57366700738277,
-    lng: -121.49428149672518,
-    zoom: 10,
-    bounds: null,
-    loaded: false,
-    fixed: false
-  },
-  { type, lat, lng, bounds, zoom }
+  state = initialState,
+  { type, lat, lng, bounds, zoom, pins }
 ) {
   switch (type) {
     case FOCUS:
@@ -46,6 +53,8 @@ export default function reducer (
       return { ...state, fixed: true };
     case UNFIX:
       return { ...state, fixed: false };
+    case PINS:
+      return { ...state, pins };
     default:
       return state;
   }
