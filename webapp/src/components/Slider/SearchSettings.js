@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Debouncer from '../../utils/Debouncer';
 import { SetPins } from '../../store/map';
+import { ShowLast } from '../../store/homeSlider';
 import { UpdateSearchSettings, SetLocale } from '../../store/user';
 
 const pinSetter = (dispatch, setShowSaving1, pins) => {
@@ -29,14 +30,23 @@ export default function SearchSettings () {
   const inputRef = useRef(null);
 
   const onChangeMaxPins = ({ target: { value } }) => {
+    value = `${value}`;
     setShowSaving1(true);
     setShowSaving2(true);
-    value.match(/^[0-9]+$/) && setMaxPins(value);
+    value.match(/^[0-9]+$/) && setMaxPins(+value);
     value || setMaxPins(1);
-    debouncedPinSetter(dispatch, setShowSaving1, value || 1);
+    debouncedPinSetter(dispatch, setShowSaving1, +value || 1);
     ((value > 199) && (
       setShowWarning(true) ?? true
     )) || setShowWarning(false);
+  };
+
+  const pinPlus = () => {
+    onChangeMaxPins({ target: { value: +maxPins + 1 } });
+  };
+
+  const pinMinus = () => {
+    onChangeMaxPins({ target: { value: +maxPins - 1 } });
   };
 
   useEffect(() => {
@@ -59,10 +69,20 @@ export default function SearchSettings () {
       });
   };
 
+  const closeSettings = () => {
+    dispatch(ShowLast());
+  };
+
   const inputBoundingRect = inputRef.current && inputRef.current.getBoundingClientRect();
 
   return (
     <div className='slider-form-container searchsettings'>
+      <button
+        className='slider-button close-settings'
+        onClick={closeSettings}
+      >
+        <i className='fas fa-times' /> <span className='label close-settings'>Close</span>
+      </button>
       <form className='slider-form search-preferences'>
         <div className='max-events-display-container'>
           <div className='input-container max-events'>
@@ -73,6 +93,7 @@ export default function SearchSettings () {
               <button
                 type='button'
                 className='plus'
+                onClick={pinPlus}
               >
                 <i className='fas fa-plus' />
               </button>
@@ -86,7 +107,8 @@ export default function SearchSettings () {
               />
               <button
                 type='button'
-                className='minus'
+                className='plus'
+                onClick={pinMinus}
               >
                 <i className='fas fa-minus' />
               </button>

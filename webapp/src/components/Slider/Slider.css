@@ -252,6 +252,7 @@ button.set-locale-button:focus {
 
 button.set-locale-button:hover {
   box-shadow: 0px 0px 5px steelblue;
+  cursor: pointer;
 }
 
 button.set-locale-button:active {
@@ -288,5 +289,37 @@ div.input-and-button-container {
 }
 
 .input-and-button-container button:focus {
+  outline: none;
+}
+
+.input-and-button-container button:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 5px steelblue;
+}
+
+button.slider-button.close-settings {
+  position: absolute;
+  background-color: unset;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 75px;
+  height: 30px;
+  border-radius: 5px;
+  color: red;
+  font-size: medium;
+  font-weight: bolder;
+  top: 10px;
+  left: 10px;
+}
+
+button.slider-button.close-settings:hover {
+  cursor: pointer;
+  color: white;
+  background-color: red;
+}
+
+button.slider-button.close-settings:focus {
   outline: none;
 }
