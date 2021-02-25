@@ -6,7 +6,9 @@ export default async function fetch (url, options = {}) {
 
   if (options.method.toUpperCase() !== 'GET') {
     // do not set content type if attempting photo upload
-    if (!url.match('/api/photos')) {
+    if (options.headers['Content-Type'] === 'multipart/form-data') {
+      delete options.headers['Content-Type'];
+    } else {
       options.headers['Content-Type'] = options.headers['Content-Type'] || 'application/json';
     }
     options.headers['XSRF-Token'] = Cookies.get('XSRF-TOKEN');
