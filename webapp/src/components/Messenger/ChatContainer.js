@@ -23,6 +23,10 @@ export default function ChatContainer () {
     };
   }, [socket, conversation, messages]);
 
+  useEffect(() => {
+    socket && socket.emit(`viewing-${conversation}`);
+  }, [socket, conversation]);
+
   return conversation
     ? (
       <>

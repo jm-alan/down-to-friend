@@ -6,7 +6,7 @@ import io from 'socket.io-client';
 import Conversations from './ConversationOuterContainer';
 import ChatContainer from './ChatContainer';
 import * as MessengerActions from '../../store/messenger';
-import { SetSocket, LoadMessenger, UnloadMessenger } from '../../store/messenger';
+import { SetMessengerSocket, LoadMessenger, UnloadMessenger } from '../../store/messenger';
 
 import './messenger.css';
 
@@ -26,7 +26,7 @@ export default function Messenger () {
         type: 'chat'
       }
     });
-    dispatch(SetSocket(socket));
+    dispatch(SetMessengerSocket(socket));
     return () => {
       socket.close();
       dispatch(UnloadMessenger());
