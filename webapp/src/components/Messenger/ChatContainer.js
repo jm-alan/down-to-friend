@@ -9,6 +9,7 @@ export default function ChatContainer () {
   const socket = useSelector(state => state.messenger.socket);
   const messages = useSelector(state => state.messenger.messages);
   const [rollingMessages, updateRollingMessages] = useState([]);
+  const [showTyping, setShowTyping] = useState(false);
 
   useEffect(() => {
     updateRollingMessages(messages);
@@ -17,6 +18,12 @@ export default function ChatContainer () {
         Sender: user,
         content
       }]);
+    });
+    conversation && socket && socket.on('isTyping', () => {
+      setShowTyping(true);
+    });
+    conversation && socket && socket.on('isNotTyping', () => {
+      setShowTyping(false);
     });
     return () => {
       socket && socket.off(`convo-${conversation}`);
@@ -32,6 +39,7 @@ export default function ChatContainer () {
       <>
         <MessagesContainer
           rollingMessages={rollingMessages}
+          showTyping={showTyping}
         />
         <InputBox
           updateRollingMessages={updateRollingMessages}
