@@ -1,6 +1,6 @@
 const io = require('socket.io')();
 
-const { Conversation } = require('./db/models');
+const { Conversation, Notification } = require('./db/models');
 const { socketRequireAuth } = require('./utils/auth');
 
 const roomMap = {};
@@ -14,6 +14,12 @@ const convoLogic = (socket, user, convos) => convo => {
     // looking up their rooms in the room map and deleting this
     // user from their viewers, enabling this user to be notified
     // of new messages in that conversation.
+    Notification.destroy({
+      where: {
+        userId: user.id,
+        conversationId: convo.id
+      }
+    });
     convos.forEach(({ id }) => {
       roomMap[id] && roomMap[id].delete(user.id);
     });
@@ -44,26 +50,32 @@ const convoLogic = (socket, user, convos) => convo => {
     convo.getChattingUsers()
       .then(users => {
         const toNotify = [];
-        users.forEach(chattingUser => {
-          // If a user is not currently viewing a room, create a notif
-          // in the database regardless of whether they're online.
-          if (
-            roomMap[convo.id] &&
-            (!roomMap[convo.id].has(chattingUser.id))
-          ) {
-            toNotify.push(chattingUser.id);
-            chattingUser.createNotification({
-              conversationId: convo.id
-            });
+        Notification.destroy({
+          where: {
+            conversationId: convo.id
           }
-        });
-        toNotify.forEach(userId => {
+        }).then(() => {
+          users.forEach(chattingUser => {
+            // If a user is not currently viewing a room, create a notif
+            // in the database regardless of whether they're online.
+            if (
+              roomMap[convo.id] &&
+              (!roomMap[convo.id].has(chattingUser.id))
+            ) {
+              toNotify.push(chattingUser.id);
+              chattingUser.createNotification({
+                conversationId: convo.id
+              });
+            }
+          });
+          toNotify.forEach(userId => {
           // If and only if a user is actively online, also emit a live
           // notification event letting them know they've received a
           // message.
-          if (liveUsers.has(userId)) {
-            io.to(`notif-${userId}`).emit(`convo-notif-${convo.id}`);
-          }
+            if (liveUsers.has(userId)) {
+              io.to(`notif-${userId}`).emit('chat', { sender: user.firstName, content, conversationId: convo.id });
+            }
+          });
         });
       });
   });
@@ -97,7 +109,7 @@ io.use(socketRequireAuth)
                   convo.getChattingUsers()
                     .then(users => {
                       users.forEach(({ id }) => {
-                        socket.to(`notif-${id}`).emit(`convo-notif-${convo.id}`);
+                        liveUsers.has(id) && socket.to(`notif-${id}`).emit(`convo-notif-${convo.id}`);
                       });
                     });
                   convoLogic(socket, user, convos)(convo);
@@ -113,6 +125,45 @@ io.use(socketRequireAuth)
         // On disconnect, remove them from the runing list of connected users.
         socket.on('disconnect', () => {
           liveUsers.delete(user.id);
+        });
+        socket.on('quickReply', (conversationId, content) => {
+          user.createSentMessage({
+            conversationId,
+            content
+          })
+            .then(({ content }) => {
+              socket.to(conversationId).emit(`convo-${conversationId}`, content, user);
+            });
+          Conversation.findByPk(conversationId)
+            .then(convo => {
+              convo.getChattingUsers()
+                .then(users => {
+                  const toNotify = [];
+                  Notification.destroy({
+                    where: {
+                      conversationId: convo.id
+                    }
+                  }).then(() => {
+                    users.forEach(chattingUser => {
+                      if (
+                        roomMap[convo.id] &&
+                      (!roomMap[convo.id].has(chattingUser.id)) &&
+                      chattingUser.id !== user.id
+                      ) {
+                        toNotify.push(chattingUser.id);
+                        chattingUser.createNotification({
+                          conversationId: convo.id
+                        });
+                      }
+                    });
+                    toNotify.forEach(userId => {
+                      if (liveUsers.has(userId)) {
+                        io.to(`notif-${userId}`).emit('chat', { sender: user.firstName, content, conversationId: convo.id });
+                      }
+                    });
+                  });
+                });
+            });
         });
         break;
       default:
