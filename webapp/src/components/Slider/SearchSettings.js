@@ -2,12 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Debouncer from '../../utils/Debouncer';
-import { SetPins } from '../../store/map';
+import { SetLimit } from '../../store/reel';
 import { ShowLast } from '../../store/homeSlider';
 import { UpdateSearchSettings, SetLocale } from '../../store/user';
 
 const pinSetter = (dispatch, setShowSaving1, pins) => {
-  dispatch(SetPins(pins));
+  dispatch(SetLimit(pins));
   dispatch(UpdateSearchSettings(pins))
     .then(success => {
       success && setShowSaving1(false);
@@ -50,8 +50,8 @@ export default function SearchSettings () {
   };
 
   useEffect(() => {
-    user && dispatch(SetPins(user.maxPins)) && setMaxPins(user.maxPins);
-    user ?? (dispatch(SetPins(25)) && setMaxPins(25));
+    user && dispatch(SetLimit(user.maxPins)) && setMaxPins(user.maxPins);
+    user ?? (dispatch(SetLimit(25)) && setMaxPins(25));
   }, [dispatch, user]);
 
   useEffect(() => {

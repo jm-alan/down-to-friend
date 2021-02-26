@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import GoogleMap from '../Map';
 import Slider from '../Slider';
 import { GetLocale } from '../../store/user';
-import { Focus, LoadMap, SetPins } from '../../store/map';
-import { SetEnumerable } from '../../store/reel';
+import { Focus, LoadMap } from '../../store/map';
+import { SetEnumerable, SetLimit } from '../../store/reel';
 
 import './home.css';
 
@@ -13,9 +13,9 @@ export default function Home () {
   const dispatch = useDispatch();
   const list = useSelector(state => state.reel.list);
   const user = useSelector(state => state.session.user);
-  const sessionLoadState = useSelector(state => state.session.loadState);
   const reelLoaded = useSelector(state => state.reel.loaded);
   const sessionLoaded = useSelector(state => state.session.loaded);
+  const sessionLoadState = useSelector(state => state.session.loadState);
 
   useEffect(() => {
     dispatch(SetEnumerable(true));
@@ -33,7 +33,7 @@ export default function Home () {
         dispatch(Focus(-98.5795, 39.8283, null, 6));
       }
     }
-    user && dispatch(SetPins(user.maxPins));
+    user && dispatch(SetLimit(user.maxPins));
   }, [dispatch, user, sessionLoadState]);
 
   return (sessionLoaded || reelLoaded) && (
