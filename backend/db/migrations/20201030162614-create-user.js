@@ -32,6 +32,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
+      maxPins: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 50
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

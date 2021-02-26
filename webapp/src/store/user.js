@@ -41,6 +41,28 @@ export const SetLocale = locale => async dispatch => {
   return locale;
 };
 
+export const UpdateSearchSettings = pins => async () => {
+  const { data } = await csrfetch('/api/users/me/settings', {
+    method: 'POST',
+    body: JSON.stringify({ pins })
+  });
+  return data;
+};
+
+export const SetProfilePhoto = image => async () => {
+  // eslint-disable-next-line
+  const body = new FormData();
+  body.append('image', image);
+  const { data } = await csrfetch('/api/users/me/profilePhoto', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    body
+  });
+  return data;
+};
+
 export default function reducer (state = { locale: { lat: null, lng: null } }, { type, locale }) {
   switch (type) {
     case LOCALE:

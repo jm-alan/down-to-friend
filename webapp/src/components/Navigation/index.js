@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, NavLink } from 'react-router-dom';
 
 import ProfileButton from './ProfileButton';
 import NewEventButton from './NewEventButton';
@@ -7,18 +7,34 @@ import FormModal from '../FormModal';
 import SearchBar from '../SearchBar';
 import EventDetailModal from '../EventDetailModal';
 import AboutMe from '../AboutMe';
+import { Focus } from '../../store/map';
+import { GetLocale } from '../../store/user';
+import { UnloadReel } from '../../store/reel';
 
 import './Navigation.css';
 
 export default function Navigation () {
+  const dispatch = useDispatch();
+  const location = useLocation();
   const user = useSelector(state => state.session.user);
   const event = useSelector(state => state.eventModal.event);
   const sessionLoaded = useSelector(state => state.session.loaded);
 
+  const isHome = location.pathname.match(/^\/$/);
+
+  const homeClick = () => {
+    if (user) {
+      dispatch(GetLocale())
+        .then(({ lng, lat }) => {
+          dispatch(Focus(lng, lat, null, 10));
+        });
+    } else return dispatch(Focus(-98.5795, 39.8283, null, 6));
+  };
+
   return (
     <nav className='navbar'>
       {event && <EventDetailModal />}
-      <NewEventButton />
+      {isHome && <NewEventButton />}
       <div className='navigation-container-left'>
         <div className='user-navigation-buttons'>
           <div className='nav-button-container' />
@@ -27,12 +43,17 @@ export default function Navigation () {
               <>
                 <ProfileButton />
                 <NavLink to='/'>
-                  <button className='nav-button home'>
+                  <button
+                    className='nav-button home'
+                    onClick={homeClick}
+                  >
                     Home
                   </button>
                 </NavLink>
                 <NavLink to='/messages'>
-                  <button>
+                  <button
+                    onClick={() => dispatch(UnloadReel())}
+                  >
                     Messages
                   </button>
                 </NavLink>
@@ -42,7 +63,7 @@ export default function Navigation () {
         </div>
         <AboutMe />
       </div>
-      <SearchBar />
+      {isHome && <SearchBar />}
     </nav>
   );
 }

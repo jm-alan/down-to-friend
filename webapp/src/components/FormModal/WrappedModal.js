@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import { HideModal } from '../../store/modal';
+import { LoadSession } from '../../store/session';
 import { Modal } from '../../context/Modal';
 
 export default function FormModal () {
@@ -13,6 +14,7 @@ export default function FormModal () {
     <Modal
       onClose={() => {
         dispatch(HideModal());
+        dispatch(LoadSession());
       }}
     >
       {form === 'login' && <LoginForm />}

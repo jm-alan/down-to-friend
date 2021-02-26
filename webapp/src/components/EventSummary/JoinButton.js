@@ -12,9 +12,9 @@ export default function JoinButton ({
 
   const [isAttending, setIsAttending] = useState(!!event.isAttending);
   const [displayState, setDisplayState] = useState(
-    slotsRemaining
-      ? isAttending ? 2 : 0
-      : 3);
+    isAttending
+      ? 2
+      : slotsRemaining ? 0 : 3);
 
   const HeapJoin = () => {
     dispatch(JoinEvent(event.id))

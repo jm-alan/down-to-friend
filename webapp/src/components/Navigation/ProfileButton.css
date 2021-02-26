@@ -1,9 +1,41 @@
 .profile-dropdown {
+  color: white;
   z-index: 999;
-  background-color: white;
-  box-sizing: border-box;
+  background-color: rgb(120, 173, 216);
   border-radius: 5px;
-  padding: 10px;
+  padding: 5px;
   list-style-type: none;
   box-shadow: 0px 0px 5px darkgrey;
+  position: absolute;
+  left: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: min-content;
+}
+
+.profile-pop-item {
+  display: flex;
+  align-items: center;
+}
+
+.profile-pop-item:not(.last) {
+  margin-bottom: 20px;
+}
+
+.logout.last {
+  margin-bottom: 5px;
+}
+
+div.profile-pop-item.name {
+  font-size: large;
+  font-weight: bold;
+}
+
+div.nav-button-container button.profile-dropdown-button {
+  border-radius: 5px;
+}
+
+#profile-button-container {
+  width: 150px;
 }

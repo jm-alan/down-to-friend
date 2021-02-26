@@ -120,9 +120,22 @@ div.signup-phases-container {
   left: 0;
   display: flex;
   justify-content: space-between;
-  width: 680px;
+  width: 1040px;
 }
 
 div.signup-phases-container .form-container {
   width: 320px;
+}
+
+button.avatar-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+img.avatar-preview {
+  height: auto;
+  width: auto;
+  max-height: 200px;
+  max-width: 320px;
 }

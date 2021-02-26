@@ -12,6 +12,10 @@ export const LoadMap = () => ({ type: LOAD });
 
 export const UnloadMap = () => ({ type: UNLOAD });
 
+export const FixMap = () => ({ type: FIX });
+
+export const UnfixMap = () => ({ type: UNFIX });
+
 export const Focus = (lng, lat, bounds, zoom) => ({
   type: FOCUS,
   lng,
@@ -19,10 +23,6 @@ export const Focus = (lng, lat, bounds, zoom) => ({
   bounds,
   zoom
 });
-
-export const FixMap = () => ({ type: FIX });
-
-export const UnfixMap = () => ({ type: UNFIX });
 
 export default function reducer (
   state = {

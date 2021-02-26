@@ -11,7 +11,7 @@ import profile from './profile';
 import messenger from './messenger';
 import newChat from './newchat';
 import eventModal from './eventModal';
-import newEvent from './newEvent';
+import homeSlider from './homeSlider';
 
 const rootReducer = combineReducers({
   session,
@@ -24,7 +24,7 @@ const rootReducer = combineReducers({
   messenger,
   newChat,
   eventModal,
-  newEvent
+  homeSlider
 });
 
 let enhancer;

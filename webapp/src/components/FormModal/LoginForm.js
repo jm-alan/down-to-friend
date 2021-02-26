@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { LogIn } from '../../store/session';
 import { HideModal, ModalForm } from '../../store/modal';
 
-function LoginForm () {
+export default function LoginForm () {
   const dispatch = useDispatch();
   const [identification, setIdentification] = useState('');
   const [password, setPassword] = useState('');
@@ -57,7 +57,9 @@ function LoginForm () {
           required
         />
         <div className='form-button-container'>
-          <button type='submit'>Log In</button>
+          <button type='submit'>
+            Log In
+          </button>
           <button
             type='button'
             onClick={demoLogin}
@@ -75,5 +77,3 @@ function LoginForm () {
     </div>
   );
 }
-
-export default LoginForm;

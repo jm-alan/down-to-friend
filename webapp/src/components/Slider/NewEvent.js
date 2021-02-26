@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { HardSetList } from '../../store/reel';
 import { UnfixMap, Focus } from '../../store/map';
-import { CreateEvent, HideNewEvent } from '../../store/newEvent';
+import { CreateEvent, ShowLast } from '../../store/homeSlider';
 
 export default function NewEventModal () {
   const dispatch = useDispatch();
-  const { lng: longitude, lat: latitude } = useSelector(state => state.map);
   const user = useSelector(state => state.session.user);
+  const { lng: longitude, lat: latitude } = useSelector(state => state.map);
 
   const dateObj = new Date();
   const year = dateObj.getFullYear();
@@ -21,12 +21,13 @@ export default function NewEventModal () {
   const [closes, updatedCloses] = useState(`${year}-${month}-${day}`);
   const [minGroup, updateMinGroup] = useState(4);
   const [maxGroup, updateMaxGroup] = useState(4);
-
   const [errors, setErrors] = useState([]);
+
+  const formRef = useRef(null);
 
   const promptFinder = e => {
     e.preventDefault();
-    if (!title) return;
+    if (!title) return formRef.current.submit();
     const event = {
       title,
       id: '',
@@ -40,10 +41,7 @@ export default function NewEventModal () {
     searchContainer.style.boxShadow = '0px 0px 30px white';
     let cycles = 0;
     const attentionInterval = setInterval(() => {
-      if (cycles === 2) {
-        clearInterval(attentionInterval);
-        searchBar.focus();
-      }
+      (cycles === 2 && clearInterval(attentionInterval)) ?? searchBar.focus();
       if (cycles % 2) {
         searchBar.style.backgroundColor = 'darkgrey';
         searchContainer.style.boxShadow = '0px 0px 20px white';
@@ -72,7 +70,7 @@ export default function NewEventModal () {
       .then(resp => {
         if (resp.success) {
           dispatch(UnfixMap());
-          dispatch(HideNewEvent());
+          dispatch(ShowLast());
           dispatch(Focus(longitude, latitude, null, 12));
         } else {
           setErrors([resp.reason]);
@@ -81,7 +79,7 @@ export default function NewEventModal () {
   };
 
   return (
-    <div className='form-container-newevent'>
+    <div className='slider-form-container newevent'>
       {errors.length
         ? (
           <ul className='errors'>
@@ -90,8 +88,9 @@ export default function NewEventModal () {
           )
         : null}
       <form
-        className='new-event-form'
+        className='slider-form new-event'
         onSubmit={onSubmit}
+        ref={formRef}
       >
         <div className='new-event-location-select'>
           <button
@@ -163,8 +162,11 @@ export default function NewEventModal () {
               className='new-event maxGroup'
               type='number'
               value={maxGroup}
-              min={minGroup}
-              onChange={({ target: { value } }) => updateMaxGroup(value)}
+              min={4}
+              onChange={({ target: { value } }) => {
+                updateMaxGroup(value);
+                updateMinGroup(Math.min(value, minGroup));
+              }}
               required
             />
           </div>
