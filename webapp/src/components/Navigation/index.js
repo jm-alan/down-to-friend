@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, NavLink } from 'react-router-dom';
+import io from 'socket.io-client';
 
 import ProfileButton from './ProfileButton';
 import NewEventButton from './NewEventButton';
@@ -7,9 +9,11 @@ import FormModal from '../FormModal';
 import SearchBar from '../SearchBar';
 import EventDetailModal from '../EventDetailModal';
 import AboutMe from '../AboutMe';
+import NotificationBell from './NotificationBell';
 import { Focus } from '../../store/map';
 import { GetLocale } from '../../store/user';
 import { UnloadReel } from '../../store/reel';
+import { SetNotifSocket, GetNotifications } from '../../store/notifManager';
 
 import './Navigation.css';
 
@@ -26,10 +30,31 @@ export default function Navigation () {
     if (user) {
       dispatch(GetLocale())
         .then(({ lng, lat }) => {
-          dispatch(Focus(lng, lat, null, 10));
+          dispatch(Focus(lng, lat, null, 8));
         });
     } else return dispatch(Focus(-98.5795, 39.8283, null, 6));
   };
+
+  useEffect(() => {
+    if (user) {
+      const socket = io(undefined, {
+        query: {
+          type: 'notif'
+        }
+      });
+      dispatch(SetNotifSocket(socket));
+      socket.on('chat', () => {
+        dispatch(GetNotifications());
+      });
+      return () => {
+        socket.close();
+      };
+    }
+  }, [dispatch, user]);
+
+  useEffect(() => {
+    user && dispatch(GetNotifications());
+  }, [dispatch, user]);
 
   return (
     <nav className='navbar'>
@@ -57,6 +82,7 @@ export default function Navigation () {
                     Messages
                   </button>
                 </NavLink>
+                <NotificationBell />
               </>
               )
             : <FormModal />}
