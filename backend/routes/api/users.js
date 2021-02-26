@@ -54,14 +54,34 @@ router.post('/me/settings', requireAuth, asyncHandler(async (req, res) => {
   }
 }));
 
-router.delete('/me/notifications/:notificationId(\\d+)', requireAuth, asyncHandler(async (req, res) => {
-  const { user, params: { notificationId } } = req;
-  const notif = await Notification.findByPk(notificationId, {
+router.get('/me/notifications', requireAuth, asyncHandler(async (req, res) => {
+  const { user } = req;
+  let notifications = await user.getNotifications({
+    include: Conversation
+  });
+  await notifications.asyncForEach(async notif => {
+    const mostRecentMessage = (await notif.Conversation.getMessages({
+      include: ['Sender'],
+      order: [['createdAt', 'DESC']],
+      limit: 1
+    }))[0];
+    notif.sender = mostRecentMessage.Sender.firstName;
+    notif.content = mostRecentMessage.content;
+  });
+  notifications = notifications.map(notif => ({ ...notif.dataValues, sender: notif.sender, content: notif.content }));
+  res.json({ notifications });
+}));
+
+router.delete('/me/notifications/:conversationId(\\d+)', requireAuth, asyncHandler(async (req, res) => {
+  const { user, params: { conversationId } } = req;
+  const notif = await Notification.findOne({
     where: {
-      userId: user.id
+      userId: user.id,
+      conversationId
     }
   });
-  (notif && await notif.destroy()) ?? res.json({ success: true });
+  notif && await notif.destroy();
+  return res.json({ success: true });
 }));
 
 router.delete('/me/notifications', requireAuth, asyncHandler(async (req, res) => {
