@@ -22,6 +22,8 @@
 }
 
 .event-summary-user-container img {
+  height: 50px;
+  width: auto;
   border-radius: 50%;
 }
 

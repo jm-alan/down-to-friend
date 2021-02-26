@@ -162,7 +162,7 @@ form.newchat-form option {
   margin-left: 5px;
 }
 
-.chat-message.received .chag-message-user-container {
+.chat-message.received .chat-message-user-container {
   margin-right: 5px;
 }
 
