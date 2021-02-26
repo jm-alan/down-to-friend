@@ -28,7 +28,7 @@ export const LoadMessenger = () => ({ type: LOAD });
 
 export const UnloadMessenger = () => ({ type: UNLOAD });
 
-export const SetSocket = socket => ({ type: SOCKET, socket });
+export const SetMessengerSocket = socket => ({ type: SOCKET, socket });
 
 export default function reducer (
   state = {
