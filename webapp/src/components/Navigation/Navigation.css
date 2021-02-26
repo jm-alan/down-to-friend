@@ -112,7 +112,7 @@ div.notification-container {
   background-color: white;
   padding: 20px;
   z-index: 999;
-  box-shadow: 0px 0px 5px steelblue;
+  box-shadow: 0px 0px 5px #4682b4;
   border-radius: 5px;
   display: flex;
   flex-direction: column;

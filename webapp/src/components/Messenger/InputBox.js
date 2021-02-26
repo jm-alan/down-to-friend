@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 
 import Debouncer from '../../utils/Debouncer';
 
-const typingEmit = (socket, setBegunTyping, user, conversation) => {
+const typingEmit = (socket, setBegunTyping, conversation) => {
   setBegunTyping(false);
-  socket.emit('isNotTyping', user, conversation);
+  socket.emit('isNotTyping', conversation);
 };
 
 const debouncedTyping = Debouncer(typingEmit, 500);
@@ -23,9 +23,9 @@ export default function InputBox ({ updateRollingMessages }) {
     updateMessage(value);
     if (!hasBegunTyping) {
       setBegunTyping(true);
-      socket.emit('isTyping', user, conversation);
+      socket.emit('isTyping', conversation);
     }
-    debouncedTyping(socket, setBegunTyping, user, conversation);
+    debouncedTyping(socket, setBegunTyping, conversation);
   };
 
   const typingForwarder = ({ target: { value } }) => {

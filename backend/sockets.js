@@ -32,6 +32,10 @@ const convoLogic = (socket, user, convos) => convo => {
   // Join the socket room! Socket.IO will automatically create it
   // if it doesn't exist. Like magic!
   socket.join(convo.id);
+
+  socket.on('isTyping', (conversationId) => {
+    socket.to(conversationId).emit('isTyping');
+  });
   // Frontend emits conversation-specific events on message
   socket.on(`convo-${convo.id}`, (content) => {
     // assume all messages coming in from authenticated socket are
