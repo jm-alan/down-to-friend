@@ -133,9 +133,16 @@ button.avatar-upload {
   justify-content: center;
 }
 
+div.avatar-preview-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 img.avatar-preview {
   height: auto;
   width: auto;
+  border-radius: 50%;
   max-height: 200px;
   max-width: 320px;
 }

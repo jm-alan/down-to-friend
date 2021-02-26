@@ -23,11 +23,13 @@ export default function SignupPhaseTwo () {
     <div className='form-container signup2'>
       <div className='form-button-container'>
         {image && (
-          <img
-            className='avatar-preview'
-            src={URL.createObjectURL(image)}
-            alt=''
-          />
+          <div className='avatar-preview-container'>
+            <img
+              className='avatar-preview'
+              src={URL.createObjectURL(image)}
+              alt=''
+            />
+          </div>
         )}
         <button
           className='avatar-upload'
