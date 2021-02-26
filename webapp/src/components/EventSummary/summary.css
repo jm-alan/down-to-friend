@@ -141,6 +141,16 @@ button.event-detail-display:hover, button.event-join-button:hover {
   box-shadow: 0px 0px 5px darkgrey;
 }
 
+button.event-join-button:disabled {
+  color: grey;
+  background-color: white;
+}
+
+button.event-join-button:disabled:hover {
+  box-shadow: none;
+  cursor: unset;
+}
+
 div.event-header-subcontainer {
   display: flex;
   flex-direction: column;
