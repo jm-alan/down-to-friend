@@ -1,12 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import GoogleMap from 'google-map-react';
 
-import DeepEqual from '../../utils/DeepEqual';
 import Pin from './Pin';
 import { Focus } from '../../store/map';
 import { EnumerateReel, UnloadReel, LoadReel, SetEnumerable } from '../../store/reel';
-
-window.deepEq = DeepEqual;
 
 export default function Map ({ list }) {
   const dispatch = useDispatch();
@@ -40,7 +37,7 @@ export default function Map ({ list }) {
       center.lat !== lat ||
       center.lng !== lng ||
       zoom !== changeZoom ||
-      !DeepEqual(bounds, changeBounds)
+      !bounds.deepEq(changeBounds)
     ) {
       dispatch(Focus(center.lng, center.lat, changeBounds, changeZoom || 10));
     }

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import DeepEqual from '../../utils/DeepEqual';
 import { Focus } from '../../store/map';
 import { SetEnumerable } from '../../store/reel';
 
@@ -30,7 +29,7 @@ export default function Pin ({ event }) {
           setMouseXY({ x: e.clientX, y: e.clientY });
         }}
         onMouseUp={e => {
-          (DeepEqual({ x: e.clientX, y: e.clientY }, mouseXY)) && pinClick();
+          mouseXY.deepEq({ x: e.clientX, y: e.clientY }) && pinClick();
         }}
       >
         <div>
