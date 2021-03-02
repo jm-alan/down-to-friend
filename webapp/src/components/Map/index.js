@@ -37,7 +37,7 @@ export default function Map ({ list }) {
       center.lat !== lat ||
       center.lng !== lng ||
       zoom !== changeZoom ||
-      !bounds.deepEq(changeBounds)
+      !Object.deepEq(bounds, changeBounds)
     ) {
       dispatch(Focus(center.lng, center.lat, changeBounds, changeZoom || 10));
     }

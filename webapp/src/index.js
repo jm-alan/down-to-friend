@@ -20,16 +20,15 @@ String.prototype.toTitleCase = function () {
     .join(' ');
 };
 
-// eslint-disable-next-line
-Object.prototype.deepEq = function (_$) {
-  if (!_$ || typeof _$ !== 'object') return false;
-  const [$, _] = [this, _$].map(Object.entries);
-  if ($.length !== _.length) return false;
-  for (let i = 0; i < $.length; i++) {
+Object.deepEq = function ($, _) {
+  if (!$ || !_ || typeof $ !== 'object' || typeof _ !== 'object') return false;
+  const [$_, __] = [$, _].map(Object.entries);
+  if ($_.length !== __.length) return false;
+  for (let i = 0; i < $_.length; i++) {
     if (
-      (typeof $[i][1] !== 'object' &&
-      $[i][1] !== _[i][1]) ||
-      !$[i][1].deepEq(_[i][1])
+      (typeof $_[i][1] !== 'object' &&
+      $_[i][1] !== __[i][1]) ||
+      !Object.deepEq($_[i][1], __[i][1])
     ) return false;
   }
   return true;

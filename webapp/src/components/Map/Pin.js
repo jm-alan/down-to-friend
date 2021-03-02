@@ -29,7 +29,7 @@ export default function Pin ({ event }) {
           setMouseXY({ x: e.clientX, y: e.clientY });
         }}
         onMouseUp={e => {
-          mouseXY.deepEq({ x: e.clientX, y: e.clientY }) && pinClick();
+          Object.deepEq(mouseXY, { x: e.clientX, y: e.clientY }) && pinClick();
         }}
       >
         <div>
