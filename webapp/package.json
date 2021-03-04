@@ -10,6 +10,7 @@
     "dotenv": "^8.2.0",
     "google-map-react": "^2.1.9",
     "js-cookie": "^2.2.1",
+    "node-notifier": "^8.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
