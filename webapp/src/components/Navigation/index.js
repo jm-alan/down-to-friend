@@ -9,7 +9,7 @@ import FormModal from '../FormModal';
 import SearchBar from '../SearchBar';
 import EventDetailModal from '../EventDetailModal';
 import AboutMe from '../AboutMe';
-import NotificationBell from './NotificationBell';
+import NotificationBell from '../NotificationBell';
 import { Focus } from '../../store/map';
 import { GetLocale } from '../../store/user';
 import { UnloadReel } from '../../store/reel';
@@ -32,7 +32,7 @@ export default function Navigation () {
         .then(({ lng, lat }) => {
           dispatch(Focus(lng, lat, null, 8));
         });
-    } else return dispatch(Focus(-98.5795, 39.8283, null, 6));
+    } else return dispatch(Focus(-98.5795, 39.8283, null, 7));
   };
 
   useEffect(() => {
