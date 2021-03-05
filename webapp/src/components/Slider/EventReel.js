@@ -17,9 +17,9 @@ export default function EventReel ({ list }) {
       className='event-reel-container'
     >
       {list.length
-        ? list.map((event, idx) => (
+        ? list.map(event => (
           <EventSummary
-            key={idx}
+            key={event.id}
             event={event}
           />
           ))

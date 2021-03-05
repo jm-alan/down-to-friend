@@ -39,7 +39,7 @@ export default function SignupPhaseOne () {
         className='signup-form modal'
       >
         <ul className='errors'>
-          {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+          {errors.map(error => <li key={error.toString()}>{error}</li>)}
         </ul>
         <input
           placeholder='first name'

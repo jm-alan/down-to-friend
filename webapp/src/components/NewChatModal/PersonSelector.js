@@ -22,13 +22,13 @@ export default function PersonSelector ({ event, selectPerson, selectedPerson })
                   </option>
                   )
                 : null}
-              {people.map((addingPerson, idx) => {
+              {people.map(({firstName, id}) => {
                 return (
                   <option
-                    key={idx}
-                    value={`${addingPerson.id}-${addingPerson.firstName}`}
+                    key={id}
+                    value={`${id}-${firstName}`}
                   >
-                    {addingPerson.firstName}
+                    {firstName}
                   </option>
                 );
               })}

@@ -48,9 +48,9 @@ export default function NotificationBell () {
             }}
           >
             {notifs.length
-              ? notifs.map((notif, idx) => (
+              ? notifs.map(notif => (
                 <div
-                  key={idx}
+                  key={notif.id}
                   className='notif-container'
                   onClick={({ target }) => {
                     (

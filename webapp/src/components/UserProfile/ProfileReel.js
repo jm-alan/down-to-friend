@@ -5,9 +5,9 @@ export default function ProfileReel ({ type, name, list, loaded }) {
     <div className='event-reel-container'>
       {loaded
         ? list.length
-            ? list.map((event, idx) => (
+            ? list.map(event => (
               <EventSummary
-                key={idx}
+                key={event.id}
                 event={event}
                 isProfile
               />

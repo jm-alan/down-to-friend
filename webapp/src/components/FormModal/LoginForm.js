@@ -38,8 +38,8 @@ export default function LoginForm () {
         onSubmit={handleSubmit}
       >
         <ul>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
+          {errors.map(error => (
+            <li key={error.toString()}>{error}</li>
           ))}
         </ul>
         <input
