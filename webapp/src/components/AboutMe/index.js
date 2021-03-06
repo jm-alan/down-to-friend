@@ -37,15 +37,6 @@ export default function AboutMe () {
                   </h1>
                 </div>
                 <div className='about-links-container'>
-                  <div className='about-icon-container github'>
-                    <a
-                      href='https://github.com/jm-alan/down-to-friend'
-                      target='_blank'
-                      rel='noreferrer'
-                    >
-                      <AiOutlineGithub />
-                    </a>
-                  </div>
                   <div className='about-icon-container linkedin'>
                     <a
                       href='https://www.linkedin.com/in/j-alan'
@@ -53,6 +44,15 @@ export default function AboutMe () {
                       rel='noreferrer'
                     >
                       <AiOutlineLinkedin />
+                    </a>
+                  </div>
+                  <div className='about-icon-container github'>
+                    <a
+                      href='https://github.com/jm-alan/down-to-friend'
+                      target='_blank'
+                      rel='noreferrer'
+                    >
+                      <AiOutlineGithub />
                     </a>
                   </div>
                 </div>
