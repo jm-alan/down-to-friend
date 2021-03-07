@@ -10,7 +10,7 @@ nav {
 
 div.user-navigation-buttons {
   display: flex;
-  width: 250px;
+  width: 300px;
   justify-content: space-around;
 }
 
@@ -18,7 +18,7 @@ div.navigation-container-left button {
   background-color: unset;
   border: none;
   color: white;
-  font-size: larger;
+  font-size: 25px;
   font-weight: bolder;
 }
 
@@ -62,6 +62,7 @@ button.new-event-button:active {
 }
 
 div.navigation-container-left {
+  width: 300px;
   height: 60px;
   display: flex;
   align-items: center;
@@ -182,4 +183,20 @@ form.quick-reply-container button {
   color: steelblue;
   background-color: white;
   border-left: 1px solid darkgrey;
+}
+
+.counter-bauble {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  min-height: 15px;
+  max-height: 15px;
+  min-width: 15px;
+  max-width: 15px;
+  background-color: red;
+  color: white;
+  font-weight: bolder;
+  font-size: 12px;
 }
