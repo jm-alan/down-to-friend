@@ -31,7 +31,7 @@ export default function AboutMe () {
                     Welcome to Down to Friend,
                     "the undo button for 2020."
                     Feel free to poke around,
-                    find some fun things to do,
+                    find some fun events to join,
                     find some great people to hang out with,
                     and find the next member of your dev team below.
                   </h1>
