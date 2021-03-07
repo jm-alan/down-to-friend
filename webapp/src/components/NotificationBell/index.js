@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import NotificationContainer from './NotificationContainer';
+import NotifCounter from './NotifCounter';
 import { ShowNotifs, HideNotifs } from '../../store/notifManager';
 
 export default function NotificationBell () {
@@ -25,6 +26,7 @@ export default function NotificationBell () {
         <i className='fas fa-bell' />
       </button>
       <NotificationContainer bellRef={bellRef} />
+      <NotifCounter bellRef={bellRef} />
     </>
   );
 }
