@@ -177,6 +177,9 @@ router.get('/me/events/attending', requireAuth, asyncHandler(async (req, res) =>
       }
     ]
   });
+  events.sort(({ Attendee: { createdAt: a } }, { Attendee: { createdAt: b } }) => {
+    return Date.parse(b) - Date.parse(a);
+  });
   await events.asyncForEach(async event => {
     event.isAttending = await event.hasAttendingUser(user);
   });
