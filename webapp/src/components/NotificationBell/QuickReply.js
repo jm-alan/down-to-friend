@@ -24,6 +24,7 @@ export default function QuickReply ({ notif, showQuickReply, setShowQuickReply, 
   return showQuickReply
     ? (
       <form
+        onClick={click => click.stopPropagation()}
         className='quick-reply-container'
         style={{
           bottom: showQuickReply ? 0 : -45
