@@ -57,7 +57,8 @@ router.post('/me/settings', requireAuth, asyncHandler(async (req, res) => {
 router.get('/me/notifications', requireAuth, asyncHandler(async (req, res) => {
   const { user } = req;
   let notifications = await user.getNotifications({
-    include: Conversation
+    include: Conversation,
+    order: [['createdAt', 'DESC']]
   });
   await notifications.asyncForEach(async notif => {
     const mostRecentMessage = (await notif.Conversation.getMessages({
