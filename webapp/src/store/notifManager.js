@@ -10,7 +10,9 @@ const SHOW = 'notif/SHOW';
 
 const HIDE = 'notif/HIDE';
 
-const REPLY = 'notif/REPLY';
+const LOCK = 'notif/LOCK';
+
+const UNLOCK = 'notif/UNLOCK';
 
 const mountNotifs = notifications => ({ type: NOTIFS, notifications });
 
@@ -20,7 +22,9 @@ export const ShowNotifs = () => ({ type: SHOW });
 
 export const HideNotifs = () => ({ type: HIDE });
 
-export const QuickReply = () => ({ type: REPLY });
+export const AddLock = () => ({ type: LOCK });
+
+export const RemoveLock = () => ({ type: UNLOCK });
 
 export const ClearNotif = conversationId => async () => {
   const { data } = await csrfetch(`/api/users/me/notifications/${conversationId}`, {
@@ -36,7 +40,7 @@ export const GetNotifications = () => async dispatch => {
 };
 
 export default function reducer (
-  state = { notifications: [], socket: null, display: false, reply: false },
+  state = { notifications: [], socket: null, display: false, lock: 0 },
   { type, notifications, socket }
 ) {
   switch (type) {
@@ -50,8 +54,10 @@ export default function reducer (
       return { ...state, display: true };
     case HIDE:
       return { ...state, display: false, displayQuickReply: false };
-    case REPLY:
-      return { ...state, reply: !state.reply };
+    case LOCK:
+      return { ...state, lock: state.lock + 1 };
+    case UNLOCK:
+      return { ...state, lock: Math.max(0, state.lock - 1) };
     default:
       return state;
   }
