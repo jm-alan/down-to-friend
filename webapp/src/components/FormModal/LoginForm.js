@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { LogIn } from '../../store/session';
 import { HideModal, ModalForm } from '../../store/modal';
 
 export default function LoginForm () {
   const dispatch = useDispatch();
+  const after = useSelector(state => state.modal.after);
+
   const [identification, setIdentification] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
@@ -14,7 +16,12 @@ export default function LoginForm () {
     e.preventDefault();
     setErrors([]);
     dispatch(LogIn(identification, password))
-      .then(() => dispatch(HideModal()))
+      .then(() => {
+        dispatch(HideModal());
+      })
+      .then(() => {
+        after && after();
+      })
       .catch(res => setErrors(res.data?.errors || []));
   };
 
@@ -23,6 +30,9 @@ export default function LoginForm () {
     dispatch(LogIn('demo@user.io', 'password'))
       .then(() => {
         dispatch(HideModal());
+      })
+      .then(() => {
+        after && after();
       });
   };
 
