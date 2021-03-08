@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { GetNotifications, ClearNotif, RemoveLock } from '../../store/notifManager';
 
-export default function QuickReply ({ notif, showQuickReply, setShowQuickReply, setExpandMessage }) {
+export default function QuickReply ({ notif, showQuickReply, setShowQuickReply, setExpandMessage, setExpandContainer }) {
   const dispatch = useDispatch();
   const notifSocket = useSelector(state => state.notifManager.socket);
+  const notifLock = useSelector(state => state.notifManager.lock);
 
   const [quickReply, updateQuickReply] = useState('');
 
@@ -19,6 +20,9 @@ export default function QuickReply ({ notif, showQuickReply, setShowQuickReply, 
         setExpandMessage(false);
         dispatch(RemoveLock());
         dispatch(GetNotifications());
+      })
+      .then(() => {
+        if (!notifLock) setExpandContainer(false);
       });
   };
 

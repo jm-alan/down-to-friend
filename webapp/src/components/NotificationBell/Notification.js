@@ -63,6 +63,7 @@ export default function Notification ({ notif, setExpandContainer }) {
         showQuickReply={showQuickReply}
         setShowQuickReply={setShowQuickReply}
         setExpandMessage={setExpandMessage}
+        setExpandContainer={setExpandContainer}
       />
     </div>
   );
