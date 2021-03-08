@@ -5,14 +5,9 @@ import io from 'socket.io-client';
 
 import Conversations from './ConversationOuterContainer';
 import ChatContainer from './ChatContainer';
-import * as MessengerActions from '../../store/messenger';
 import { SetMessengerSocket, LoadMessenger, UnloadMessenger } from '../../store/messenger';
 
 import './messenger.css';
-
-if (process.env.NODE_ENV !== 'production') {
-  window.MessengerActions = MessengerActions;
-}
 
 export default function Messenger () {
   const dispatch = useDispatch();
@@ -28,7 +23,7 @@ export default function Messenger () {
     });
     dispatch(SetMessengerSocket(socket));
     return () => {
-      socket.close();
+      socket.disconnect();
       dispatch(UnloadMessenger());
     };
   }, [dispatch]);

@@ -30,7 +30,7 @@ export default function Home () {
           });
       } else {
         dispatch(LoadMap());
-        dispatch(Focus(-98.5795, 39.8283, null, 6));
+        dispatch(Focus(-98.5795, 39.8283, null, 7));
       }
     }
     user && dispatch(SetLimit(user.maxPins));

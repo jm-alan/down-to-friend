@@ -22,7 +22,7 @@ export default function SignupPhaseThree () {
   };
 
   const onLocReject = () => {
-    dispatch(Focus(-98.5795, 39.8283, null, 6));
+    dispatch(Focus(-98.5795, 39.8283, null, 7));
     dispatch(HideModal());
     dispatch(LoadSession());
   };
