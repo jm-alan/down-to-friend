@@ -83,7 +83,7 @@ export default function NewEventModal () {
       {errors.length
         ? (
           <ul className='errors'>
-            {errors.map((err, idx) => <li key={idx} className='error'>{err}</li>)}
+            {errors.map(err => <li key={err.toString()} className='error'>{err}</li>)}
           </ul>
           )
         : null}

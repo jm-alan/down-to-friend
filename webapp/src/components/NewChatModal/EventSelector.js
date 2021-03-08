@@ -35,8 +35,8 @@ export default function EventSelector ({ event, selectEvent }) {
                     )
                   : null
               ),
-              ...events.map((event, idx) => (
-                <option key={idx} value={event.id}>
+              ...events.map(event => (
+                <option key={event.id} value={event.id}>
                   {`${event.title.toTitleCase()} with ${event.Host.firstName}`}
                 </option>
               ))

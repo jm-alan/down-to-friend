@@ -7,9 +7,9 @@ export default function CommentContainer () {
   return (
     <div className='event-modal-comments-container'>
       {posts.length
-        ? posts.map((post, idx) => (
+        ? posts.map(post => (
           <EventComment
-            key={idx}
+            key={post.id}
             comment={post}
           />
           ))

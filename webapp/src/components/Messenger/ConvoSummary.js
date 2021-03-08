@@ -44,9 +44,9 @@ export default function ConvoSummary ({ convo }) {
       onClick={onSelectConvo}
     >
       {convo.name ||
-      remainingUsers.map(({ firstName }, idx) => (
+      remainingUsers.map(({ firstName, id }, idx) => (
         <span
-          key={idx}
+          key={id}
           className={`chatting-user-name ${
             idx === remainingUsers.length - 1
               ? 'last'

@@ -50,8 +50,8 @@ export default function NewChatForm ({ addPeople, addedPeople }) {
       onSubmit={onSubmit}
     >
       <ul className='errors'>
-        {errors.map((err, idx) => (
-          <li key={idx}>
+        {errors.map(err => (
+          <li key={err.toString()}>
             {err}
           </li>
         ))}

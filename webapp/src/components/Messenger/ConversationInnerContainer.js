@@ -7,9 +7,9 @@ export default function ConversationInnerContainer () {
 
   return (
     <div className='conversation-container-inner'>
-      {conversations.map((convo, idx) => (
+      {conversations.map(convo => (
         <ConvoSummary
-          key={idx}
+          key={convo.id}
           convo={convo}
         />
       ))}

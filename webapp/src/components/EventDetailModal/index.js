@@ -90,8 +90,8 @@ export default function EventDetailModal () {
               <div className='event-summary-tags-outer-container'>
                 <div className='event-summary-tags-inner-container'>
                   {event.tags.split(' ').sort((a, b) => b.length - a.length)
-                    .map((tag, idx) => (
-                      <div key={idx} className='tag-wrapper'>
+                    .map(tag => (
+                      <div key={tag} className='tag-wrapper'>
                         <Link to={`/events/tagged/${tag}`}>
                           {tag}
                         </Link>
