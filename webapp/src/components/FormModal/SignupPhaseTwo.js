@@ -13,7 +13,7 @@ export default function SignupPhaseTwo () {
 
   const uploadAvatar = () => {
     dispatch(SetProfilePhoto(image))
-      .then(({ success, reason, url }) => {
+      .then(({ success, reason }) => {
         if (success) return dispatch(SignupPhase(3));
         return console.error(reason);
       });
