@@ -20,11 +20,18 @@ export default function SignupPhaseOne () {
       return dispatch(SignUp({ email, firstName, password }))
         .then(() => dispatch(SignupPhase(2)))
         .catch(res => {
-          if (res.data && res.data.errors) setErrors(res.data.errors);
+          if (res.data && res.data.errors) {
+            const errors = res.data.errors.map(err => {
+              return err.toString().match('email must be unique')
+                ? 'Sorry, that email is already in use.'
+                : err;
+            });
+            setErrors(errors);
+          }
           dispatch(SignupPhase(1));
         });
     }
-    return setErrors(['Confirm Password field must be the same as the Password field']);
+    return setErrors(['Passwords do not match.']);
   };
 
   const switchForm = () => {
