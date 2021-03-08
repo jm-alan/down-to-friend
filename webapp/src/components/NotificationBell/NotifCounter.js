@@ -6,8 +6,11 @@ export default function NotifCounter ({ bellRef }) {
   return notifs.length
     ? (
       <div
-      className='counter-bauble'
-      
+        className='counter-bauble'
+        style={{
+          left: bellRef.current.getBoundingClientRect().x + 18,
+          top: bellRef.current.getBoundingClientRect().y - 3
+        }}
       >
         {notifs.length}
       </div>
