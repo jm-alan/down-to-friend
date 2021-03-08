@@ -146,3 +146,14 @@ img.avatar-preview {
   max-height: 200px;
   max-width: 320px;
 }
+
+div.reject-message-container * {
+  margin: 0px;
+}
+
+div.reject-message-container {
+  color: red;
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+}

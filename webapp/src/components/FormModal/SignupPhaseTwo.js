@@ -21,6 +21,7 @@ export default function SignupPhaseTwo () {
 
   return (
     <div className='form-container signup2'>
+      <h1>Upload a profile photo</h1>
       <div className='form-button-container'>
         {image && (
           <div className='avatar-preview-container'>
