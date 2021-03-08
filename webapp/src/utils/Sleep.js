@@ -1,3 +1,3 @@
-export default function Sleep (ms) {
-  return new Promise(resolve => setTimeout(resolve(), ms));
+export default async function Sleep (ms) {
+  return await new Promise(resolve => setTimeout(resolve(), ms));
 }
