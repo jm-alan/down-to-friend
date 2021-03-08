@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { GetNotifications, ClearNotif } from '../../store/notifManager';
+import { GetNotifications, ClearNotif, RemoveLock } from '../../store/notifManager';
 
 export default function QuickReply ({ notif, showQuickReply, setShowQuickReply, setExpandMessage }) {
   const dispatch = useDispatch();
@@ -17,6 +17,7 @@ export default function QuickReply ({ notif, showQuickReply, setShowQuickReply, 
       .then(() => {
         setShowQuickReply(false);
         setExpandMessage(false);
+        dispatch(RemoveLock());
         dispatch(GetNotifications());
       });
   };
