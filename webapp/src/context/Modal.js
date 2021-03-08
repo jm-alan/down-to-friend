@@ -1,5 +1,4 @@
 import { createContext, useContext, useRef, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import ReactDOM from 'react-dom';
 
 import './Modal.css';
@@ -26,10 +25,6 @@ export function ModalProvider ({ children }) {
 
 export function Modal ({ onClose, children }) {
   const modalNode = useContext(ModalContext);
-  const user = useSelector(state => state.session.user);
-  const after = useSelector(state => state.modal.after);
-
-  useEffect(() => () => after && after(), [user, after]);
 
   return modalNode
     ? ReactDOM.createPortal(
