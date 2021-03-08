@@ -23,18 +23,20 @@ export default function NewEventModal () {
   const [maxGroup, updateMaxGroup] = useState(4);
   const [errors, setErrors] = useState([]);
 
-  const formRef = useRef(null);
+  const buttonRef = useRef(null);
 
   const promptFinder = e => {
     e.preventDefault();
-    if (!title) return formRef.current.submit();
+    if (!title) return buttonRef.current.click();
     const event = {
       title,
       id: '',
       Host: user,
       AttendingUsers: []
     };
+
     dispatch(HardSetList([event]));
+
     const searchBar = document.querySelector('input.searchbar-input');
     const searchContainer = document.querySelector('div.searchbar-container');
     searchBar.style.backgroundColor = 'darkgrey';
@@ -90,7 +92,6 @@ export default function NewEventModal () {
       <form
         className='slider-form new-event'
         onSubmit={onSubmit}
-        ref={formRef}
       >
         <div className='new-event-location-select'>
           <button
@@ -172,7 +173,10 @@ export default function NewEventModal () {
           </div>
         </div>
         <div className='new-event-submit-container'>
-          <button className='new-event-submit'>
+          <button
+            className='new-event-submit'
+            ref={buttonRef}
+          >
             Get Down!
           </button>
         </div>
