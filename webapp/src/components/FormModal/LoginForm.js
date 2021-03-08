@@ -18,8 +18,6 @@ export default function LoginForm () {
     dispatch(LogIn(identification, password))
       .then(() => {
         dispatch(HideModal());
-      })
-      .then(() => {
         after && after();
       })
       .catch(res => setErrors(res.data?.errors || []));
@@ -30,8 +28,6 @@ export default function LoginForm () {
     dispatch(LogIn('demo@user.io', 'password'))
       .then(() => {
         dispatch(HideModal());
-      })
-      .then(() => {
         after && after();
       });
   };
