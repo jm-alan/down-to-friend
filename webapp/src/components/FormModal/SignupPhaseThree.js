@@ -1,14 +1,18 @@
-import { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import Sleep from '../../utils/Sleep';
+import FlashSearchbar from '../../utils/FlashSearchbar';
+import { LoadReel } from '../../store/reel';
 import { SetLocale } from '../../store/user';
 import { HideModal } from '../../store/modal';
 import { Focus, LoadMap } from '../../store/map';
-import { LoadReel } from '../../store/reel';
 import { LoadSession } from '../../store/session';
+import { ShowSettings } from '../../store/homeSlider';
 
 export default function SignupPhaseThree () {
   const dispatch = useDispatch();
+  const after = useSelector(state => state.modal.after);
 
   const [showRejectMsg, setShowRejectMsg] = useState(false);
 
@@ -21,11 +25,28 @@ export default function SignupPhaseThree () {
       .then(() => {
         dispatch(HideModal());
         dispatch(LoadSession());
+        after && after();
       });
   };
 
   const onLocReject = () => {
     setShowRejectMsg(true);
+  };
+
+  const promptLocation = () => {
+    setShowRejectMsg(false);
+    window.navigator.geolocation.getCurrentPosition(onLocAccept, onLocReject);
+  };
+
+  const onSearch = async () => {
+    setShowRejectMsg(false);
+    dispatch(LoadReel());
+    dispatch(LoadMap());
+    dispatch(HideModal());
+    dispatch(LoadSession());
+    dispatch(ShowSettings());
+    await Sleep(650);
+    FlashSearchbar();
   };
 
   const onSetupLater = () => {
@@ -34,11 +55,7 @@ export default function SignupPhaseThree () {
     dispatch(LoadMap());
     dispatch(HideModal());
     dispatch(LoadSession());
-  };
-
-  const promptLocation = () => {
-    setShowRejectMsg(false);
-    window.navigator.geolocation.getCurrentPosition(onLocAccept, onLocReject);
+    after && after();
   };
 
   return (
@@ -62,7 +79,7 @@ export default function SignupPhaseThree () {
         >
           Use my location
         </button>
-        <button>
+        <button onClick={onSearch}>
           Search on the map
         </button>
         <button
