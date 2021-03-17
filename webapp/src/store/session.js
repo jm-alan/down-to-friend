@@ -6,7 +6,7 @@ const LOAD = 'session/LOAD';
 
 const UNLOAD = 'session/UNLOAD';
 
-const setSession = (user, loaded, loadState) => ({ type: USER, user, loaded, loadState });
+const setSession = (user = null, loaded, loadState) => ({ type: USER, user, loaded, loadState });
 
 export const LoadSession = () => ({ type: LOAD });
 
