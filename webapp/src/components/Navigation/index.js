@@ -48,9 +48,10 @@ export default function Navigation () {
       socket.on('chat', () => {
         dispatch(GetNotifications());
       });
-      return () => {
-        socket.close();
-      };
+      socket.on('handshake', () => {
+        socket.emit('handshake');
+      });
+      return () => socket && socket.close();
     }
   }, [dispatch, user]);
 
