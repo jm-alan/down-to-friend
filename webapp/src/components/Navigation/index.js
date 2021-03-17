@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, NavLink } from 'react-router-dom';
 import io from 'socket.io-client';
 
-import ProfileButton from './ProfileButton';
-import NewEventButton from './NewEventButton';
+import AboutMe from '../AboutMe';
 import FormModal from '../FormModal';
 import SearchBar from '../SearchBar';
+import ProfileButton from './ProfileButton';
+import ProfileEditor from '../ProfileEditor';
+import NewEventButton from './NewEventButton';
 import EventDetailModal from '../EventDetailModal';
-import AboutMe from '../AboutMe';
 import NotificationBell from '../NotificationBell';
 import { Focus } from '../../store/map';
 import { GetLocale } from '../../store/user';
@@ -37,6 +38,7 @@ export default function Navigation () {
 
   useEffect(() => {
     if (user) {
+      dispatch(GetNotifications());
       const socket = io(undefined, {
         query: {
           type: 'notif'
@@ -52,12 +54,9 @@ export default function Navigation () {
     }
   }, [dispatch, user]);
 
-  useEffect(() => {
-    user && dispatch(GetNotifications());
-  }, [dispatch, user]);
-
   return (
     <nav className='navbar'>
+      <ProfileEditor />
       {event && <EventDetailModal />}
       {isHome && <NewEventButton />}
       <div className='navigation-container-left'>
