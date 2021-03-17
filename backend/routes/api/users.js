@@ -2,7 +2,6 @@ const express = require('express');
 const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 
-const { singlePublicFileUpload, singleMulterUpload } = require('../../awsS3');
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const { User, Conversation, Event, Notification } = require('../../db/models');
@@ -26,23 +25,17 @@ const validateSignup = [
   handleValidationErrors
 ];
 
-router.post(
-  '/me/profilePhoto',
-  requireAuth,
-  singleMulterUpload('image'),
-  asyncHandler(async (req, res) => {
-    try {
-      const { user, file } = req;
-      const url = await singlePublicFileUpload(file);
-      await user.createAvatar({ url });
-      res.json({ success: true, url });
-    } catch (err) {
-      console.error(err);
-      console.error('Short:', err.toString());
-      res.json({ success: false, reason: err.toString() });
-    }
-  })
-);
+router.patch('/me/firstName', requireAuth, asyncHandler(async (req, res) => {
+  const { user, body: { firstName } } = req;
+  try {
+    await user.update({ firstName });
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    console.error('Short:', err.toString());
+    res.json({ success: false });
+  }
+}));
 
 router.post('/me/settings', requireAuth, asyncHandler(async (req, res) => {
   const { user, body: { pins: maxPins } } = req;
