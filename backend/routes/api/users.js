@@ -25,19 +25,31 @@ const validateSignup = [
   handleValidationErrors
 ];
 
+router.patch('/me/email', requireAuth, asyncHandler(async (req, res) => {
+  const { user, body: { email } } = req;
+  try {
+    await user.update({ email });
+    res.json({ user: user.toSafeObject() });
+  } catch (err) {
+    console.error(err);
+    console.error('Short:', err.toString());
+    res.json({ user: user.toSafeObject() });
+  }
+}));
+
 router.patch('/me/firstName', requireAuth, asyncHandler(async (req, res) => {
   const { user, body: { firstName } } = req;
   try {
     await user.update({ firstName });
-    res.json({ success: true });
+    res.json({ user: user.toSafeObject() });
   } catch (err) {
     console.error(err);
     console.error('Short:', err.toString());
-    res.json({ success: false });
+    res.json({ user: user.toSafeObject() });
   }
 }));
 
-router.post('/me/settings', requireAuth, asyncHandler(async (req, res) => {
+router.PATCH('/me/settings', requireAuth, asyncHandler(async (req, res) => {
   const { user, body: { pins: maxPins } } = req;
   try {
     user.update({ maxPins });
