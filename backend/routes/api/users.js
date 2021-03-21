@@ -53,7 +53,33 @@ router.post(
   })
 );
 
-router.post('/me/settings', requireAuth, asyncHandler(async (req, res) => {
+router.patch('/me/email', requireAuth, asyncHandler(async (req, res) => {
+  const { user, body: { email } } = req;
+  if (user.firstName === 'Demo') return res.json({ user: user.toSafeObject() });
+  try {
+    await user.update({ email });
+    res.json({ user: user.toSafeObject() });
+  } catch (err) {
+    console.error(err);
+    console.error('Short:', err.toString());
+    res.json({ user: user.toSafeObject() });
+  }
+}));
+
+router.patch('/me/firstName', requireAuth, asyncHandler(async (req, res) => {
+  const { user, body: { firstName } } = req;
+  if (user.firstName === 'Demo') return res.json({ user: user.toSafeObject() });
+  try {
+    await user.update({ firstName });
+    res.json({ user: user.toSafeObject() });
+  } catch (err) {
+    console.error(err);
+    console.error('Short:', err.toString());
+    res.json({ user: user.toSafeObject() });
+  }
+}));
+
+router.patch('/me/settings', requireAuth, asyncHandler(async (req, res) => {
   const { user, body: { pins: maxPins } } = req;
   try {
     user.update({ maxPins });

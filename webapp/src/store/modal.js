@@ -28,7 +28,7 @@ export default function reducer (
     case SHOW:
       return { ...state, display: true, after };
     case HIDE:
-      return { ...state, display: false, after: null };
+      return { ...state, display: false, after: null, phase: 1 };
     case PHASE:
       return { ...state, phase };
     default:

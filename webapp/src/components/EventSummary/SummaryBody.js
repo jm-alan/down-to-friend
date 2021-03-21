@@ -22,29 +22,29 @@ export default function SummaryBody ({ profileClick, event }) {
     <>
       <div className='event-summary-header-container'>
         <div className='event-header-subcontainer left'>
-          <div className='event-summary-user-container'>
-            <div
-              className='event-summary-username'
-            >
-              <Link
-                to={`/users/${event.Host.id}`}
-                onClick={profileClick}
+
+          <Link
+            to={`/users/${event.Host.id}`}
+            onClick={profileClick}
+          >
+            <div className='event-summary-user-container'>
+              <div
+                className='event-summary-username'
               >
                 {event.Host.firstName}
-              </Link>
+              </div>
+              <div className='user-profile-image-container avatar-container'>
+                {event.Host.Avatar
+                  ? (
+                    <img
+                      src={event.Host.Avatar.url}
+                      alt=''
+                    />
+                    )
+                  : <i className='fas fa-user' />}
+              </div>
             </div>
-            <div className='user-profile-image-container'>
-              <Link
-                to={`/users/${event.Host.id}`}
-                onClick={profileClick}
-              >
-                <img
-                  src={event.Host.Avatar.url}
-                  alt='profile thumbnail'
-                />
-              </Link>
-            </div>
-          </div>
+          </Link>
         </div>
         <div
           className='event-header-subcontainer center event-summary-presentation-container'

@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import FlashSearchbar from '../../utils/FlashSearchbar';
 import { HardSetList } from '../../store/reel';
 import { UnfixMap, Focus } from '../../store/map';
 import { CreateEvent, ShowLast } from '../../store/homeSlider';
@@ -18,16 +19,16 @@ export default function NewEventModal () {
   const [title, updateTitle] = useState('');
   const [description, updateDescription] = useState('');
   const [date, updateDate] = useState(`${year}-${month}-${day}`);
-  const [closes, updatedCloses] = useState(`${year}-${month}-${day}`);
+  const [closes, updateCloses] = useState(`${year}-${month}-${day}`);
   const [minGroup, updateMinGroup] = useState(4);
   const [maxGroup, updateMaxGroup] = useState(4);
   const [errors, setErrors] = useState([]);
 
-  const formRef = useRef(null);
+  const buttonRef = useRef(null);
 
   const promptFinder = e => {
     e.preventDefault();
-    if (!title) return formRef.current.submit();
+    if (!title) return buttonRef.current.click();
     const event = {
       title,
       id: '',
@@ -35,22 +36,7 @@ export default function NewEventModal () {
       AttendingUsers: []
     };
     dispatch(HardSetList([event]));
-    const searchBar = document.querySelector('input.searchbar-input');
-    const searchContainer = document.querySelector('div.searchbar-container');
-    searchBar.style.backgroundColor = 'darkgrey';
-    searchContainer.style.boxShadow = '0px 0px 30px white';
-    let cycles = 0;
-    const attentionInterval = setInterval(() => {
-      (cycles === 2 && clearInterval(attentionInterval)) ?? searchBar.focus();
-      if (cycles % 2) {
-        searchBar.style.backgroundColor = 'darkgrey';
-        searchContainer.style.boxShadow = '0px 0px 20px white';
-      } else {
-        searchBar.style.backgroundColor = 'white';
-        searchContainer.style.boxShadow = 'none';
-      }
-      cycles++;
-    }, 200);
+    FlashSearchbar();
   };
 
   const onSubmit = e => {
@@ -90,7 +76,6 @@ export default function NewEventModal () {
       <form
         className='slider-form new-event'
         onSubmit={onSubmit}
-        ref={formRef}
       >
         <div className='new-event-location-select'>
           <button
@@ -136,7 +121,7 @@ export default function NewEventModal () {
               className='new-event closes'
               type='date'
               value={closes}
-              onChange={({ target: { value } }) => updatedCloses(value)}
+              onChange={({ target: { value } }) => updateCloses(value)}
               required
             />
           </div>
@@ -172,7 +157,10 @@ export default function NewEventModal () {
           </div>
         </div>
         <div className='new-event-submit-container'>
-          <button className='new-event-submit'>
+          <button
+            className='new-event-submit'
+            ref={buttonRef}
+          >
             Get Down!
           </button>
         </div>
