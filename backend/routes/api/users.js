@@ -27,6 +27,7 @@ const validateSignup = [
 
 router.patch('/me/email', requireAuth, asyncHandler(async (req, res) => {
   const { user, body: { email } } = req;
+  if (user.firstName === 'Demo') return res.json({ user: user.toSafeObject() });
   try {
     await user.update({ email });
     res.json({ user: user.toSafeObject() });
@@ -39,6 +40,7 @@ router.patch('/me/email', requireAuth, asyncHandler(async (req, res) => {
 
 router.patch('/me/firstName', requireAuth, asyncHandler(async (req, res) => {
   const { user, body: { firstName } } = req;
+  if (user.firstName === 'Demo') return res.json({ user: user.toSafeObject() });
   try {
     await user.update({ firstName });
     res.json({ user: user.toSafeObject() });
