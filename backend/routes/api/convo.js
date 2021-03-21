@@ -10,7 +10,7 @@ router.post('/', requireAuth, asyncHandler(async (req, res) => {
     !userIds.length ||
     (userIds.length === 1 && userIds[0] === user.id)
   ) return res.json({ convo: null });
-  name ?? (name = '');
+  name ??= '';
   const convo = await user.createOwnedConversation({ name });
   await convo.addChattingUser(user);
   await userIds.asyncForEach(async userId => {

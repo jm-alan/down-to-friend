@@ -29,9 +29,9 @@ export default function reducer (state = { mode: 'reel', last: 'new' }, { type }
     case REEL:
       return { mode: 'reel', last: state.mode };
     case NEW:
-      return { mode: 'new', last: state.mode };
+      return { mode: 'new', last: 'reel' };
     case SETTINGS:
-      return { mode: 'settings', last: state.mode };
+      return { mode: 'settings', last: 'reel' };
     case LAST:
       return { mode: state.last, last: state.mode };
     default:

@@ -43,10 +43,26 @@ export const SetLocale = locale => async dispatch => {
 
 export const UpdateSearchSettings = pins => async () => {
   const { data } = await csrfetch('/api/users/me/settings', {
-    method: 'POST',
+    method: 'PATCH',
     body: JSON.stringify({ pins })
   });
   return data;
+};
+
+export const SetFirstName = firstName => async () => {
+  const { data } = await csrfetch('/api/users/me/firstName', {
+    method: 'PATCH',
+    body: JSON.stringify({ firstName })
+  });
+  return data.user;
+};
+
+export const SetEmail = email => async () => {
+  const { data } = await csrfetch('/api/users/me/email', {
+    method: 'PATCH',
+    body: JSON.stringify({ email })
+  });
+  return data.user;
 };
 
 export const SetProfilePhoto = image => async () => {

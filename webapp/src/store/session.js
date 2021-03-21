@@ -6,7 +6,7 @@ const LOAD = 'session/LOAD';
 
 const UNLOAD = 'session/UNLOAD';
 
-const setSession = (user, loaded, loadState) => ({ type: USER, user, loaded, loadState });
+export const SetSession = (user = null, loaded, loadState) => ({ type: USER, user, loaded, loadState });
 
 export const LoadSession = () => ({ type: LOAD });
 
@@ -14,7 +14,7 @@ export const UnloadSession = () => ({ type: UNLOAD });
 
 export const RestoreUser = () => async dispatch => {
   const { data: { user } } = await csrfetch('/api/session');
-  dispatch(setSession(user, true, 'cold'));
+  dispatch(SetSession(user, true, 'cold'));
 };
 
 export const LogIn = (identification, password) => async dispatch => {
@@ -22,7 +22,7 @@ export const LogIn = (identification, password) => async dispatch => {
     method: 'POST',
     body: JSON.stringify({ identification, password })
   });
-  dispatch(setSession(user, true, 'hot'));
+  dispatch(SetSession(user, true, 'hot'));
 };
 
 export const SignUp = newUser => async dispatch => {
@@ -35,14 +35,14 @@ export const SignUp = newUser => async dispatch => {
       password
     })
   });
-  dispatch(setSession(user, false, 'hot'));
+  dispatch(SetSession(user, false, 'hot'));
 };
 
 export const LogOut = () => async dispatch => {
   await csrfetch('/api/session', {
     method: 'DELETE'
   });
-  dispatch(setSession(null, true, 'hot'));
+  dispatch(SetSession(null, true, 'hot'));
 };
 
 export default function reducer (

@@ -12,6 +12,6 @@ module.exports = (Notification, roomMap, convos, userId, conversationId) => () =
   // if this room has never been viewed before (either it's a
   // new conversation, or the server has restarted since the last
   // time anyone viewed it), create a new room participant tracker
-  roomMap[conversationId] ?? (roomMap[conversationId] = new Set());
+  roomMap[conversationId] ??= new Set();
   roomMap[conversationId].add(userId);
 };
