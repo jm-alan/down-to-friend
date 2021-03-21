@@ -49,7 +49,7 @@ router.patch('/me/firstName', requireAuth, asyncHandler(async (req, res) => {
   }
 }));
 
-router.PATCH('/me/settings', requireAuth, asyncHandler(async (req, res) => {
+router.patch('/me/settings', requireAuth, asyncHandler(async (req, res) => {
   const { user, body: { pins: maxPins } } = req;
   try {
     user.update({ maxPins });
