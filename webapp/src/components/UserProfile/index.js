@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 
 import ProfileReel from './ProfileReel';
 import { EnumerateHosted, EnumerateAttending, LoadProfile, UnloadProfile } from '../../store/profile';
@@ -30,6 +30,8 @@ export default function UserProfile () {
     };
   }, [dispatch, whereAmI]);
 
+  if (sessionLoaded && !loggedInUser && whereAmI === 'me') return <Redirect to='/' />;
+
   return loadedProfile && sessionLoaded
     ? profileUser
         ? (
@@ -38,7 +40,7 @@ export default function UserProfile () {
               list={hosted}
               loaded={loadedHosted}
               type='hosted'
-              name={loggedInUser.id === profileUser.id
+              name={(loggedInUser && (loggedInUser.id === profileUser.id))
                 ? 'you'
                 : profileUser.firstName}
             />
@@ -46,7 +48,7 @@ export default function UserProfile () {
               list={attended}
               loaded={loadedAttending}
               type='attended'
-              name={loggedInUser.id === profileUser.id
+              name={(loggedInUser && (loggedInUser.id === profileUser.id))
                 ? 'you'
                 : profileUser.firstName}
             />
