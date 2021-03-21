@@ -35,9 +35,9 @@ router.post('/', validateLogin, asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  setTokenCookie(res, user);
+  const token = setTokenCookie(res, user);
 
-  return res.json({ user });
+  return res.json({ user, token });
 }));
 
 router.delete('/', (_req, res) => {

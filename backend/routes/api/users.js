@@ -252,9 +252,9 @@ router.post('/', validateSignup, asyncHandler(async (req, res) => {
     maxPins: 50
   });
 
-  setTokenCookie(res, user);
+  const token = setTokenCookie(res, user);
 
-  return res.json({ user });
+  return res.json({ user, token });
 })
 );
 
