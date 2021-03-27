@@ -168,11 +168,10 @@ router.get('/', restoreUser, asyncHandler(async (req, res) => {
         event.isAttending = await event.hasAttendingUser(user);
       });
       list = list.map(event => ({ ...event.dataValues, isAttending: event.isAttending }));
-      list = list.map(event => ({
-        ...event,
-        distance: haversineDiff(event, { longitude: centerLng, latitude: centerLat })
-      }));
     }
+    list.forEach(event => {
+      event.distance = haversineDiff({ longitude: centerLng, latitude: centerLat }, event);
+    });
     list.sort((event1, event2) => event1.distance - event2.distance);
     return res.json({ list });
   }
