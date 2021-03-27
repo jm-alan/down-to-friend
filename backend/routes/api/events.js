@@ -137,12 +137,9 @@ router.post('/', requireAuth, asyncHandler(async (req, res) => {
 router.get('/', restoreUser, asyncHandler(async (req, res) => {
   const {
     query: {
-      centerLng,
-      centerLat,
-      lowerLng,
-      upperLng,
-      lowerLat,
-      upperLat
+      centerLng, centerLat,
+      lowerLng, upperLng,
+      lowerLat, upperLat
     },
     user
   } = req;
@@ -171,16 +168,12 @@ router.get('/', restoreUser, asyncHandler(async (req, res) => {
         event.isAttending = await event.hasAttendingUser(user);
       });
       list = list.map(event => ({ ...event.dataValues, isAttending: event.isAttending }));
+      list = list.map(event => ({
+        ...event,
+        distance: Math.sqrt((event.longitude - centerLng) ** 2 + (event.latitude - centerLat) ** 2)
+      }));
     }
-    list.sort((event1, event2) => {
-      const event1distance = Math.sqrt(
-        (event1.longitude - centerLng) ** 2 + (event1.latitude - centerLat) ** 2
-      );
-      const event2distance = Math.sqrt(
-        (event2.longitude - centerLng) ** 2 + (event2.latitude - centerLat) ** 2
-      );
-      return event1distance - event2distance;
-    });
+    list.sort((event1, event2) => event1.distance - event2.distance);
     return res.json({ list });
   }
 }));
