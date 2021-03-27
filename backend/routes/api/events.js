@@ -170,12 +170,29 @@ router.get('/', restoreUser, asyncHandler(async (req, res) => {
       list = list.map(event => ({ ...event.dataValues, isAttending: event.isAttending }));
       list = list.map(event => ({
         ...event,
-        distance: Math.sqrt((event.longitude - centerLng) ** 2 + (event.latitude - centerLat) ** 2)
+        distance: haversineDiff(event, { longitude: centerLng, latitude: centerLat })
       }));
     }
     list.sort((event1, event2) => event1.distance - event2.distance);
     return res.json({ list });
   }
 }));
+
+function haversineDiff ($, _) {
+  const $_ = 3958.8;
+  const _$ = rad(_.latitude - $.latitude);
+  const $$ = rad(_.longitude - $.longitude);
+  const __ =
+    Math.sin(_$ / 2) * Math.sin(_$ / 2) +
+    Math.cos(rad($.latitude)) * Math.cos(rad(_.latitude)) *
+    Math.sin($$ / 2) * Math.sin($$ / 2)
+    ;
+  const $__ = 2 * Math.atan2(Math.sqrt(__), Math.sqrt(1 - __));
+  return $_ * $__;
+}
+
+function rad (deg) {
+  return deg * (Math.PI / 180);
+}
 
 module.exports = router;
