@@ -30,7 +30,15 @@ export const EnumerateAttending = whereAmI => async dispatch => {
 };
 
 export default function reducer (
-  state = { hosted: [], attended: [], user: null, loadedHosted: false, loadedAttending: false, loadedProfile: false },
+  // eslint-disable-next-line
+  state = {
+    hosted: [],
+    attended: [],
+    user: null,
+    loadedHosted: false,
+    loadedAttending: false,
+    loadedProfile: false
+  },
   { type, list, user }) {
   switch (type) {
     case HOSTED:
