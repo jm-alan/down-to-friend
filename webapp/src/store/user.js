@@ -79,7 +79,11 @@ export const SetProfilePhoto = image => async () => {
   return data;
 };
 
-export default function reducer (state = { locale: { lat: null, lng: null } }, { type, locale }) {
+export default function reducer (
+  // eslint-disable-next-line
+  state = { locale: { lat: null, lng: null } },
+  { type, locale }
+) {
   switch (type) {
     case LOCALE:
       return { ...state, locale };
