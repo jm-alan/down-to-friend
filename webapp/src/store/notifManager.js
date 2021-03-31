@@ -40,7 +40,13 @@ export const GetNotifications = () => async dispatch => {
 };
 
 export default function reducer (
-  state = { notifications: [], socket: null, display: false, lock: 0 },
+  // eslint-disable-next-line
+  state = {
+    notifications: [],
+    socket: null,
+    display: false,
+    lock: 0
+  },
   { type, notifications, socket }
 ) {
   switch (type) {
