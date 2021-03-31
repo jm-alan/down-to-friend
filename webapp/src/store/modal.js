@@ -15,13 +15,15 @@ export const HideModal = () => ({ type: HIDE });
 export const SignupPhase = phase => ({ type: PHASE, phase });
 
 export default function reducer (
+  // eslint-disable-next-line
   state = {
     form: 'login',
     display: false,
     phase: 1,
     after: null
   },
-  { type, form, after, phase }) {
+  { type, form, after, phase }
+) {
   switch (type) {
     case FORM:
       return { ...state, form };
