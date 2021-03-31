@@ -46,6 +46,7 @@ export const LogOut = () => async dispatch => {
 };
 
 export default function reducer (
+  // eslint-disable-next-line
   state = { user: null, loaded: false },
   { type, user, loaded, loadState }) {
   switch (type) {
