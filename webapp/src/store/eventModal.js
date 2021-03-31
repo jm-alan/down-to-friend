@@ -45,6 +45,7 @@ export const EditComment = (eventId, postId, body) => async () => {
 };
 
 export default function reducer (
+  // eslint-disable-next-line
   state = { display: false, event: null, posts: [] },
   { type, event, posts }) {
   switch (type) {
