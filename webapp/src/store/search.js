@@ -7,6 +7,7 @@ export const AutoComplete = predictions => ({ type: AUTO, predictions });
 export const Searching = isSearching => ({ type: SEARCH, isSearching });
 
 export default function reducer (
+  // eslint-disable-next-line
   state = {
     predictions: [],
     query: null,
