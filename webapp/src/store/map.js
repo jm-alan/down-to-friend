@@ -25,6 +25,7 @@ export const Focus = (lng, lat, bounds, zoom) => ({
 });
 
 export default function reducer (
+  // eslint-disable-next-line
   state = {
     lat: 38.57366700738277,
     lng: -121.49428149672518,
