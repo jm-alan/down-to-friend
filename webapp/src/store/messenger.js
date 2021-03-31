@@ -31,6 +31,7 @@ export const UnloadMessenger = () => ({ type: UNLOAD });
 export const SetMessengerSocket = socket => ({ type: SOCKET, socket });
 
 export default function reducer (
+  // eslint-disable-next-line
   state = {
     conversations: [],
     conversation: 0,
