@@ -24,7 +24,11 @@ export const CreateEvent = event => async () => {
   return data;
 };
 
-export default function reducer (state = { mode: 'reel', last: 'new' }, { type }) {
+export default function reducer (
+  // eslint-disable-next-line
+  state = { mode: 'reel', last: 'new' },
+  { type }
+) {
   switch (type) {
     case REEL:
       return { mode: 'reel', last: state.mode };
