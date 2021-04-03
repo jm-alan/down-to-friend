@@ -177,17 +177,17 @@ router.get('/', restoreUser, asyncHandler(async (req, res) => {
   }
 }));
 
-function haversineDiff ($, _) {
-  const $_ = 3958.8;
-  const _$ = rad(_.latitude - $.latitude);
-  const $$ = rad(_.longitude - $.longitude);
-  const __ =
-    Math.sin(_$ / 2) * Math.sin(_$ / 2) +
-    Math.cos(rad($.latitude)) * Math.cos(rad(_.latitude)) *
-    Math.sin($$ / 2) * Math.sin($$ / 2)
+function haversineDiff (locationObject1, locationObject2) {
+  const radiusOfTheEarthInDesiredUnits = 3958.8;
+  const latitudeDifferentialInRadians = rad(locationObject2.latitude - locationObject1.latitude);
+  const longitudeDifferentialInRadians = rad(locationObject2.longitude - locationObject1.longitude);
+  const noIdea =
+    Math.sin(latitudeDifferentialInRadians / 2) * Math.sin(latitudeDifferentialInRadians / 2) +
+    Math.cos(rad(locationObject1.latitude)) * Math.cos(rad(locationObject2.latitude)) *
+    Math.sin(longitudeDifferentialInRadians / 2) * Math.sin(longitudeDifferentialInRadians / 2)
     ;
-  const $__ = 2 * Math.atan2(Math.sqrt(__), Math.sqrt(1 - __));
-  return $_ * $__;
+  const noIdea2 = 2 * Math.atan2(Math.sqrt(noIdea), Math.sqrt(1 - noIdea));
+  return radiusOfTheEarthInDesiredUnits * noIdea2;
 }
 
 function rad (deg) {
