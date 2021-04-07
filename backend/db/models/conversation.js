@@ -26,8 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     Conversation.hasMany(models.Message, { foreignKey: 'conversationId' });
     Conversation.hasMany(models.Notification, { foreignKey: 'conversationId' });
     Conversation.belongsTo(models.User, { as: 'ChatOwner', foreignKey: 'createdBy' });
-    Conversation.belongsToMany(models.User, notifiedMap);
     Conversation.belongsToMany(models.User, rosterMap);
+    Conversation.belongsToMany(models.User, notifiedMap);
   };
   return Conversation;
 };

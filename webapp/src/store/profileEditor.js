@@ -7,7 +7,7 @@ export const ShowProfileEditor = () => ({ type: SHOW });
 export const HideProfileEditor = () => ({ type: HIDE });
 
 export default function reducer (
-  // eslint-disable-next-line
+  // eslint-disable-next-line default-param-last
   state = { display: false }, { type }
 ) {
   switch (type) {

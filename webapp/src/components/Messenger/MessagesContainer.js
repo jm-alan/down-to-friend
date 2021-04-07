@@ -1,3 +1,4 @@
+/* eslint-disable no-tabs */
 import { useEffect, useRef } from 'react';
 
 import Message from './Message';
@@ -5,7 +6,6 @@ import Message from './Message';
 export default function MessagesContainer ({ rollingMessages, showTyping }) {
   const messageContainer = useRef(null);
 
-  // eslint-disable-next-line
   const svgContents = `
   <svg id="typing_bubble" data-name="typing bubble" xmlns="http://www.w3.org/2000/svg" width="24" height="6" viewBox="0 0 24 6">
 	<defs>

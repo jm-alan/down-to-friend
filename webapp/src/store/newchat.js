@@ -35,7 +35,7 @@ export const EnumerateChatPeople = eventId => async dispatch => {
 };
 
 export default function reducer (
-  // eslint-disable-next-line
+  // eslint-disable-next-line default-param-last
   state = {
     events: [],
     people: [],

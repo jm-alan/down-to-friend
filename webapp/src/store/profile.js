@@ -30,7 +30,7 @@ export const EnumerateAttending = whereAmI => async dispatch => {
 };
 
 export default function reducer (
-  // eslint-disable-next-line
+  // eslint-disable-next-line default-param-last
   state = {
     hosted: [],
     attended: [],

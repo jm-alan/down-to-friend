@@ -1,4 +1,4 @@
-// eslint-disable-next-line
+// eslint-disable-next-line no-extend-native
 Array.prototype.asyncForEach = async function (asyncCB) {
   for (let i = 0; i < this.length; i++) {
     await asyncCB(this[i], i, this);

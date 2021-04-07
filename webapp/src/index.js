@@ -11,7 +11,7 @@ import csrfetch, { restoreCSRF } from './store/csrf';
 
 import './index.css';
 
-// eslint-disable-next-line
+// eslint-disable-next-line no-extend-native
 String.prototype.toTitleCase = function () {
   if (!this.match(/ /g)) return [this[0].toUpperCase(), this.slice(1)].join('');
   return this

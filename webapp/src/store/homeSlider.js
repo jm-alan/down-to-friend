@@ -25,7 +25,7 @@ export const CreateEvent = event => async () => {
 };
 
 export default function reducer (
-  // eslint-disable-next-line
+  // eslint-disable-next-line default-param-last
   state = { mode: 'reel', last: 'new' },
   { type }
 ) {

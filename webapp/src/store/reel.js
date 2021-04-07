@@ -63,7 +63,7 @@ export const EnumerateReel = (
 };
 
 export default function reducer (
-  // eslint-disable-next-line
+  // eslint-disable-next-line default-param-last
   state = {
     list: null,
     loaded: false,

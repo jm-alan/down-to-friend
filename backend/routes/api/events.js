@@ -23,8 +23,7 @@ router.get('/tagged/:tag(\\w+)', asyncHandler(async (req, res) => {
   const events = Event.findAll({
     where: {
       tags: {
-      // eslint-disable-next-line
-      [Op.regexp]: `^${tag}(?= )|(?<= )${tag}(?= )|(?<= )${tag}$`
+        [Op.regexp]: `^${tag}(?= )|(?<= )${tag}(?= )|(?<= )${tag}$`
       }
     }
   });

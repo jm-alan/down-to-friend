@@ -66,7 +66,7 @@ export const SetEmail = email => async () => {
 };
 
 export const SetProfilePhoto = image => async () => {
-  // eslint-disable-next-line
+  // eslint-disable-next-line no-undef
   const body = new FormData();
   body.append('image', image);
   const { data } = await csrfetch('/api/users/me/profilePhoto', {
@@ -80,7 +80,7 @@ export const SetProfilePhoto = image => async () => {
 };
 
 export default function reducer (
-  // eslint-disable-next-line
+  // eslint-disable-next-line default-param-last
   state = { locale: { lat: null, lng: null } },
   { type, locale }
 ) {

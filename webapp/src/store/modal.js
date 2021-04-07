@@ -15,7 +15,7 @@ export const HideModal = () => ({ type: HIDE });
 export const SignupPhase = phase => ({ type: PHASE, phase });
 
 export default function reducer (
-  // eslint-disable-next-line
+  // eslint-disable-next-line default-param-last
   state = {
     form: 'login',
     display: false,

@@ -19,8 +19,10 @@ module.exports = (sequelize, DataTypes) => {
           isValid (value) {
             if (value.match(/[^a-zA-Z-]/)) {
               throw new Error(
-                `Currently, first names may only contain the letters A-Z, or a hyphen.
-                We apologize for the inconvenience.`
+                `
+                  Currently, first names may only contain the letters A-Z, or a hyphen.
+                  We apologize for the inconvenience.
+                  `
               );
             }
           }
@@ -98,8 +100,8 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Conversation, { as: 'OwnedConversations', foreignKey: 'createdBy' });
     User.belongsTo(models.Image, { as: 'Avatar', foreignKey: 'avatarId' });
     User.belongsToMany(models.Event, attendeeMap);
-    User.belongsToMany(models.Conversation, unreadMap);
     User.belongsToMany(models.Conversation, convoMap);
+    User.belongsToMany(models.Conversation, unreadMap);
   };
 
   User.prototype.toSafeObject = function () {
