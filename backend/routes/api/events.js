@@ -144,7 +144,7 @@ router.get('/', restoreUser, asyncHandler(async (req, res) => {
   } = req;
   if (!lowerLng || !upperLat) return res.json({ success: false });
   if (lowerLng) {
-    let list = await Event.findAll({
+    const list = await Event.findAll({
       limit: 100,
       where: {
         longitude: {
@@ -162,15 +162,11 @@ router.get('/', restoreUser, asyncHandler(async (req, res) => {
         }
       ]
     });
-    if (user) {
-      await list.asyncForEach(async event => {
-        event.isAttending = await event.hasAttendingUser(user);
-      });
-      list = list.map(event => ({ ...event.dataValues, isAttending: event.isAttending }));
-    }
-    list.forEach(event => {
-      event.distance = haversineDiff({ longitude: centerLng, latitude: centerLat }, event);
-    });
+    await list.asyncMapInPlace(async event => ({
+      ...event.dataValues,
+      isAttending: !!(user && await event.hasAttendingUser(user)),
+      distance: haversineDiff({ longitude: centerLng, latitude: centerLat }, event)
+    }));
     list.sort((event1, event2) => event1.distance - event2.distance);
     return res.json({ list });
   }

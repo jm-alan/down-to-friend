@@ -1,7 +1,14 @@
 // eslint-disable-next-line no-extend-native
-Array.prototype.asyncForEach = async function (asyncCB) {
-  for (let i = 0; i < this.length; i++) {
-    await asyncCB(this[i], i, this);
+Array.prototype.asyncForEach = async function ($) {
+  for (let _ = 0; _ < this.length; _++) {
+    await $(this[_], _, this);
+  }
+};
+
+// eslint-disable-next-line no-extend-native
+Array.prototype.asyncMapInPlace = async function ($) {
+  for (let _ = 0; _ < this.length; _++) {
+    this[_] = await $(this[_], _, this);
   }
 };
 
