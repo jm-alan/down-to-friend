@@ -22,13 +22,13 @@ String.prototype.toTitleCase = function () {
 
 Object.deepEq = function ($, _) {
   if (!$ || !_ || typeof $ !== 'object' || typeof _ !== 'object') return false;
-  const [$_, __] = [$, _].map(Object.entries);
-  if ($_.length !== __.length) return false;
-  for (let i = 0; i < $_.length; i++) {
+  const [$$, __] = [$, _].map(Object.values);
+  if ($$.length !== __.length) return false;
+  for (const $_ in $$) {
     if (
-      (typeof $_[i][1] !== 'object' &&
-      $_[i][1] !== __[i][1]) ||
-      !Object.deepEq($_[i][1], __[i][1])
+      (typeof $$[+$_] !== typeof __[+$_]) ||
+      (typeof $$[+$_] !== 'object' && $$[+$_] !== __[+$_]) ||
+      (typeof $$[+$_] === 'object' && !Object.deepEq($$[+$_], __[+$_]))
     ) return false;
   }
   return true;
