@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { SignUp } from '../../store/session';
-import { SignupPhase, ModalForm } from '../../store/modal';
+import { SignupPhase, ModalForm } from '../../store/authModal';
 
 export default function SignupPhaseOne () {
   const dispatch = useDispatch();
