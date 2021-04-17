@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import WrappedModal from './WrappedModal';
-import { ModalForm, ShowModal } from '../../store/modal';
+import { ModalForm, ShowModal } from '../../store/authModal';
 
 export default function LoginFormModal () {
   const dispatch = useDispatch();
-  const display = useSelector(state => state.modal.display);
+  const display = useSelector(state => state.authModal.display);
 
   const loginClick = () => {
     dispatch(ModalForm('login'));
