@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { FixMap, UnfixMap } from '../../store/map';
 import { HardSetList, RestoreList } from '../../store/reel';
-import { ShowModal } from '../../store/modal';
+import { ShowModal } from '../../store/authModal';
 import { ShowReel, ShowNew, ShowLast } from '../../store/homeSlider';
 
 let hangingTimeout;
