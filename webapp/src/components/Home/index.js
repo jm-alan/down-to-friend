@@ -37,11 +37,11 @@ export default function Home () {
   }, [dispatch, user, sessionLoadState]);
 
   return (sessionLoaded || reelLoaded) && (
-    <div className='home-container'>
+    <>
       <Slider />
       <GoogleMap
         list={list}
       />
-    </div>
+    </>
   );
 }
