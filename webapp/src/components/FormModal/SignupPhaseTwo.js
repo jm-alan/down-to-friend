@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { SignupPhase } from '../../store/modal';
+import { SignupPhase } from '../../store/authModal';
 import { SetProfilePhoto } from '../../store/user';
 
 export default function SignupPhaseTwo () {
