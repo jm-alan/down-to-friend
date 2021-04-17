@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LogIn } from '../../store/session';
-import { HideModal, ModalForm } from '../../store/modal';
+import { HideModal, ModalForm } from '../../store/authModal';
 
 export default function LoginForm () {
   const dispatch = useDispatch();
-  const after = useSelector(state => state.modal.after);
+  const after = useSelector(state => state.authModal.after);
 
   const [identification, setIdentification] = useState('');
   const [password, setPassword] = useState('');
