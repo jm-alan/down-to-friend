@@ -18,17 +18,19 @@ export default function App () {
   return (
     <>
       <Navigation />
-      <Switch>
-        <Route exact path='/'>
-          <Home />
-        </Route>
-        <Route exact path='/users/:userId'>
-          <UserProfile />
-        </Route>
-        <Route exact path='/messages'>
-          <Messenger />
-        </Route>
-      </Switch>
+      <div className='router-wrapper'>
+        <Switch>
+          <Route exact path='/'>
+            <Home />
+          </Route>
+          <Route exact path='/users/:userId'>
+            <UserProfile />
+          </Route>
+          <Route exact path='/messages'>
+            <Messenger />
+          </Route>
+        </Switch>
+      </div>
     </>
   );
 }
