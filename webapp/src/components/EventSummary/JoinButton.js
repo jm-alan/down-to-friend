@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { JoinEvent, LeaveEvent } from '../../store/user';
-import { ShowModal } from '../../store/modal';
+import { ShowModal } from '../../store/authModal';
 
 export default function JoinButton ({
   event, slotsRemaining, setSlotsRemaining, setTotalAttending
