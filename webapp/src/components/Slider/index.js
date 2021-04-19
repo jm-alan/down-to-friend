@@ -18,12 +18,12 @@ export default function Slider () {
           className='reel-newevent-sliding-controller'
           style={{
             left: sliderMode === 'reel'
-              ? '-768px'
+              ? '-700px'
               : sliderMode === 'new'
-                ? '-1536px'
+                ? '-1400px'
                 : sliderMode === 'settings'
                   ? '0px'
-                  : '-768px'
+                  : '-700px'
           }}
         >
           <SearchSettings />

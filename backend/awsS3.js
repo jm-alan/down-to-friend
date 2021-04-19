@@ -57,6 +57,20 @@ const multiplePrivateFileUpload = async files => {
 
 const retrievePrivateFile = Key => Key && s3.getSignedUrl('getObject', { Bucket, Key });
 
+const deleteS3Files = (...keys) => {
+  if (!keys.length) return;
+  const Objects = keys.map(Key => ({ Key }));
+  return new Promise((resolve, reject) => {
+    s3.deleteObjects({
+      Bucket,
+      Objects
+    }, (err, resp) => {
+      if (err) return reject(err);
+      return resolve(resp);
+    });
+  });
+};
+
 const storage = multer.memoryStorage({
   destination: function (_req, _file, callback) {
     callback(null, '');
@@ -74,5 +88,6 @@ module.exports = {
   multiplePrivateFileUpload,
   retrievePrivateFile,
   singleMulterUpload,
-  multipleMulterUpload
+  multipleMulterUpload,
+  deleteS3Files
 };

@@ -1,38 +1,23 @@
-const FORM = 'modal/FORM';
+const SETMOORING = 'modal/MOORING';
 
-const SHOW = 'modal/SHOW';
+const SETCURRENT = 'modal/CURRENT';
 
-const HIDE = 'modal/HIDE';
+export const SetMooring = mooring => ({ type: SETMOORING, mooring });
 
-const PHASE = 'modal/PHASE';
+export const SetCurrent = current => ({ type: SETCURRENT, current });
 
-export const ModalForm = form => ({ type: FORM, form });
-
-export const ShowModal = (after = null) => ({ type: SHOW, after });
-
-export const HideModal = () => ({ type: HIDE });
-
-export const SignupPhase = phase => ({ type: PHASE, phase });
+export const TearDown = () => ({ type: SETCURRENT, current: null });
 
 export default function reducer (
   // eslint-disable-next-line default-param-last
-  state = {
-    form: 'login',
-    display: false,
-    phase: 1,
-    after: null
-  },
-  { type, form, after, phase }
+  state = { current: null, mooring: null },
+  { type, mooring, current }
 ) {
   switch (type) {
-    case FORM:
-      return { ...state, form };
-    case SHOW:
-      return { ...state, display: true, after };
-    case HIDE:
-      return { ...state, display: false, after: null, phase: 1 };
-    case PHASE:
-      return { ...state, phase };
+    case SETMOORING:
+      return { ...state, mooring };
+    case SETCURRENT:
+      return { ...state, current };
     default:
       return state;
   }

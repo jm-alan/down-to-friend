@@ -5,7 +5,7 @@ import session from './session';
 import reel from './reel';
 import map from './map';
 import search from './search';
-import modal from './modal';
+import authModal from './authModal';
 import user from './user';
 import profile from './profile';
 import messenger from './messenger';
@@ -20,7 +20,7 @@ const rootReducer = combineReducers({
   reel,
   map,
   search,
-  modal,
+  authModal,
   user,
   profile,
   messenger,

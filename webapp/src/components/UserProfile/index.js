@@ -37,6 +37,7 @@ export default function UserProfile () {
         ? (
           <div className='user-profile-container'>
             <ProfileReel
+              diffClass='left'
               list={hosted}
               loaded={loadedHosted}
               type='hosted'
@@ -45,6 +46,7 @@ export default function UserProfile () {
                 : profileUser.firstName}
             />
             <ProfileReel
+              diffClass='right'
               list={attended}
               loaded={loadedAttending}
               type='attended'

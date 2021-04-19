@@ -2,6 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 
+const { singlePublicFileUpload, singleMulterUpload, deleteS3Files } = require('../../awsS3');
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const { User, Conversation, Event, Notification } = require('../../db/models');
@@ -24,6 +25,33 @@ const validateSignup = [
     .withMessage('Password must be 6 characters or more.'),
   handleValidationErrors
 ];
+
+router.delete('/me/profilePhoto', requireAuth, asyncHandler(async (req, res) => {
+  const { user } = req;
+  const avatar = await user.getAvatar();
+  if (!avatar) return res.json({ success: false, reason: 'No photo to delete.' });
+  const urlPieces = avatar.url.split('/');
+  const key = urlPieces[urlPieces.length - 1];
+  await deleteS3Files([key]);
+}));
+
+router.post(
+  '/me/profilePhoto',
+  requireAuth,
+  singleMulterUpload('image'),
+  asyncHandler(async (req, res) => {
+    try {
+      const { user, file } = req;
+      const url = await singlePublicFileUpload(file);
+      await user.createAvatar({ url });
+      res.json({ success: true, url });
+    } catch (err) {
+      console.error(err);
+      console.error('Short:', err.toString());
+      res.json({ success: false, reason: err.toString() });
+    }
+  })
+);
 
 router.patch('/me/email', requireAuth, asyncHandler(async (req, res) => {
   const { user, body: { email } } = req;

@@ -1,6 +1,6 @@
 nav {
   background-color: steelblue;
-  height: 60px;
+  height: 45px;
   width: 100%;
   z-index: 998;
   display: flex;
@@ -32,7 +32,7 @@ div.navigation-container-left button:hover {
 
 button.new-event-button {
   position: absolute;
-  left: 663px;
+  left: 595px;
   height: 30px;
   width: 75px;
   display: flex;
@@ -56,7 +56,7 @@ button.new-event-button:focus {
 }
 
 button.new-event-button:active {
-  left: 664px;
+  left: 596px;
   height: 28px;
   width: 73px;
 }
@@ -122,7 +122,7 @@ div.notification-container {
   height: min-content;
   max-height: 500px;
   overflow-y: auto;
-  top: 45px;
+  top: 40px;
 }
 
 div.notif-container {
