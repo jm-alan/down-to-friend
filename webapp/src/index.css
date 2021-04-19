@@ -19,9 +19,14 @@ body {
 
 .router-wrapper {
   height: calc(100vh - 45px);
+  width: 100vw;
   overflow: hidden;
   display: flex;
   position: relative;
+}
+
+.router-wrapper > * {
+  flex-grow: 1;
 }
 
 /* Hide scrollbar */
