@@ -1,8 +1,8 @@
 import EventSummary from '../EventSummary';
 
-export default function ProfileReel ({ type, name, list, loaded }) {
+export default function ProfileReel ({ diffClass, type, name, list, loaded }) {
   return (
-    <div className='event-reel-container'>
+    <div className={`event-reel-container${diffClass ? ` ${diffClass}` : ''}`}>
       {loaded
         ? list.length
             ? list.map(event => (
