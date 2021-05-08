@@ -8,7 +8,7 @@ const setTokenCookie = (res, user) => {
   const token = jwt.sign(
     { data: user.toSafeObject() },
     secret,
-    { expiresIn: parseInt(expiresIn) }
+    { expiresIn }
   );
 
   const isProduction = process.env.NODE_ENV === 'production';
