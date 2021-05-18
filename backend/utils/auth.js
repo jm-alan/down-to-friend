@@ -26,7 +26,7 @@ const setTokenCookie = (res, user) => {
 const restoreUser = (req, res, next) => {
   const token = req.cookies.token ?? req.params.mobileToken;
 
-  return jwt.verify(token, secret, null, async (err, jwtPayload) => {
+  jwt.verify(token, secret, null, async (err, jwtPayload) => {
     if (err) return next();
 
     try {
@@ -43,7 +43,7 @@ const restoreUser = (req, res, next) => {
       res.clearCookie('token');
     }
 
-    return next();
+    next();
   });
 };
 
