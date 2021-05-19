@@ -12,7 +12,14 @@ io.use(socketRequireAuth)
   .on('connection', (socket) => {
     // socketRequireAuth guarantees we will have both socket.user and
     // socket.handshake.query.type
-    const { user, handshake: { query: { type } } } = socket;
+    const {
+      user,
+      handshake: {
+        query: {
+          type
+        }
+      }
+    } = socket;
     const { id: userId } = user;
     const onQuickReply = quickReplyLogicConstructor(io, socket, Notification, Conversation, roomMap, liveUsers, user);
     switch (type) {
