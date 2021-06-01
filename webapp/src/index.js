@@ -1,13 +1,12 @@
-import React from 'react';
-
+import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
-import { ModalProvider } from './context/Modal';
 import App from './App';
 import configureStore from './store';
 import csrfetch, { restoreCSRF } from './store/csrf';
+import { SetMooring } from './store/modal';
 
 import './index.css';
 
@@ -40,23 +39,34 @@ if (process.env.NODE_ENV !== 'production') {
   restoreCSRF();
   window.csrfetch = csrfetch;
   window.store = store;
+  window.dispatch = store.dispatch;
 }
 
 function Root () {
+  const dispatch = useDispatch();
+
+  const mooringRef = useRef(null);
+
+  useEffect(() => {
+    dispatch(SetMooring(mooringRef.current));
+  });
+
   return (
-    <ModalProvider>
-      <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>
-    </ModalProvider>
+    <BrowserRouter>
+      <App />
+      <div
+        ref={mooringRef}
+        id='modal'
+      />
+    </BrowserRouter>
   );
 }
 
 ReactDOM.render(
   <React.StrictMode>
-    <Root />
+    <Provider store={store}>
+      <Root />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
