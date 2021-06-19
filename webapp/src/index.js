@@ -53,6 +53,7 @@ if (process.env.NODE_ENV !== 'production') {
   restoreCSRF();
   window.csrfetch = csrfetch;
   window.store = store;
+  window.dispatch = store.dispatch;
 }
 
 function Root () {
