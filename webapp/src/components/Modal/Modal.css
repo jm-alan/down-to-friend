@@ -1,0 +1,158 @@
+#modal {
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+#modal-background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 998;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+#modal-content {
+  z-index: 999;
+  background-color: steelblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  position: absolute;
+  box-sizing: border-box;
+  padding: 10px 40px;
+  border-radius: 5px;
+  width: 400px;
+  height: 400px;
+  overflow: hidden;
+}
+
+#modal-content h1 {
+  margin: 0px;
+  color: white;
+}
+
+div.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+form.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form.modal input {
+  color: white;
+  background-color: unset;
+  border-radius: 5px;
+  border: none;
+  border-bottom: 1px solid darkgrey;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  box-sizing: border-box;
+  font-size: xx-large;
+  width: 100%;
+}
+
+form.modal input::placeholder {
+  color: lightgrey;
+}
+
+form.modal input:focus {
+  outline: none;
+}
+
+form.modal input:focus::placeholder {
+  color: transparent;
+}
+
+div.form-button-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+div.form-button-container button {
+  height: 36px;
+  position: relative;
+  color: white;
+  font-weight: bolder;
+  border-radius: 5px;
+  margin-top: 5px;
+  border: none;
+  box-sizing: border-box;
+  padding: 5px;
+  background-color: unset;
+  font-size: larger;
+}
+
+div.form-button-container button:hover {
+  border: 2px solid white;
+  bottom: 2px;
+}
+
+div.form-button-container button:active {
+  bottom: 0px;
+}
+
+div.form-button-container button .nextarrow {
+  margin-left: 10px;
+}
+
+div.form-button-container button:focus {
+  outline: none;
+}
+
+div.signup-phases-container {
+  transition: all 0.4s;
+  position: relative;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 1040px;
+}
+
+div.signup-phases-container .form-container {
+  width: 320px;
+}
+
+button.avatar-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div.avatar-preview-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+img.avatar-preview {
+  height: auto;
+  width: auto;
+  border-radius: 50%;
+  max-height: 200px;
+  max-width: 320px;
+}
+
+div.reject-message-container * {
+  margin: 0px;
+}
+
+div.reject-message-container {
+  color: red;
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+}
