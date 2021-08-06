@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Navigation from './components/Navigation';
 import UserProfile from './components/UserProfile';
 import Messenger from './components/Messenger';
+import Modal from './components/Modal';
 import { RestoreUser } from './store/session';
 
 export default function App () {
@@ -18,6 +19,7 @@ export default function App () {
   return (
     <>
       <Navigation />
+      <Modal />
       <div className='router-wrapper'>
         <Switch>
           <Route exact path='/'>
