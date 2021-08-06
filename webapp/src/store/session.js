@@ -1,11 +1,10 @@
-import csrfetch from './csrf.js';
+import csrfetch from './csrfetch.js';
 
 const USER = 'session/USER';
-
 const LOAD = 'session/LOAD';
-
 const UNLOAD = 'session/UNLOAD';
 
+// eslint-disable-next-line default-param-last
 export const SetSession = (user = null, loaded, loadState) => ({ type: USER, user, loaded, loadState });
 
 export const LoadSession = () => ({ type: LOAD });
@@ -13,35 +12,23 @@ export const LoadSession = () => ({ type: LOAD });
 export const UnloadSession = () => ({ type: UNLOAD });
 
 export const RestoreUser = () => async dispatch => {
-  const { data: { user } } = await csrfetch('/api/session');
+  const { user } = await csrfetch.get('/api/session');
   dispatch(SetSession(user, true, 'cold'));
+  await csrfetch.restoreCSRF();
 };
 
 export const LogIn = (identification, password) => async dispatch => {
-  const { data: { user } } = await csrfetch('/api/session', {
-    method: 'POST',
-    body: JSON.stringify({ identification, password })
-  });
+  const { user } = await csrfetch.post('/api/session', { identification, password });
   dispatch(SetSession(user, true, 'hot'));
 };
 
 export const SignUp = newUser => async dispatch => {
-  const { firstName, email, password } = newUser;
-  const { data: { user } } = await csrfetch('/api/users', {
-    method: 'POST',
-    body: JSON.stringify({
-      firstName,
-      email,
-      password
-    })
-  });
+  const { user } = await csrfetch.post('/api/users', newUser);
   dispatch(SetSession(user, false, 'hot'));
 };
 
 export const LogOut = () => async dispatch => {
-  await csrfetch('/api/session', {
-    method: 'DELETE'
-  });
+  await csrfetch.delete('/api/session');
   dispatch(SetSession(null, true, 'hot'));
 };
 
