@@ -46,9 +46,10 @@ export const GetComments = eventId => async dispatch => {
   dispatch(setPosts(posts));
 };
 
-export const CreateComment = (eventId, newComment) => async dispatch => {
+export const CreateComment = (eventId, newComment, after = () => {}) => async dispatch => {
   const { post } = await csrfetch.post(`/api/events/${eventId}/posts`, { eventId, ...newComment });
   dispatch(createPost(post));
+  after();
 };
 
 export const DeleteComment = (eventId, postId) => async dispatch => {
@@ -56,9 +57,10 @@ export const DeleteComment = (eventId, postId) => async dispatch => {
   dispatch(deletePost(postId));
 };
 
-export const EditComment = (eventId, postId, body) => async dispatch => {
+export const EditComment = (eventId, postId, body, after = () => {}) => async dispatch => {
   const { post } = await csrfetch(`/api/events/${eventId}/posts/${postId}`, body);
   dispatch(editPost(post));
+  after();
 };
 
 export default function reducer (
