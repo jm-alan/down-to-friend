@@ -1,19 +1,19 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import WrappedModal from './WrappedModal';
-import { ModalForm, ShowModal } from '../../store/authModal';
+import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
+import { SetCurrent, ShowModal } from '../../store/modal';
 
 export default function LoginFormModal () {
   const dispatch = useDispatch();
-  const display = useSelector(state => state.authModal.display);
 
   const loginClick = () => {
-    dispatch(ModalForm('login'));
+    dispatch(SetCurrent(LoginForm));
     dispatch(ShowModal());
   };
 
   const signupClick = () => {
-    dispatch(ModalForm('signup'));
+    dispatch(SetCurrent(SignupForm));
     dispatch(ShowModal());
   };
 
@@ -25,7 +25,6 @@ export default function LoginFormModal () {
       <div className='nav-button-container'>
         <button onClick={signupClick}>Sign Up</button>
       </div>
-      {display && <WrappedModal />}
     </>
   );
 }
