@@ -3,18 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@googlemaps/js-api-loader": "^1.11.1",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "chokidar": "^3.5.1",
-    "dotenv": "^8.2.0",
     "google-map-react": "^2.1.9",
-    "is-svg": "^4.3.1",
-    "js-cookie": "^2.2.1",
-    "node-notifier": "^8.0.1",
     "react": "^17.0.1",
-    "react-dev-utils": "^11.0.4",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
     "react-redux": "^7.2.2",
@@ -22,8 +12,7 @@
     "react-scripts": "4.0.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "socket.io-client": "^3.1.1",
-    "ssri": "^8.0.1"
+    "socket.io-client": "^3.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
