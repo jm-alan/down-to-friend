@@ -54,6 +54,19 @@ export default function JoinButton ({
     }
   }, [displayState, setDisplayState]);
 
+  useEffect(() => {
+    if (sessionLoaded && loadState === 'hot') {
+      if (user) {
+        const hotloadAttending = event.AttendingUsers.some(({ id }) => id === user.id);
+        setIsAttending(hotloadAttending);
+        setDisplayState(prev => hotloadAttending ? 2 : prev);
+      } else {
+        setIsAttending(false);
+        setDisplayState(slotsRemaining ? 0 : 3);
+      }
+    }
+  }, [slotsRemaining, sessionLoaded, loadState, user]);
+
   return (
     <button
       className='event-join-button'
