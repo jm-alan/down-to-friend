@@ -40,7 +40,10 @@ Object.deepEq = ($, _) => {
         typeof $$[+$_] === 'object' &&
         $$[+$_] !== null &&
         !Object.deepEq($$[+$_], __[+$_])
-      ) || ($$[+$_] === null && $$[+$_] !== __[+$_])
+      ) || (
+        $$[+$_] === null &&
+        $$[+$_] !== __[+$_]
+      )
     ) return false;
   }
   return true;
