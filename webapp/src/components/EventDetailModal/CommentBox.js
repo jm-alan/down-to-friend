@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CreateComment, GetComments } from '../../store/eventModal';
+import { CreateComment } from '../../store/eventModal';
 
 export default function CommentBox () {
   const dispatch = useDispatch();
@@ -12,16 +12,7 @@ export default function CommentBox () {
 
   const onSubmit = e => {
     e.preventDefault();
-    dispatch(CreateComment(event.id, comment))
-      .then(resp => {
-        if (resp.success) {
-          setComment('');
-          dispatch(GetComments(event.id));
-        } else {
-          console.error(resp.reason);
-        }
-      })
-      .catch(console.error);
+    dispatch(CreateComment(event.id, comment, () => setComment('')));
   };
 
   return user && (
