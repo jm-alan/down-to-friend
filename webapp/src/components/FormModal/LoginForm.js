@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import SignupForm from './SignupForm';
 import { LogIn } from '../../store/session';
-import { HideModal, ModalForm } from '../../store/authModal';
+import { HideModal, SetCurrent } from '../../store/modal';
 
 export default function LoginForm () {
   const dispatch = useDispatch();
-  const after = useSelector(state => state.authModal.after);
+  const after = useSelector(state => state.modal.after);
 
-  const [identification, setIdentification] = useState('');
-  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
+  const [password, setPassword] = useState('');
+  const [identification, setIdentification] = useState('');
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -33,7 +34,7 @@ export default function LoginForm () {
   };
 
   const switchForm = () => {
-    dispatch(ModalForm('signup'));
+    dispatch(SetCurrent(SignupForm));
   };
 
   return (

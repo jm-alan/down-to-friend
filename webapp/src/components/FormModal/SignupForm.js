@@ -5,7 +5,7 @@ import SignupPhaseTwo from './SignupPhaseTwo';
 import SignupPhaseThree from './SignupPhaseThree';
 
 export default function SignupFormPage () {
-  const phase = useSelector(state => state.authModal.phase);
+  const phase = useSelector(state => state.modal.phase);
 
   return (
     <div
