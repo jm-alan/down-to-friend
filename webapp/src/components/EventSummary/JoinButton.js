@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import LoginForm from '../FormModal/LoginForm';
 import { JoinEvent, LeaveEvent } from '../../store/user';
-import { ShowModal } from '../../store/authModal';
+import { SetCurrent, ShowModal, SetAfter } from '../../store/modal';
 
 export default function JoinButton ({
   event, slotsRemaining, setSlotsRemaining, setTotalAttending
 }) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
+  const loadState = useSelector(state => state.session.loadState);
+  const sessionLoaded = useSelector(state => state.session.loaded);
 
   const [isAttending, setIsAttending] = useState(!!event.isAttending);
   const [displayState, setDisplayState] = useState(
@@ -17,13 +20,13 @@ export default function JoinButton ({
       : slotsRemaining ? 0 : 3);
 
   const HeapJoin = () => {
-    dispatch(JoinEvent(event.id))
-      .then(() => {
-        setTotalAttending(attending => attending + 1);
-        setSlotsRemaining(remaining => remaining - 1);
-        setDisplayState(1);
-        setIsAttending(true);
-      });
+    const after = () => {
+      setTotalAttending(attending => attending + 1);
+      setSlotsRemaining(remaining => remaining - 1);
+      setDisplayState(1);
+      setIsAttending(true);
+    };
+    dispatch(JoinEvent(event.id, after));
   };
 
   const onEventInteract = e => {
@@ -31,18 +34,20 @@ export default function JoinButton ({
     e.preventDefault();
     if (!isAttending) {
       if (!user) {
-        dispatch(ShowModal(HeapJoin));
+        dispatch(SetCurrent(LoginForm));
+        dispatch(ShowModal());
+        dispatch(SetAfter(HeapJoin));
       } else {
         HeapJoin();
       }
     } else {
-      dispatch(LeaveEvent(event.id))
-        .then(() => {
-          setTotalAttending(attending => attending - 1);
-          setSlotsRemaining(remaining => remaining + 1);
-          setDisplayState(0);
-          setIsAttending(false);
-        });
+      const after = () => {
+        setTotalAttending(attending => attending - 1);
+        setSlotsRemaining(remaining => remaining + 1);
+        setDisplayState(0);
+        setIsAttending(false);
+      };
+      dispatch(LeaveEvent(event.id, after));
     }
   };
 
