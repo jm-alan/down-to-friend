@@ -7,7 +7,7 @@
   "description": "Capstone solo project - React/Redux/Express/Sequelize",
   "main": "index.js",
   "scripts": {
-    "heroku-postbuild": "npm run build --prefix backend && npm run build --prefix frontend && rm -rf ./frontend/node_modules",
+    "heroku-postbuild": "npm run build --prefix backend && npm run build --prefix webapp && rm -rf ./webapp/node_modules",
     "install": "npm --prefix backend install backend && npm --prefix webapp install webapp",
     "sequelize": "npm run --prefix backend sequelize",
     "sequelize-cli": "npm run --prefix backend sequelize-cli",
