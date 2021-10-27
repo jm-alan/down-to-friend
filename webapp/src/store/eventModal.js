@@ -16,6 +16,11 @@ export const ShowEventModal = () => ({ type: SHOW });
 
 export const HideEventModal = () => ({ type: HIDE });
 
+const addPost = post => ({
+  type: NEW_POST,
+  post
+});
+
 export const GetComments = eventId => async dispatch => {
   const { data } = await csrfetch(`/api/events/${eventId}/posts`);
   dispatch(setPosts(data.posts));
@@ -53,6 +58,14 @@ export default function reducer (
       return { ...state, event };
     case POSTS:
       return { ...state, posts };
+    case NEW_POST:
+      return {
+        ...state,
+        posts: {
+          ...state.posts,
+          [post.id]: post
+        }
+      };
     case SHOW:
       return { ...state, display: true };
     case HIDE:
