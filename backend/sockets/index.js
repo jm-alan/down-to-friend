@@ -13,8 +13,7 @@ io.use(socketRequireAuth)
     // socketRequireAuth guarantees we will have both socket.user and
     // socket.handshake.query.type
     const {
-      user,
-      handshake: {
+      user, handshake: {
         query: {
           type
         }
@@ -24,19 +23,20 @@ io.use(socketRequireAuth)
     const onQuickReply = quickReplyLogicConstructor(io, socket, Notification, Conversation, roomMap, liveUsers, user);
     switch (type) {
       case 'chat':
-        // lookup all conversations in which socket.user is a participant
-        user.getChats()
-          .then(convos => {
-            const onConvo = convoLogicConstructor(io, socket, Notification, roomMap, liveUsers, user, convos);
-            // this will always be an array, just sometimes it will be empty.
-            // This convoLogic function was abstracted to enable easily adding
-            // new conversations
-            convos.forEach(onConvo);
-            socket.on('new', (convoId) => {
-              Conversation.findByPk(convoId, { include: ['ChattingUsers'] })
-                .then(onConvo);
-            });
+        (async () => {
+          // lookup all conversations in which socket.user is a participant
+          const convos = await user.getChats();
+          const onConvo = convoLogicConstructor(io, socket, Notification, roomMap, liveUsers, user, convos);
+          // this will always be an array, just sometimes it will be empty.
+          // This convoLogic function was abstracted to enable easily adding
+          // new conversations
+          convos.forEach(onConvo);
+          socket.on('new', (convoId) => {
+            (async () => {
+              onConvo(await Conversation.findByPk(convoId, { include: ['ChattingUsers'] }));
+            })();
           });
+        })();
         break;
       case 'notif':
         // Manually emit handshake event so socket is not idle; vastly improves
