@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import JoinButton from '../EventSummary/JoinButton';
 import ModalComments from './ModalComments';
-import { GetComments, HideEventModal } from '../../store/eventModal';
+import { HideEventModal } from '../../store/eventModal';
 
 import './eventModal.css';
 
@@ -22,10 +22,6 @@ export default function EventDetailModal () {
       dispatch(HideEventModal());
     }
   };
-
-  useEffect(() => {
-    dispatch(GetComments(event.id));
-  }, [dispatch, event.id]);
 
   return display
     ? (
@@ -86,7 +82,7 @@ export default function EventDetailModal () {
               </p>
             </div>
             <div className='event-summary-footer-container'>
-              <ModalComments />
+              <ModalComments event={event} />
               <div className='event-summary-tags-outer-container'>
                 <div className='event-summary-tags-inner-container'>
                   {event.tags.split(' ').sort((a, b) => b.length - a.length)
