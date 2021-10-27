@@ -4,16 +4,13 @@ const { port } = require('../config');
 const app = require('../app');
 const db = require('../db/models');
 
-db.sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Sequelize connected.');
-
-    const http = app.listen(port, () => console.log(`UP successful. Bind:${port}...`));
-
+(async () => {
+  try {
+    await db.sequelize.authenticate();
+    const http = app.listen(port, () => console.log(`Database connection successful.\nAPP:${port} UP`));
     require('../sockets').attach(http);
-  })
-  .catch(err => {
+  } catch (err) {
     console.log('Database connection failure.');
     console.error(err);
-  });
+  }
+})();
