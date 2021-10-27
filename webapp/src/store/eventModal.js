@@ -1,12 +1,10 @@
 import csrfetch from './csrf';
 
 const SHOW = 'eventModal/SHOW';
-
 const HIDE = 'eventModal/HIDE';
-
 const EVENT = 'eventModal/EVENT';
-
 const POSTS = 'eventModal/POSTS';
+const NEW_POST = 'eventModal/NEW_POST';
 
 const setPosts = posts => ({ type: POSTS, posts });
 
@@ -26,12 +24,13 @@ export const GetComments = eventId => async dispatch => {
   dispatch(setPosts(data.posts));
 };
 
-export const CreateComment = (eventId, body) => async () => {
-  const { data } = await csrfetch(`/api/events/${eventId}/posts`, {
+export const CreateComment = (eventId, body, setComment) => async dispatch => {
+  const { post } = await csrfetch(`/api/events/${eventId}/posts`, {
     method: 'POST',
     body: JSON.stringify({ body })
   });
-  return data;
+  setComment('');
+  dispatch(addPost(post));
 };
 
 export const DeleteComment = (eventId, postId) => async () => {
@@ -52,7 +51,7 @@ export const EditComment = (eventId, postId, body) => async () => {
 export default function reducer (
   // eslint-disable-next-line default-param-last
   state = { display: false, event: null, posts: [] },
-  { type, event, posts }) {
+  { type, event, posts, post }) {
   switch (type) {
     case EVENT:
       return { ...state, event };
