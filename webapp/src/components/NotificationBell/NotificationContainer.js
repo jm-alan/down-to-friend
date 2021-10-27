@@ -32,7 +32,7 @@ export default function NotificationContainer ({ bellRef }) {
               notif={notif}
               setExpandContainer={setExpandContainer}
             />
-            ))
+          ))
           : <h1>No notifications</h1>}
       </div>
       )
