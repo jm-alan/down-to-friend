@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { GetComments, DeleteComment } from '../../store/eventModal';
+import { DeleteComment } from '../../store/eventModal';
 
 export default function CommentEditDelete ({ comment, setEdit }) {
   const dispatch = useDispatch();
@@ -9,13 +9,7 @@ export default function CommentEditDelete ({ comment, setEdit }) {
   const event = useSelector(state => state.eventModal.event);
 
   const onConfirm = () => {
-    dispatch(DeleteComment(event.id, comment.id))
-      .then(resp => {
-        if (resp.success) {
-          setDeletePrompt(false);
-          dispatch(GetComments(event.id));
-        }
-      });
+    dispatch(DeleteComment(event.id, comment.id, setDeletePrompt));
   };
 
   return (

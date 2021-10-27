@@ -33,11 +33,14 @@ export const CreateComment = (eventId, body, setComment) => async dispatch => {
   dispatch(addPost(post));
 };
 
-export const DeleteComment = (eventId, postId) => async () => {
-  const { data } = await csrfetch(`/api/events/${eventId}/posts/${postId}`, {
+export const DeleteComment = (eventId, postId, setDeletePrompt) => async dispatch => {
+  const { data: { success } } = await csrfetch(`/api/events/${eventId}/posts/${postId}`, {
     method: 'DELETE'
   });
-  return data;
+  if (success) {
+    setDeletePrompt(false);
+    dispatch(GetComments());
+  }
 };
 
 export const EditComment = (eventId, postId, body) => async () => {
