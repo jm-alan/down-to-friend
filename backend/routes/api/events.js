@@ -7,14 +7,14 @@ const { restoreUser, requireAuth } = require('../../utils/auth');
 
 router.get('/:eventId(\\d+)/posts', asyncHandler(async (req, res) => {
   const { params: { eventId } } = req;
-  const posts = await EventPost.findAll({
+  const posts = (await EventPost.findAll({
     where: { eventId },
     include: {
       model: User,
       as: 'Author',
       include: ['Avatar']
     }
-  });
+  })).toKeyedObject('id');
   return res.json({ posts });
 }));
 
