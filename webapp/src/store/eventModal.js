@@ -43,12 +43,13 @@ export const DeleteComment = (eventId, postId, setDeletePrompt) => async dispatc
   }
 };
 
-export const EditComment = (eventId, postId, body) => async () => {
-  const { data } = await csrfetch(`/api/events/${eventId}/posts/${postId}`, {
+export const EditComment = (eventId, comment, body, setEdit) => async () => {
+  await csrfetch(`/api/events/${eventId}/posts/${comment.id}`, {
     method: 'PATCH',
     body: JSON.stringify({ body })
   });
-  return data;
+  comment.body = body;
+  setEdit(false);
 };
 
 export default function reducer (

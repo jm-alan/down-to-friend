@@ -12,13 +12,7 @@ export default function CommentEditor ({ comment, setEdit, hangHeight }) {
   const onSubmit = e => {
     e.preventDefault();
     if (newComment && newComment !== comment.body) {
-      dispatch(EditComment(event.id, comment.id, newComment))
-        .then(resp => {
-          if (resp.success) {
-            comment.body = newComment;
-            setEdit(false);
-          }
-        });
+      dispatch(EditComment(event.id, comment, newComment));
     } else {
       setEdit(false);
     }
