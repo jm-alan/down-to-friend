@@ -1,17 +1,3 @@
-// eslint-disable-next-line no-extend-native
-Array.prototype.asyncForEach = async function ($) {
-  for (let _ = 0; _ < this.length; _++) {
-    await $(this[_], _, this);
-  }
-};
-
-// eslint-disable-next-line no-extend-native
-Array.prototype.asyncMapInPlace = async function ($) {
-  for (let _ = 0; _ < this.length; _++) {
-    this[_] = await $(this[_], _, this);
-  }
-};
-
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -24,6 +10,8 @@ const { ValidationError } = require('sequelize');
 const routes = require('./routes');
 const { environment } = require('./config');
 const isProduction = environment === 'production';
+
+require('./utils/prototypes');
 
 const app = express();
 
