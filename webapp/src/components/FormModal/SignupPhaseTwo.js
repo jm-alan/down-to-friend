@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { SignupPhase } from '../../store/authModal';
+import { SetPhase } from '../../store/modal';
 import { SetProfilePhoto } from '../../store/user';
 
 export default function SignupPhaseTwo () {
@@ -14,7 +14,7 @@ export default function SignupPhaseTwo () {
   const uploadAvatar = () => {
     dispatch(SetProfilePhoto(image))
       .then(({ success, reason }) => {
-        if (success) return dispatch(SignupPhase(3));
+        if (success) return dispatch(SetPhase(3));
         return console.error(reason);
       });
   };
@@ -59,7 +59,7 @@ export default function SignupPhaseTwo () {
         ) || (
           <button
             className='avatar-upload skip'
-            onClick={() => dispatch(SignupPhase(3))}
+            onClick={() => dispatch(SetPhase(3))}
           >
             Skip <i className='fas fa-chevron-right nextarrow' />
           </button>

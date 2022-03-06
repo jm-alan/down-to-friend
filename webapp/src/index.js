@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 import configureStore from './store';
-import csrfetch, { restoreCSRF } from './store/csrf';
+import csrfetch from './store/csrfetch';
 import { SetMooring } from './store/modal';
 
 import './index.css';
@@ -52,7 +52,6 @@ Object.deepEq = ($, _) => {
 const store = configureStore();
 
 if (process.env.NODE_ENV !== 'production') {
-  restoreCSRF();
   window.csrfetch = csrfetch;
   window.store = store;
   window.dispatch = store.dispatch;

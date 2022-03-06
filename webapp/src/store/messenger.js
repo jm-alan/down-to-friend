@@ -1,4 +1,4 @@
-import csrfetch from './csrf';
+import csrfetch from './csrfetch';
 
 const LOAD = 'chat/LOAD';
 

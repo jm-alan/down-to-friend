@@ -32,7 +32,7 @@ div.navigation-container-left button:hover {
 
 button.new-event-button {
   position: absolute;
-  left: 595px;
+  left: calc(40vw - 105px);
   height: 30px;
   width: 75px;
   display: flex;
@@ -56,7 +56,7 @@ button.new-event-button:focus {
 }
 
 button.new-event-button:active {
-  left: 596px;
+  left: calc(40vw - 104px);
   height: 28px;
   width: 73px;
 }

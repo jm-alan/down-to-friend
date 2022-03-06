@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import LoginForm from './LoginForm';
 import { SignUp } from '../../store/session';
-import { SignupPhase, ModalForm } from '../../store/authModal';
+import { SetPhase, SetCurrent } from '../../store/modal';
 
 export default function SignupPhaseOne () {
   const dispatch = useDispatch();
+
+  const phase = useSelector(state => state.modal.phase);
 
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -18,7 +21,7 @@ export default function SignupPhaseOne () {
     if (password === confirmPassword) {
       setErrors([]);
       return dispatch(SignUp({ email, firstName, password }))
-        .then(() => dispatch(SignupPhase(2)))
+        .then(() => dispatch(SetPhase(2)))
         .catch(res => {
           if (res.data && res.data.errors) {
             const errors = res.data.errors.map(err => {
@@ -28,17 +31,17 @@ export default function SignupPhaseOne () {
             });
             setErrors(errors);
           }
-          dispatch(SignupPhase(1));
+          dispatch(SetPhase(1));
         });
     }
     return setErrors(['Passwords do not match.']);
   };
 
   const switchForm = () => {
-    dispatch(ModalForm('login'));
+    dispatch(SetCurrent(LoginForm));
   };
 
-  return (
+  return phase === 1 && (
     <div className='form-container signup1'>
       <h1>Get With It</h1>
       <form

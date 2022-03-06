@@ -1,26 +1,23 @@
-import csrfetch from './csrf';
+import csrfetch from './csrfetch';
 
 const ENUMERATE = 'reel/ENUMERATE';
-
 const HARDSET = 'reel/HARDSET';
-
 const RESTORE = 'reel/RESTORE';
-
 const MODE = 'reel/MODE';
-
 const LOAD = 'reel/LOAD';
-
 const UNLOAD = 'reel/UNLOAD';
-
 const REF = 'reel/REF';
-
 const POP = 'reel/POP';
-
 const UNPOP = 'reel/UNPOP';
-
 const LIMIT = 'reel/LIMIT';
+const CREATE_EVENT = 'reel/CREATE_EVENT';
 
 const enumerate = list => ({ type: ENUMERATE, list });
+
+const createEvent = event => ({
+  type: CREATE_EVENT,
+  event
+});
 
 export const HardSetList = pin => ({ type: HARDSET, list: pin ?? [] });
 
@@ -44,28 +41,27 @@ export const EnumerateReel = (
   centerLng, centerLat, lowerLng,
   upperLng, lowerLat, upperLat
 ) => async dispatch => {
-  const { data } = await csrfetch(
-    `/api/events?centerLng=${
-      centerLng
-    }&centerLat=${
-      centerLat
-    }&lowerLng=${
-      lowerLng
-    }&upperLng=${
-      upperLng
-    }&lowerLat=${
-      lowerLat
-    }&upperLat=${
-      upperLat
-    }`
+  const { events } = await csrfetch.get('/api/events/', {
+    centerLng,
+    centerLat,
+    lowerLng,
+    upperLng,
+    lowerLat,
+    upperLat
+  }
   );
-  dispatch(enumerate(data.list));
+  dispatch(enumerate(events));
+};
+
+export const CreateEvent = newEvent => async dispatch => {
+  const { event } = await csrfetch.post('/api/events', newEvent);
+  dispatch(createEvent(event));
 };
 
 export default function reducer (
   // eslint-disable-next-line default-param-last
   state = {
-    list: null,
+    list: {},
     loaded: false,
     searchCenter: { lat: 0, lng: 0 },
     enumerable: true,
@@ -73,7 +69,9 @@ export default function reducer (
     poppedEvent: null,
     store: [],
     limit: 25
-  }, { type, list, enumerable, ref, poppedEvent, limit }) {
+  },
+  { type, list, enumerable, ref, poppedEvent, limit, event }
+) {
   list = list || state.list;
   limit = limit || state.limit;
   const ratio = list && (list.length / limit);
@@ -99,6 +97,14 @@ export default function reducer (
   switch (type) {
     case ENUMERATE:
       return { ...state, list };
+    case CREATE_EVENT:
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [event.id]: event
+        }
+      };
     case HARDSET:
       return { ...state, store: (!state.store.length && state.list) || state.store, list };
     case LIMIT:

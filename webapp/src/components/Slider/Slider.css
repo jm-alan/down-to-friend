@@ -1,12 +1,11 @@
 .event-reel-container {
-  min-width: 700px;
+  min-width: 40vw;
   overflow-y: auto;
 }
 
 div.reel-newevent-view-controller {
   position: relative;
-  min-width: 700px;
-  max-width: 700px;
+  width: 40vw;
 }
 
 div.reel-newevent-sliding-controller {
@@ -15,11 +14,11 @@ div.reel-newevent-sliding-controller {
   display: flex;
   height: calc(100vh - 45px);
   overflow: hidden;
-  width: 2100px;
+  width: 120vw;
 }
 
 div.slider-form-container {
-  width: 700px;
+  width: 40vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,7 +40,7 @@ form.slider-form {
   position: relative;
   padding: 15px 50px;
   box-shadow: 0px 0px 5px darkgrey;
-  width: 600px;
+  width: 85%;
   height: 700px;
   display: flex;
   flex-direction: column;
@@ -124,7 +123,7 @@ button.new-event-location-select:active {
 
 div.loading-container {
   display: flex;
-  width: 700px;
+  width: 40vw;
   align-items: center;
   justify-content: center;
 }

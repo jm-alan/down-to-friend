@@ -1,10 +1,10 @@
-import csrfetch from './csrf';
+import csrfetch from './csrfetch';
 
 const LOCALE = 'user/LOCALE';
 
 const updateLocale = locale => ({ type: LOCALE, locale });
 
-export const JoinEvent = eventId => async dispatch => {
+export const JoinEvent = (eventId, after) => async dispatch => {
   const { data } = await csrfetch(`/api/events/${eventId}/attendees`, {
     method: 'POST'
   });
@@ -13,9 +13,10 @@ export const JoinEvent = eventId => async dispatch => {
       'Sorry, something went wrong. Please refresh the page and try again.'
     );
   }
+  after && after();
 };
 
-export const LeaveEvent = eventId => async dispatch => {
+export const LeaveEvent = (eventId, after) => async dispatch => {
   const { data } = await csrfetch(`/api/events/${eventId}/attendees/me`, {
     method: 'DELETE'
   });
@@ -24,6 +25,7 @@ export const LeaveEvent = eventId => async dispatch => {
       'Sorry, something went wrong. Please refresh the page and try again.'
     );
   }
+  after && after();
 };
 
 export const GetLocale = () => async dispatch => {

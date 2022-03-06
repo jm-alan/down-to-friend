@@ -6,7 +6,7 @@
 }
 
 .map-container {
-  width: calc(100vw - 700px);
+  width: 60vw;
   right: 0;
 }
 
@@ -33,7 +33,9 @@ div.map-pin {
   align-items: center;
   background-color: rgb(255, 255, 255);
   border-radius: 5px;
-  box-shadow: rgb(0 0 0 / 8%) 0px 0px 0px 1px, rgb(0 0 0 / 18%) 0px 1px 2px;
+  box-shadow:
+    rgb(0 0 0 / 8%) 0px 0px 0px 1px,
+    rgb(0 0 0 / 18%) 0px 1px 2px;
   color: rgb(53, 53, 53);
   display: flex;
   justify-content: center;
@@ -46,4 +48,16 @@ div.map-pin.focus {
   background-color: steelblue;
   color: white;
   z-index: 999;
+}
+
+div.router-wrapper > * {
+  transition: width 0.4s;
+}
+
+div.reel-newevent-view-controller.enlarge {
+  width: 80vw;
+}
+
+.map-container.shrink {
+  width: 30vw;
 }

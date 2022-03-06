@@ -7,29 +7,30 @@ import NewEvent from './NewEvent';
 import './Slider.css';
 
 export default function Slider () {
-  const list = useSelector(state => state.reel.list);
   const reelLoaded = useSelector(state => state.reel.loaded);
   const sliderMode = useSelector(state => state.homeSlider.mode);
+  const event = useSelector(state => state.eventModal.event);
 
   return reelLoaded
     ? (
-      <div className='reel-newevent-view-controller'>
+      <div className={`reel-newevent-view-controller${
+        event ? ' enlarge' : ''
+      }`}
+      >
         <div
           className='reel-newevent-sliding-controller'
           style={{
             left: sliderMode === 'reel'
-              ? '-700px'
+              ? '-40vw'
               : sliderMode === 'new'
-                ? '-1400px'
+                ? '-80vw'
                 : sliderMode === 'settings'
-                  ? '0px'
-                  : '-700px'
+                  ? '0vw'
+                  : '-40vw'
           }}
         >
           <SearchSettings />
-          <EventReel
-            list={list}
-          />
+          <EventReel />
           <NewEvent />
         </div>
       </div>

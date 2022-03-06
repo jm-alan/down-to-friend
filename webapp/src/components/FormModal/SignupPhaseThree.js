@@ -5,14 +5,14 @@ import Sleep from '../../utils/Sleep';
 import FlashSearchbar from '../../utils/FlashSearchbar';
 import { LoadReel } from '../../store/reel';
 import { SetLocale } from '../../store/user';
-import { HideModal } from '../../store/authModal';
+import { HideModal } from '../../store/modal';
 import { Focus, LoadMap } from '../../store/map';
 import { LoadSession } from '../../store/session';
 import { ShowSettings } from '../../store/homeSlider';
 
 export default function SignupPhaseThree () {
   const dispatch = useDispatch();
-  const after = useSelector(state => state.authModal.after);
+  const after = useSelector(state => state.modal.after);
 
   const [showRejectMsg, setShowRejectMsg] = useState(false);
 

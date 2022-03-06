@@ -11,7 +11,7 @@ import './home.css';
 
 export default function Home () {
   const dispatch = useDispatch();
-  const list = useSelector(state => state.reel.list);
+
   const user = useSelector(state => state.session.user);
   const reelLoaded = useSelector(state => state.reel.loaded);
   const sessionLoaded = useSelector(state => state.session.loaded);
@@ -39,9 +39,7 @@ export default function Home () {
   return (sessionLoaded || reelLoaded) && (
     <>
       <Slider />
-      <GoogleMap
-        list={list}
-      />
+      <GoogleMap />
     </>
   );
 }

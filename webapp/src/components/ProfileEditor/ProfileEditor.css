@@ -1,8 +1,8 @@
 .profile-editor-modal-content-container {
-  width: 70vw;
+  width: 80vw;
   height: 70vh;
   min-height: 700px;
-  min-width: 700px;
+  min-width: 40vw;
   background-color: white;
   border-radius: 5px;
   padding: 20px;

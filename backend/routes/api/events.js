@@ -31,13 +31,13 @@ router.get('/tagged/:tag(\\w+)', asyncHandler(async (req, res) => {
 }));
 
 router.post('/:eventId(\\d+)/posts', requireAuth, asyncHandler(async (req, res) => {
-  const { user, params: { eventId }, body: { body } } = req;
+  const { user, params: { eventId }, body } = req;
   const event = await Event.findByPk(eventId);
   if (!event) return res.json({ success: false, reason: 'That event does not exist.' });
   try {
     if (await event.hasAttendingUser(user)) {
-      await user.createEventComment({ eventId, body });
-      return res.json({ success: true });
+      const post = await user.createEventComment(body);
+      return res.json({ post });
     }
     return res.json({
       success: false,
@@ -66,11 +66,11 @@ router.delete('/:eventId(\\d+)/posts/:postId(\\d+)', requireAuth, asyncHandler(a
     });
   }
   await post.destroy();
-  return res.json({ success: true });
+  res.sendStatus(200);
 }));
 
 router.patch('/:eventId(\\d+)/posts/:postId(\\d+)', requireAuth, asyncHandler(async (req, res) => {
-  const { user, body: { body }, params: { eventId, postId } } = req;
+  const { user, body, params: { eventId, postId } } = req;
   const event = await Event.findByPk(eventId);
   if (!event) return res.json({ success: false, reason: 'That event does not exist.' });
   const post = await EventPost.findByPk(postId);
@@ -82,7 +82,7 @@ router.patch('/:eventId(\\d+)/posts/:postId(\\d+)', requireAuth, asyncHandler(as
     });
   }
   await post.update({ body });
-  return res.json({ success: true });
+  return res.json({ post });
 }));
 
 router.delete('/:eventId(\\d+)/attendees/me', requireAuth, asyncHandler(async (req, res) => {
@@ -124,12 +124,12 @@ router.get('/:eventId', restoreUser, asyncHandler(async (req, res) => {
 }));
 
 router.post('/', requireAuth, asyncHandler(async (req, res) => {
-  const { user, body: { event } } = req;
+  const { user, body } = req;
   try {
-    const newEvent = await user.createHostedEvent(event);
-    res.json({ success: true, newEvent });
+    const event = await user.createHostedEvent(body);
+    res.json({ event });
   } catch (err) {
-    res.json({ success: false, reason: 'Event creation failed.' });
+    res.status(400).json({ errors: ['Event creation unsuccessful.'] });
   }
 }));
 
@@ -154,7 +154,8 @@ router.get('/', restoreUser, asyncHandler(async (req, res) => {
           [Op.between]: [+lowerLat, +upperLat]
         }
       },
-      include: ['AttendingUsers',
+      include: [
+        'AttendingUsers',
         {
           model: User,
           as: 'Host',
@@ -168,25 +169,23 @@ router.get('/', restoreUser, asyncHandler(async (req, res) => {
       distance: haversineDiff({ longitude: centerLng, latitude: centerLat }, event)
     }));
     list.sort((event1, event2) => event1.distance - event2.distance);
-    return res.json({ list });
+    return res.json({ list: list.toKeyedObject('id') });
   }
 }));
 
-function haversineDiff (locationObject1, locationObject2) {
+const degToRad = deg => deg * (Math.PI / 180);
+
+function haversineDiff ({ latitude: lat1, longitude: lng1 }, { latitude: lat2, longitude: lng2 }) {
   const radiusOfTheEarthInDesiredUnits = 3958.8;
-  const latitudeDifferentialInRadians = rad(locationObject2.latitude - locationObject1.latitude);
-  const longitudeDifferentialInRadians = rad(locationObject2.longitude - locationObject1.longitude);
+  const latitudeDifferentialInRadians = degToRad(lat2 - lat1);
+  const longitudeDifferentialInRadians = degToRad(lng2 - lng1);
   const noIdea =
     Math.sin(latitudeDifferentialInRadians / 2) * Math.sin(latitudeDifferentialInRadians / 2) +
-    Math.cos(rad(locationObject1.latitude)) * Math.cos(rad(locationObject2.latitude)) *
+    Math.cos(degToRad(lat1)) * Math.cos(degToRad(lat2)) *
     Math.sin(longitudeDifferentialInRadians / 2) * Math.sin(longitudeDifferentialInRadians / 2)
     ;
-  const noIdea2 = 2 * Math.atan2(Math.sqrt(noIdea), Math.sqrt(1 - noIdea));
-  return radiusOfTheEarthInDesiredUnits * noIdea2;
-}
-
-function rad (deg) {
-  return deg * (Math.PI / 180);
+  const unadjustedUnitSphereDistance = 2 * Math.atan2(Math.sqrt(noIdea), Math.sqrt(1 - noIdea));
+  return radiusOfTheEarthInDesiredUnits * unadjustedUnitSphereDistance;
 }
 
 module.exports = router;

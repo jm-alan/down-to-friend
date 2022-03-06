@@ -4,8 +4,8 @@ import thunk from 'redux-thunk';
 import session from './session';
 import reel from './reel';
 import map from './map';
+import modal from './modal';
 import search from './search';
-import authModal from './authModal';
 import user from './user';
 import profile from './profile';
 import messenger from './messenger';
@@ -16,15 +16,15 @@ import notifManager from './notifManager';
 import profileEditor from './profileEditor';
 
 const rootReducer = combineReducers({
-  session,
-  reel,
   map,
-  search,
-  authModal,
   user,
+  reel,
+  modal,
+  search,
+  session,
+  newChat,
   profile,
   messenger,
-  newChat,
   eventModal,
   homeSlider,
   notifManager,

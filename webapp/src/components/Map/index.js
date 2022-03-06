@@ -5,12 +5,16 @@ import Pin from './Pin';
 import { Focus } from '../../store/map';
 import { EnumerateReel, UnloadReel, LoadReel, SetEnumerable } from '../../store/reel';
 
-export default function Map ({ list }) {
+export default function Map () {
   const dispatch = useDispatch();
 
+  const events = useSelector(state => state.reel.list);
   const enumerable = useSelector(state => state.reel.enumerable);
   const sliderMode = useSelector(state => state.homeSlider.mode);
+  const event = useSelector(state => state.eventModal.event);
   const { lat, lng, zoom, loaded, bounds, fixed } = useSelector(state => state.map);
+
+  const eventsArray = Object.values(events);
 
   const handleMapChange = ({ center, bounds: changeBounds, zoom: changeZoom }) => {
     if (
@@ -46,7 +50,10 @@ export default function Map ({ list }) {
 
   return loaded
     ? (
-      <div className='map-container'>
+      <div className={`map-container${
+        event ? ' shrink' : ''
+      }`}
+      >
         <GoogleMap
           bootstrapURLKeys={{
             key: process.env.REACT_APP_API_KEY
@@ -54,7 +61,7 @@ export default function Map ({ list }) {
           center={{ lng, lat }}
           zoom={zoom}
           onChange={handleMapChange}
-        >{list && list.map(event => (
+        >{eventsArray.map(event => (
           <Pin
             event={event}
             key={event.id}

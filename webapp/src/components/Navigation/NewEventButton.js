@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 
+import LoginForm from '../FormModal/LoginForm';
 import { FixMap, UnfixMap } from '../../store/map';
 import { HardSetList, RestoreList } from '../../store/reel';
-import { ShowModal } from '../../store/authModal';
+import { ShowModal, SetCurrent, SetAfter } from '../../store/modal';
 import { ShowReel, ShowNew, ShowLast } from '../../store/homeSlider';
 
 let hangingTimeout;
@@ -15,8 +16,11 @@ export default function NewEventButton () {
   const bufferModeSwitch = () => switchMode();
 
   const showNewEvent = () => {
-    if (!user) return dispatch(ShowModal(bufferModeSwitch));
-    else return switchMode();
+    if (!user) {
+      dispatch(SetCurrent(LoginForm));
+      dispatch(ShowModal());
+      dispatch(SetAfter(bufferModeSwitch));
+    } else switchMode();
   };
 
   const switchMode = () => {

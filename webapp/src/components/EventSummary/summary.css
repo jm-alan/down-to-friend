@@ -67,8 +67,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: 400px;
-  max-width: 667px;
 }
 
 .event-summary-footer-container {
