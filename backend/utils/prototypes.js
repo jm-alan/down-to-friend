@@ -14,3 +14,7 @@ Array.prototype.asyncMapInPlace = async function ($) {
     this[_] = await $(this[_], _, this);
   }
 };
+
+Array.prototype.toKeyedObject = function (key) {
+  return this.reduce((acc, next) => (acc[next[key]] = next) && acc, {});
+};

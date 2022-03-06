@@ -8,12 +8,14 @@
     "sequelize-cli": "sequelize-cli",
     "start": "per-env",
     "start:development": "nodemon -r dotenv/config ./bin/www",
-    "start:production": "node ./bin/www"
+    "start:production": "node ./build/main.js",
+    "build": "webpack --mode production"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sucrase/webpack-loader": "^2.0.0",
     "aws-sdk": "^2.850.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -32,9 +34,12 @@
     "node-fetch": "^2.6.1",
     "per-env": "^1.0.2",
     "pg": "^8.4.2",
-    "sequelize": "^5.22.3",
-    "sequelize-cli": "^5.5.1",
-    "socket.io": "^3.1.1"
+    "sequelize": "^6.7.0",
+    "sequelize-cli": "^6.2.0",
+    "socket.io": "^3.1.1",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-node-externals": "^3.0.0"
   },
   "devDependencies": {
     "dotenv-cli": "^4.0.0",

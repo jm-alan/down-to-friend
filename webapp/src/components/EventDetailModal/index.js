@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import JoinButton from '../EventSummary/JoinButton';
 import ModalComments from './ModalComments';
-import { GetComments, HideEventModal } from '../../store/eventModal';
+import { HideEventModal } from '../../store/eventModal';
 
 import './eventModal.css';
 import Tags from './Tags';

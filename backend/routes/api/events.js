@@ -7,14 +7,14 @@ const { restoreUser, requireAuth } = require('../../utils/auth');
 
 router.get('/:eventId(\\d+)/posts', asyncHandler(async (req, res) => {
   const { params: { eventId } } = req;
-  const posts = await EventPost.findAll({
+  const posts = (await EventPost.findAll({
     where: { eventId },
     include: {
       model: User,
       as: 'Author',
       include: ['Avatar']
     }
-  });
+  })).toKeyedObject('id');
   return res.json({ posts });
 }));
 
@@ -36,13 +36,11 @@ router.post('/:eventId(\\d+)/posts', requireAuth, asyncHandler(async (req, res) 
   if (!event) return res.json({ success: false, reason: 'That event does not exist.' });
   try {
     if (await event.hasAttendingUser(user)) {
-      await user.createEventComment({ eventId, body });
-      return res.json({ success: true });
+      const post = await user.createEventComment({ eventId, body });
+      return res.json({ post });
+    } else {
+      throw new Error('You must be attending an event to post a comment');
     }
-    return res.json({
-      success: false,
-      reason: 'You must be attending an avent to comment.'
-    });
   } catch (err) {
     console.error(err);
     console.error(err.toString());

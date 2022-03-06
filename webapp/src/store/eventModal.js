@@ -41,6 +41,11 @@ const deletePost = postId => ({
   postId
 });
 
+const addPost = post => ({
+  type: NEW_POST,
+  post
+});
+
 export const GetComments = eventId => async dispatch => {
   const { posts } = await csrfetch.get(`/api/events/${eventId}/posts`);
   dispatch(setPosts(posts));

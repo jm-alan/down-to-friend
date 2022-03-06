@@ -12,6 +12,8 @@ const routes = require('./routes');
 const { environment } = require('./config');
 const isProduction = environment === 'production';
 
+require('./utils/prototypes');
+
 const app = express();
 
 app.use(morgan('dev'));
